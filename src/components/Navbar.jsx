@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/logo/logo2.png";
+import logo from "../assets/logo/logo.jpg";
 import lente from "../assets/icons/lente.png";
 import filter from "../assets/icons/filter.png";
 
@@ -7,7 +7,7 @@ export const Navbar = () => {
   return (
     <nav className="border-b-[1px] flex justify-between pl-6 pr-6">
       <div className="flex items-center gap-8">
-        <Link to="/">
+        <Link to="/" className="py-3">
           <img src={logo} alt="" />
         </Link>
         <span className="flex items-center border-2 border-solid border-black rounded-tl-full rounded-tr-full rounded-bl-full rounded-br-full overflow-hidden">
@@ -19,7 +19,7 @@ export const Navbar = () => {
           />
           <img src={lente} alt="lente" className="max-w-[1rem] m-2" />
         </span>
-        <button className="[&>*:nth-child(2)]:hover:block">
+        <button className="flex flex-col justify-center items-center [&>*:nth-child(2)]:hover:block">
           <img src={filter} alt="filter" className="max-w-[1.9rem]" />
           <span className="hidden text-sm text-primary-color font-bold">
             Filter
