@@ -6,3 +6,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .nav-active {
+    @apply border-b-2 border-primary-color;
+  }
+}

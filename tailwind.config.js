@@ -2,10 +2,8 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {
-      screens: {
-        active: { raw: "(display: block)" },
-      },
+    colors: {
+      "primary-color": "#3903DE",
     },
   },
   plugins: [],

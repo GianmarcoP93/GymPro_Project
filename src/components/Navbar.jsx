@@ -21,7 +21,7 @@ export const Navbar = () => {
         </span>
         <button className="[&>*:nth-child(2)]:hover:block">
           <img src={filter} alt="filter" className="max-w-[1.9rem]" />
-          <span className="hidden text-sm text-[#3903DE] font-bold">
+          <span className="hidden text-sm text-primary-color font-bold">
             Filter
           </span>
         </button>
@@ -29,7 +29,7 @@ export const Navbar = () => {
       <div className="flex items-center gap-8">
         <Link
           to={"/"}
-          className="flex flex-col justify-center items-center [&>*:nth-child(2)]:hover:block"
+          className="flex flex-col justify-center items-center nav-active [&>*:nth-child(2)]:hover:block"
         >
           <lord-icon
             src="https://cdn.lordicon.com/osuxyevn.json"
@@ -37,7 +37,9 @@ export const Navbar = () => {
             colors="primary:#121331"
             style={{ width: 36, height: 36, display: "block" }}
           ></lord-icon>
-          <span className="hidden text-sm text-[#3903DE] font-bold">Home</span>
+          <span className="hidden text-sm text-primary-color font-bold">
+            Home
+          </span>
         </Link>
         <button className="flex flex-col justify-center items-center [&>*:nth-child(2)]:hover:block">
           <lord-icon
@@ -47,7 +49,7 @@ export const Navbar = () => {
             state="hover"
             style={{ width: 36, height: 36, display: "block" }}
           ></lord-icon>
-          <span className="hidden text-sm text-[#3903DE] font-bold">
+          <span className="hidden text-sm text-primary-color font-bold">
             Send email
           </span>
         </button>
@@ -59,7 +61,7 @@ export const Navbar = () => {
             state="hover"
             style={{ width: 36, height: 36, display: "block" }}
           ></lord-icon>
-          <span className="hidden text-sm text-[#3903DE] font-bold">
+          <span className="hidden text-sm text-primary-color font-bold">
             Notifications
           </span>
         </button>
@@ -70,7 +72,7 @@ export const Navbar = () => {
             colors="primary:#121331"
             style={{ width: 36, height: 36, display: "block" }}
           ></lord-icon>
-          <span className="hidden text-sm text-[#3903DE] font-bold">
+          <span className="hidden text-sm text-primary-color font-bold">
             Profile
           </span>
         </button>
@@ -83,7 +85,7 @@ export const Navbar = () => {
             state="hover-1"
             style={{ width: 36, height: 36, display: "block" }}
           ></lord-icon>
-          <span className="hidden text-sm text-[#3903DE] font-bold">
+          <span className="hidden text-sm text-primary-color font-bold">
             Settings
           </span>
         </button>
