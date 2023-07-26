@@ -2,6 +2,10 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    fontFamily: {
+      roboto: ["Roboto", "sans-serif"],
+      montserrat: ["Montserrat", "sans-serif"],
+    },
     extend: {
       colors: {
         //sfondo scuro
