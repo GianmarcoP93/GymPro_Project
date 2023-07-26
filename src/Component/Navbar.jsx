@@ -3,7 +3,7 @@ import logo from "../assets/logo/Logo.png";
 
 export const Navbar = () => {
   return (
-    <nav className="flex bg-[#393b44] w-[100%] justify-between ">
+    <nav className="flex bg-gray w-[100%] justify-between ">
       <img src={logo} alt="" className=" max-h-[65px] ml-8 my-1" />
       <div className=" text-white-100 gap-5 flex items-center hover:decoration-solid font-roboto">
         <Link className=" hover:border-b hover:text-yellow-200 ">Home</Link>
