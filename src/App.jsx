@@ -1,9 +1,11 @@
-import { Navbar } from "./Component/Navbar";
+import React from "react";
+import LoginPage from "./Pages/LoginPage";
+import Button from "./Component/Button";
 
 const App = () => {
   return (
     <>
-      <Navbar />
+     <LoginPage />
     </>
   );
 };

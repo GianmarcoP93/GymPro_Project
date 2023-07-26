@@ -7,3 +7,7 @@
     @apply border-b-2 border-primary-color;
   }
 }
+
+body{
+  background-color:#14161f ;
+}
