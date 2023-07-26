@@ -1,3 +1,4 @@
+import { FourthSection } from "../Component/FourthSection";
 import { HeroSection } from "../Component/HeroSection";
 import { Navbar } from "../Component/Navbar";
 import { SecondSection } from "../Component/SecondSection";
@@ -14,6 +15,7 @@ export const LandingPage = () => {
       <SectionDivider />
       <ThirdSection />
       <SectionDivider />
+      <FourthSection />
     </>
   );
 };
