@@ -6,11 +6,10 @@ export default {
       colors: {
         primary: {
           100: "#14161F",
-          200: "#FF721B",
         },
         secondary: {
-          100: "#F87A2C",
-          200: "#FF8E48",
+          100: "#FF721B",
+          200: "#F87A2C",
         },
         yellow: {
           100: "#E5BB39",
@@ -23,8 +22,8 @@ export default {
           200: "#afafaf",
         },
         bgwhite: "#F1F2F8",
-        red: "#D60000",
       },
+      red: "#D60000",
     },
   },
   plugins: [],
