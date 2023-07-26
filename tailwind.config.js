@@ -8,7 +8,10 @@ export default {
           100: "#14161F",
           200: "#FF721B",
         },
-        secondary: "#F87A2C",
+        secondary: {
+          100: "#F87A2C",
+          200: "#FF8E48",
+        },
         yellow: {
           100: "#E5BB39",
           200: "#DEAB0B",
@@ -20,9 +23,9 @@ export default {
           200: "#afafaf",
         },
         bgwhite: "#F1F2F8",
+        red: "#D60000",
       },
-      red: "#D60000",
     },
+    plugins: [],
   },
-  plugins: [],
 };
