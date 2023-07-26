@@ -7,6 +7,9 @@ export default {
       montserrat: ["Montserrat", "sans-serif"],
     },
     extend: {
+      maxWidth: {
+        section: "1200px",
+      },
       colors: {
         //sfondo scuro
         primary: "#14161F",
@@ -33,6 +36,7 @@ export default {
         bgwhite: "#F1F2F8",
         //colore rosso
         red: "#D60000",
+        divider: "#5B5050",
       },
     },
   },
