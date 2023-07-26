@@ -6,9 +6,11 @@ export default {
       colors: {
         primary: {
           100: "#14161F",
-          200: "#FF721B",
         },
-        secondary: "#F87A2C",
+        secondary: {
+          100: "#FF721B",
+          200: "#F87A2C",
+        },
         yellow: {
           100: "#E5BB39",
           200: "#DEAB0B",
