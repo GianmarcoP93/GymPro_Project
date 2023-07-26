@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    font-family: "Montserrat, sans-serif";
+  }
+}
+
+@layer components {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-roboto font-bold;
+  }
+  button {
+    @apply font-semibold font-roboto;
+  }
+}
+
 @layer utilities {
   .nav-active {
     @apply border-b-2 border-primary-color;
