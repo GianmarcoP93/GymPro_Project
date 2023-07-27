@@ -12,7 +12,7 @@ export const SecondSection = () => {
           <div className="absolute bottom-30 left-16 z-30">
             <img src={orangeWeight} alt="orange weight" />
           </div>
-          <div className="absolute bottom-[13.5rem] left-44 z-0">
+          <div className="absolute bottom-[12.5rem] left-44 z-0">
             <img src={jar} alt="jar" />
           </div>
           <div className="absolute bottom-2 right-14 z-20">
