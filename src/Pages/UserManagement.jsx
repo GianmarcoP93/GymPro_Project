@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import layer1 from "../assets/images/icons/layer1.png";
+import esc from "../assets/images/icons/escOrange.png";
+import cancel from "../assets/images/icons/cancelRed.png";
+import garbage from "../assets/images/icons/garbage.png";
 
 export const UserManagement = () => {
   const [user, setUser] = useState();
   const [_user, _setUser] = useState();
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     const members = [
@@ -93,11 +96,21 @@ export const UserManagement = () => {
   }, []);
 
   const searchMember = (event) => {
-    const member = event.target.value.toLowerCase();
+    const title = event.target.value.toLowerCase();
     const search = [..._user].filter((a) =>
-      a.name.toLowerCase().includes(member)
+      a.name.toLowerCase().includes(title)
     );
     setUser(search);
+    setSearchValue(event.target.value);
+  };
+
+  const clearSearchText = () => {
+    setSearchValue("");
+    setUser(_user);
+  };
+
+  const deleteUser = (userId) => {
+    setUser((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
 
   const selectChoose = (event) => {
@@ -135,88 +148,102 @@ export const UserManagement = () => {
     setUser(order);
   };
 
-  function parseDate(dateString) {
+  const parseDate = (dateString) => {
     const parts = dateString.split("/");
     const day = parseInt(parts[0], 10);
     const month = parseInt(parts[1], 10) - 1;
     const year = parseInt(parts[2], 10) + 2000;
     return new Date(year, month, day);
-  }
+  };
 
   return (
     <>
-      <div className="flex flex-col h-[100vh] justify-around w-[98%] mx-auto ">
+      <div className="flex flex-col gap-10 max-h-[100vh] mx-5  ">
         <button className="absolute right-5 top-5">
-          <img src={layer1} alt="" className=" w-9 " />
+          <img src={esc} alt="" className=" w-9 " />
         </button>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-10">
           <h1 className=" text-secondary-100 text-3xl">Gestione Utenti</h1>
         </div>
         <div className="flex font-montserrat">
-          {user?.length !== 0 && (
-            <select
-              className="bg-gray text-secondary-300 border border-white-100 py-1 outline-none rounded-md pl-3"
-              onChange={selectChoose}
-            >
-              <option value="default">Default</option>
-              <option value="nome">Nome</option>
-              <option value="scheda">Scadenza scheda</option>
-              <option value="abbonamento">Scadenza abbonamento</option>
-            </select>
-          )}
+          <select
+            className="bg-gray text-secondary-300 border border-white-100 py-1 outline-none rounded-md pl-3"
+            onChange={selectChoose}
+          >
+            <option value="default">Default</option>
+            <option value="nome">Nome</option>
+            <option value="scheda">Scadenza scheda</option>
+            <option value="abbonamento">Scadenza abbonamento</option>
+          </select>
+
           <input
             type="text"
-            className="ml-auto bg-gray text-secondary-300 font-montserrat pl-3 border outline-none border-white-100"
+            className="ml-auto bg-gray text-secondary-300 font-montserrat pl-3 border outline-none rounded-md border-white-100"
             placeholder="Cerca utente"
             onInput={searchMember}
+            value={searchValue}
           />
+
+          <button
+            className=" transform -translate-y-1/2 focus:outline-none relative top-2 right-4"
+            onClick={clearSearchText}
+          >
+            <img src={cancel} alt="" className=" w-3  " />
+          </button>
         </div>
 
-        {user?.length > 0 && (
-          <div className="bg-white-00 border border-slate-300 rounded-xl w-full mx-auto bg-gray ">
-            <table className="w-full ">
-              <thead>
-                <tr className="border-bot border-slate-300 text-secondary-100 font-roboto font-bold text-xl">
-                  <th className="py-5">Lista utenti</th>
-                  <th>Rinnovato il</th>
-                  <th>Scadenza scheda</th>
-                  <th>N. Tessera</th>
-                  <th>Scadenza abbonamento</th>
+        <div className="bg-white-00 border border-slate-300 rounded-xl w-full mx-auto bg-gray ">
+          <table className="w-full ">
+            <thead>
+              <tr className="border-bot border-slate-300 text-secondary-100 font-roboto font-bold text-xl">
+                <th className="py-5">Lista utenti</th>
+                <th>Rinnovato il</th>
+                <th>Scadenza scheda</th>
+                <th>N. Tessera</th>
+                <th>Scadenza abbonamento</th>
+              </tr>
+            </thead>
+            <tbody className="w-full font-montserrat  ">
+              {user && user.length === 0 ? (
+                <tr className="border-t border-slate-300 text-white-100 text-center">
+                  <td className=" text-secondary-100 font-roboto font-bold text-xl  py-5">
+                    No user
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="w-full font-montserrat">
-                {user &&
-                  user.map((user) => {
-                    return (
-                      <tr
-                        key={user.id}
-                        className="border-t border-slate-300 text-white-100 text-center "
+              ) : (
+                user &&
+                user.map((user) => (
+                  <tr
+                    key={user.id}
+                    className="border-t border-slate-300 text-white-100 text-center"
+                  >
+                    <td className="py-5">
+                      <button className="underline decoration-1 hover:text-secondary-300">
+                        {user.name}
+                      </button>
+                    </td>
+                    <td>{user.renewal}</td>
+                    <td>
+                      <button className="underline decoration-1 hover:text-secondary-300">
+                        {user.cardExpiry}
+                      </button>
+                    </td>
+                    <td>{user.cardNumber}</td>
+                    <td>{user.subscritionExp}</td>
+                    <td>
+                      <button
+                        className=" transform -translate-y-1/2 focus:outline-none relative top-2 right-4"
+                        onClick={() => deleteUser(user.id)}
                       >
-                        <td className="py-5  ">
-                          <button className=" underline decoration-1 hover:text-secondary-300 ">
-                            {user.name}
-                          </button>
-                        </td>
-                        <td>{user.renewal}</td>
-                        <td>
-                          <button className="underline decoration-1  hover:text-secondary-300  ">
-                            {user.cardExpiry}
-                          </button>
-                        </td>
-                        <td>{user.cardNumber}</td>
-                        <td>{user.subscritionExp}</td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-          </div>
-        )}
-        {user?.length == 0 && (
-          <span className="text-secondary-100 font-roboto font-bold text-6xl  mx-auto ">
-            NESSUN UTENTE TROVATO
-          </span>
-        )}
+                        <img src={garbage} alt="" className=" w-3  " />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
