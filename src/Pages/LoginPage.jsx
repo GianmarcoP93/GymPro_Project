@@ -1,8 +1,11 @@
 import React from "react";
 import YellowButton from "../Component/YellowButton";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 
 const LoginPage = () => {
+  const error = false;
+
   return (
     <div className="flex flex-col items-center pt-48">
       <div className="flex flex-row gap-40">
@@ -25,7 +28,10 @@ const LoginPage = () => {
               </p>
               <input
                 type="password"
-                className="rounded-lg w h-8 pl-2"
+                className={clsx(
+                  "rounded-lg w h-8 pl-2",
+                  error && "border border-red"
+                )}
                 required
               />
             </div>
