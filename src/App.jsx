@@ -5,6 +5,7 @@ import { Settings } from "./Pages/Settings";
 import { UserDashboard } from "./Pages/UserDashboard";
 import { AdminDashboard } from "./Pages/AdminDashboard";
 import LoginPage from "./Pages/LoginPage";
+import { UserManagement } from "./Pages/UserManagement";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="settings" element={<Settings />} />
         <Route path="user" element={<UserDashboard />} />
         <Route path="admin" element={<AdminDashboard />} />
+        <Route path="usermanagement" element={<UserManagement />} />
       </Routes>
     </>
   );
