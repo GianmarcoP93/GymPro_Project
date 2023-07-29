@@ -7,7 +7,7 @@ import weightIcon from "../assets/images/fourth-section/weightIcon.png";
 
 export const FourthSection = () => {
   return (
-    <div className="bg-primary py-16 flex justify-center">
+    <div className="py-16 flex justify-center">
       <div className="max-w-section relative py-52">
         <div className="absolute left-0 top-0 z-10">
           <img src={leftWeight} />

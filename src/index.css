@@ -6,6 +6,12 @@
   html {
     font-family: "Montserrat, sans-serif";
   }
+  body {
+    background-color: #14161f;
+  }
+}
+
+@layer components {
   h1,
   h2,
   h3,

@@ -6,7 +6,7 @@ import user from "../assets/images/third-section/UserIcon.png";
 
 export const ThirdSection = () => {
   return (
-    <div className="flex bg-primary flex-col gap-20 items-center py-16">
+    <div className="flex flex-col gap-20 items-center py-16">
       <div className="max-w-section flex flex-col items-center justify-center gap-4">
         <h3 className="text-2xl text-yellow-100">Chi siamo</h3>
         <p className="text-base text-white-100 max-w-3xl text-center">
