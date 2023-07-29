@@ -2,11 +2,20 @@ import { useEffect, useState } from "react";
 import esc from "../assets/images/icons/escOrange.png";
 import cancel from "../assets/images/icons/cancelRed.png";
 import garbage from "../assets/images/icons/garbage.png";
+import { parse } from "date-fns";
+import Modal from "react-modal";
+import Calendar from "react-calendar";
+
+const rootElement = document.getElementById("root");
+
+Modal.setAppElement(rootElement);
 
 export const UserManagement = () => {
   const [user, setUser] = useState();
   const [_user, _setUser] = useState();
   const [searchValue, setSearchValue] = useState("");
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [subscriptionExp, setSubscriptionExp] = useState(null);
 
   useEffect(() => {
     const members = [
@@ -21,16 +30,16 @@ export const UserManagement = () => {
       {
         id: 2,
         name: "Antonino Alampi",
-        renewal: "15/09/23",
-        cardExpiry: "30/11/23",
+        renewal: "15/03/22",
+        cardExpiry: "30/05/23",
         cardNumber: "ABCD1234EF",
-        subscritionExp: "10/02/24",
+        subscritionExp: "10/02/23",
       },
       {
         id: 3,
         name: "Andrea Izzo",
         renewal: "22/08/23",
-        cardExpiry: "05/12/23",
+        cardExpiry: "05/07/23",
         cardNumber: "WXYZ5678UV",
         subscritionExp: "22/03/24",
       },
@@ -54,7 +63,7 @@ export const UserManagement = () => {
         id: 6,
         name: "Marco Ingraiti",
         renewal: "04/09/23",
-        cardExpiry: "01/01/24",
+        cardExpiry: "01/01/23",
         cardNumber: "EFGH7890AB",
         subscritionExp: "29/06/24",
       },
@@ -70,7 +79,7 @@ export const UserManagement = () => {
         id: 8,
         name: "Davide Simone",
         renewal: "28/06/23",
-        cardExpiry: "22/09/23",
+        cardExpiry: "22/09/22",
         cardNumber: "UVWX6789YZ",
         subscritionExp: "14/09/24",
       },
@@ -113,6 +122,31 @@ export const UserManagement = () => {
     setUser((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
 
+  const isSubscribedExpired = (subscritionExp) => {
+    const now = new Date();
+    const subExp = parseDate(subscritionExp);
+    return now >= subExp;
+  };
+
+  const isCardExpired = (cardExpiry) => {
+    const now = new Date();
+    const cardExp = parseDate(cardExpiry);
+    return now >= cardExp;
+  };
+
+  const handleSubscriptionExpChange = (date) => {
+    setSubscriptionExp(date);
+    setIsCalendarOpen(false);
+  };
+
+  const openCalendar = () => {
+    setIsCalendarOpen(true);
+  };
+
+  const closeCalendar = () => {
+    setIsCalendarOpen(false);
+  };
+
   const selectChoose = (event) => {
     const selected = event.target.value;
     let order = [...user];
@@ -148,12 +182,10 @@ export const UserManagement = () => {
     setUser(order);
   };
 
+  // npm install date-fns
   const parseDate = (dateString) => {
-    const parts = dateString.split("/");
-    const day = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10) - 1;
-    const year = parseInt(parts[2], 10) + 2000;
-    return new Date(year, month, day);
+    const parsedDate = parse(dateString, "dd/MM/yy", new Date());
+    return parsedDate;
   };
 
   return (
@@ -222,14 +254,38 @@ export const UserManagement = () => {
                         {user.name}
                       </button>
                     </td>
+
                     <td>{user.renewal}</td>
-                    <td>
-                      <button className="underline decoration-1 hover:text-secondary-300">
-                        {user.cardExpiry}
-                      </button>
-                    </td>
+
+                    {isCardExpired(user.cardExpiry) ? (
+                      <td>
+                        <button className="text-red-200 text-center underline decoration-1 font-montserrat  font-normal hover:text-red-300">
+                          Scaduto
+                        </button>
+                      </td>
+                    ) : (
+                      <td>
+                        <button className="underline decoration-1 hover:text-secondary-300 ">
+                          {user.cardExpiry}
+                        </button>
+                      </td>
+                    )}
+
                     <td>{user.cardNumber}</td>
-                    <td>{user.subscritionExp}</td>
+
+                    {isSubscribedExpired(user.subscritionExp) ? (
+                      <td>
+                        <button
+                          className="text-red-200 text-center underline decoration-1 font-montserrat  font-normal hover:text-red-300"
+                          onClick={openCalendar}
+                        >
+                          Scaduto
+                        </button>
+                      </td>
+                    ) : (
+                      <td>{user.subscritionExp}</td>
+                    )}
+
                     <td>
                       <button
                         className=" transform -translate-y-1/2 focus:outline-none relative top-2 right-4"
@@ -245,6 +301,20 @@ export const UserManagement = () => {
           </table>
         </div>
       </div>
+      <Modal
+        isOpen={isCalendarOpen}
+        onRequestClose={closeCalendar}
+        contentLabel="Calendar Modal"
+      >
+        <div>
+          <h2>Seleziona la nuova data:</h2>
+          <Calendar
+            value={subscriptionExp}
+            onChange={handleSubscriptionExpChange}
+            className="text-center px-9  "
+          />
+        </div>
+      </Modal>
     </>
   );
 };

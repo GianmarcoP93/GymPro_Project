@@ -38,7 +38,11 @@ export default {
         //sfondo 2 sezione chiara
         bgwhite: "#F1F2F8",
         //colore rosso
-        red: "#D60000",
+        red: {
+          100: "#D60000",
+          200: "#FF4040",
+          300: "#ED6464",
+        },
         divider: "#5B5050",
       },
     },
