@@ -70,7 +70,17 @@ export const UserDashboard = () => {
     bmi: "",
   });
 
-  const [chartData, setChartData] = useState(data);
+const [chartData, setChartData] = useState(() => {
+    const storedChartData = localStorage.getItem("chartData");
+    if (storedChartData) {
+      try {
+        return JSON.parse(storedChartData);
+      } catch (error) {
+        console.error("Errore durante il parsing dei dati dal localStorage:", error);
+      }
+    }
+    return data;
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -101,9 +111,13 @@ export const UserDashboard = () => {
       bmi: bmi.toFixed(2),
     };
 
-    setChartData((prevData) =>
-      prevData.map((item) => (item.month === month ? newData : item))
+    const updateChartData = chartData.map((item) =>
+      item.month === month ? newData : item
     );
+
+    setChartData(updateChartData);
+
+    localStorage.setItem("chartData", JSON.stringify(updateChartData));
   };
 
   const myFunction = (month, height, weight, bmi) => {
