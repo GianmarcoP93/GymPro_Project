@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import esc from "../assets/images/icons/escOrange.png";
 import cancel from "../assets/images/icons/cancelRed.png";
 import garbage from "../assets/images/icons/garbage.png";
-import { parse } from "date-fns";
 import Modal from "react-modal";
 import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 const rootElement = document.getElementById("root");
 
@@ -23,81 +23,81 @@ export const UserManagement = () => {
         id: 1,
         name: "Gianmarco Pesola",
         renewal: "11/04/23",
-        cardExpiry: "11/10/23",
+        cardExpiry: "11/10/2023",
         cardNumber: "QR3434JHSU",
-        subscritionExp: "07/01/24",
+        subscritionExp: "07/01/2024",
       },
       {
         id: 2,
         name: "Antonino Alampi",
         renewal: "15/03/22",
-        cardExpiry: "30/05/23",
+        cardExpiry: "30/05/2023",
         cardNumber: "ABCD1234EF",
-        subscritionExp: "10/02/23",
+        subscritionExp: "10/02/2023",
       },
       {
         id: 3,
         name: "Andrea Izzo",
         renewal: "22/08/23",
-        cardExpiry: "05/07/23",
+        cardExpiry: "05/07/2023",
         cardNumber: "WXYZ5678UV",
-        subscritionExp: "22/03/24",
+        subscritionExp: "22/03/2024",
       },
       {
         id: 4,
         name: "Simone Sbrilli",
         renewal: "09/06/23",
-        cardExpiry: "28/09/23",
+        cardExpiry: "28/09/2023",
         cardNumber: "PQRS9012KL",
-        subscritionExp: "05/04/24",
+        subscritionExp: "05/04/2024",
       },
       {
         id: 5,
         name: "Nicola Pisani",
         renewal: "30/07/23",
-        cardExpiry: "27/10/23",
+        cardExpiry: "27/10/2023",
         cardNumber: "MNOP3456IJ",
-        subscritionExp: "17/12/23",
+        subscritionExp: "17/12/2023",
       },
       {
         id: 6,
         name: "Marco Ingraiti",
         renewal: "04/09/23",
-        cardExpiry: "01/01/23",
+        cardExpiry: "01/01/2023",
         cardNumber: "EFGH7890AB",
-        subscritionExp: "29/06/24",
+        subscritionExp: "29/06/2024",
       },
       {
         id: 7,
         name: "Gabriele Barberio",
-        renewal: "19/05/23",
-        cardExpiry: "10/01/24",
+        renewal: "19/05/2023",
+        cardExpiry: "10/01/2024",
         cardNumber: "IJKL2345CD",
-        subscritionExp: "03/07/24",
+        subscritionExp: "03/07/2024",
       },
       {
         id: 8,
         name: "Davide Simone",
-        renewal: "28/06/23",
-        cardExpiry: "22/09/22",
+        renewal: "28/06/2023",
+        cardExpiry: "22/09/2022",
         cardNumber: "UVWX6789YZ",
-        subscritionExp: "14/09/24",
+        subscritionExp: "14/09/2024",
       },
       {
         id: 9,
         name: "Jonna Jeronimo",
-        renewal: "12/07/23",
-        cardExpiry: "09/10/23",
+        renewal: "12/07/2023",
+        cardExpiry: "09/10/2023",
         cardNumber: "QRST1234MN",
-        subscritionExp: "31/12/23",
+        subscritionExp: "31/12/2023",
       },
       {
         id: 10,
         name: "Alessandro D'Antoni",
-        renewal: "25/08/23",
-        cardExpiry: "20/11/23",
+        renewal: "25/08/2023",
+        cardExpiry: "20/11/2023",
         cardNumber: "WXYZ5678UV",
-        subscritionExp: "08/11/23",
+        subscritionExp: "08/11/2023",
       },
     ];
     setUser(members);
@@ -120,17 +120,22 @@ export const UserManagement = () => {
 
   const deleteUser = (userId) => {
     setUser((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    _setUser((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
 
   const isSubscribedExpired = (subscritionExp) => {
-    const now = new Date();
-    const subExp = parseDate(subscritionExp);
-    return now >= subExp;
+    const now = new Date().getTime();
+    const cardExp = new Date(
+      subscritionExp.split("/").reverse().join("/")
+    ).getTime();
+    return now >= cardExp;
   };
 
   const isCardExpired = (cardExpiry) => {
-    const now = new Date();
-    const cardExp = parseDate(cardExpiry);
+    const now = new Date().getTime();
+    const cardExp = new Date(
+      cardExpiry.split("/").reverse().join("/")
+    ).getTime();
     return now >= cardExp;
   };
 
@@ -160,18 +165,18 @@ export const UserManagement = () => {
         break;
       case "scheda":
         order.sort((a, b) => {
-          const dateA = parseDate(a.cardExpiry);
+          const dateA = parseDate2(a.cardExpiry);
           console.log(dateA.getDate());
-          const dateB = parseDate(b.cardExpiry);
+          const dateB = parseDate2(b.cardExpiry);
           console.log(dateB);
           return dateA.getTime() - dateB.getTime();
         });
         break;
       case "abbonamento":
         order.sort((a, b) => {
-          const dateA = parseDate(a.subscritionExp);
+          const dateA = parseDate2(a.subscritionExp);
           console.log(dateA.getDate());
-          const dateB = parseDate(b.subscritionExp);
+          const dateB = parseDate2(b.subscritionExp);
           console.log(dateB);
           return dateA.getTime() - dateB.getTime();
         });
@@ -182,10 +187,8 @@ export const UserManagement = () => {
     setUser(order);
   };
 
-  // npm install date-fns
-  const parseDate = (dateString) => {
-    const parsedDate = parse(dateString, "dd/MM/yy", new Date());
-    return parsedDate;
+  const parseDate2 = (dateString) => {
+    return new Date(dateString).toLocaleString("it-IT", { dateStyle: "short" });
   };
 
   return (
@@ -301,18 +304,21 @@ export const UserManagement = () => {
           </table>
         </div>
       </div>
+
       <Modal
         isOpen={isCalendarOpen}
         onRequestClose={closeCalendar}
         contentLabel="Calendar Modal"
       >
         <div>
-          <h2>Seleziona la nuova data:</h2>
-          <Calendar
-            value={subscriptionExp}
-            onChange={handleSubscriptionExpChange}
-            className="text-center px-9  "
-          />
+          <h2 className="text-red-200">Seleziona la nuova data:</h2>
+          <div>
+            <Calendar
+              value={subscriptionExp}
+              onChange={handleSubscriptionExpChange}
+              className="text-center px-9 [&>*:first-child]:text-red-200 right-10 w-full "
+            />
+          </div>
         </div>
       </Modal>
     </>
