@@ -5,6 +5,8 @@ import garbage from "../assets/images/icons/garbage.png";
 import Modal from "react-modal";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const rootElement = document.getElementById("root");
 
@@ -16,93 +18,105 @@ export const UserManagement = () => {
   const [searchValue, setSearchValue] = useState("");
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [subscriptionExp, setSubscriptionExp] = useState(null);
+  const [date, setDate] = useState(null);
+  const [isUserSet, setIsUserSet] = useState(false);
+
+  const members = [
+    {
+      id: 1,
+      name: "Gianmarco Pesola",
+      renewal: "11/04/2023",
+      cardExpiry: "11/10/2023",
+      cardNumber: "QR3434JHSU",
+      subscritionExp: "07/01/2024",
+    },
+    {
+      id: 2,
+      name: "Antonino Alampi",
+      renewal: "15/03/2022",
+      cardExpiry: "30/05/2023",
+      cardNumber: "ABCD1234EF",
+      subscritionExp: "10/02/2023",
+    },
+    {
+      id: 3,
+      name: "Andrea Izzo",
+      renewal: "22/08/2023",
+      cardExpiry: "05/07/2023",
+      cardNumber: "WXYZ5678UV",
+      subscritionExp: "22/03/2024",
+    },
+    {
+      id: 4,
+      name: "Simone Sbrilli",
+      renewal: "09/06/2023",
+      cardExpiry: "28/09/2023",
+      cardNumber: "PQRS9012KL",
+      subscritionExp: "05/04/2024",
+    },
+    {
+      id: 5,
+      name: "Nicola Pisani",
+      renewal: "30/07/2023",
+      cardExpiry: "27/10/2023",
+      cardNumber: "MNOP3456IJ",
+      subscritionExp: "17/12/2021",
+    },
+    {
+      id: 6,
+      name: "Marco Ingraiti",
+      renewal: "04/09/2023",
+      cardExpiry: "01/01/2023",
+      cardNumber: "EFGH7890AB",
+      subscritionExp: "29/06/2024",
+    },
+    {
+      id: 7,
+      name: "Gabriele Barberio",
+      renewal: "19/05/2023",
+      cardExpiry: "10/01/2024",
+      cardNumber: "IJKL2345CD",
+      subscritionExp: "03/07/2024",
+    },
+    {
+      id: 8,
+      name: "Davide Simone",
+      renewal: "28/06/2023",
+      cardExpiry: "22/09/2022",
+      cardNumber: "UVWX6789YZ",
+      subscritionExp: "14/09/2024",
+    },
+    {
+      id: 9,
+      name: "Jonna Jeronimo",
+      renewal: "12/07/2023",
+      cardExpiry: "09/10/2023",
+      cardNumber: "QRST1234MN",
+      subscritionExp: "31/12/2023",
+    },
+    {
+      id: 10,
+      name: "Alessandro D'Antoni",
+      renewal: "25/08/2023",
+      cardExpiry: "20/11/2023",
+      cardNumber: "WXYZ5678UV",
+      subscritionExp: "08/11/2023",
+    },
+  ];
+
+  const setMembers = () => {
+    if (isUserSet) {
+      return;
+    } else {
+      setUser(members);
+      _setUser(members);
+      setIsUserSet(true);
+    }
+  };
 
   useEffect(() => {
-    const members = [
-      {
-        id: 1,
-        name: "Gianmarco Pesola",
-        renewal: "11/04/23",
-        cardExpiry: "11/10/2023",
-        cardNumber: "QR3434JHSU",
-        subscritionExp: "07/01/2024",
-      },
-      {
-        id: 2,
-        name: "Antonino Alampi",
-        renewal: "15/03/22",
-        cardExpiry: "30/05/2023",
-        cardNumber: "ABCD1234EF",
-        subscritionExp: "10/02/2023",
-      },
-      {
-        id: 3,
-        name: "Andrea Izzo",
-        renewal: "22/08/23",
-        cardExpiry: "05/07/2023",
-        cardNumber: "WXYZ5678UV",
-        subscritionExp: "22/03/2024",
-      },
-      {
-        id: 4,
-        name: "Simone Sbrilli",
-        renewal: "09/06/23",
-        cardExpiry: "28/09/2023",
-        cardNumber: "PQRS9012KL",
-        subscritionExp: "05/04/2024",
-      },
-      {
-        id: 5,
-        name: "Nicola Pisani",
-        renewal: "30/07/23",
-        cardExpiry: "27/10/2023",
-        cardNumber: "MNOP3456IJ",
-        subscritionExp: "17/12/2023",
-      },
-      {
-        id: 6,
-        name: "Marco Ingraiti",
-        renewal: "04/09/23",
-        cardExpiry: "01/01/2023",
-        cardNumber: "EFGH7890AB",
-        subscritionExp: "29/06/2024",
-      },
-      {
-        id: 7,
-        name: "Gabriele Barberio",
-        renewal: "19/05/2023",
-        cardExpiry: "10/01/2024",
-        cardNumber: "IJKL2345CD",
-        subscritionExp: "03/07/2024",
-      },
-      {
-        id: 8,
-        name: "Davide Simone",
-        renewal: "28/06/2023",
-        cardExpiry: "22/09/2022",
-        cardNumber: "UVWX6789YZ",
-        subscritionExp: "14/09/2024",
-      },
-      {
-        id: 9,
-        name: "Jonna Jeronimo",
-        renewal: "12/07/2023",
-        cardExpiry: "09/10/2023",
-        cardNumber: "QRST1234MN",
-        subscritionExp: "31/12/2023",
-      },
-      {
-        id: 10,
-        name: "Alessandro D'Antoni",
-        renewal: "25/08/2023",
-        cardExpiry: "20/11/2023",
-        cardNumber: "WXYZ5678UV",
-        subscritionExp: "08/11/2023",
-      },
-    ];
-    setUser(members);
-    _setUser(members);
-  }, []);
+    setMembers();
+  }, [user, _user]);
 
   const searchMember = (event) => {
     const title = event.target.value.toLowerCase();
@@ -111,16 +125,20 @@ export const UserManagement = () => {
     );
     setUser(search);
     setSearchValue(event.target.value);
+    return;
   };
 
   const clearSearchText = () => {
     setSearchValue("");
     setUser(_user);
+    return;
   };
 
   const deleteUser = (userId) => {
     setUser((prevUsers) => prevUsers.filter((user) => user.id !== userId));
     _setUser((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    notifyDeleted();
+    return;
   };
 
   const isSubscribedExpired = (subscritionExp) => {
@@ -139,13 +157,20 @@ export const UserManagement = () => {
     return now >= cardExp;
   };
 
-  const handleSubscriptionExpChange = (date) => {
-    setSubscriptionExp(date);
+  const handleSubscriptionExpChange = (value) => {
+    const newDate = value.toLocaleDateString();
+    setUser((prevUsers) =>
+      prevUsers.map((item) => {
+        return item.id === date ? { ...item, subscritionExp: newDate } : item;
+      })
+    );
     setIsCalendarOpen(false);
+    notifySubscription();
   };
 
-  const openCalendar = () => {
+  const openCalendar = (id) => {
     setIsCalendarOpen(true);
+    setDate(id);
   };
 
   const closeCalendar = () => {
@@ -165,20 +190,24 @@ export const UserManagement = () => {
         break;
       case "scheda":
         order.sort((a, b) => {
-          const dateA = parseDate2(a.cardExpiry);
-          console.log(dateA.getDate());
-          const dateB = parseDate2(b.cardExpiry);
-          console.log(dateB);
-          return dateA.getTime() - dateB.getTime();
+          const dateA = new Date(
+            a.cardExpiry.split("/").reverse().join("/")
+          ).getTime();
+          const dateB = new Date(
+            b.cardExpiry.split("/").reverse().join("/")
+          ).getTime();
+          return dateA - dateB;
         });
         break;
       case "abbonamento":
         order.sort((a, b) => {
-          const dateA = parseDate2(a.subscritionExp);
-          console.log(dateA.getDate());
-          const dateB = parseDate2(b.subscritionExp);
-          console.log(dateB);
-          return dateA.getTime() - dateB.getTime();
+          const dateA = new Date(
+            a.subscritionExp.split("/").reverse().join("/")
+          ).getTime();
+          const dateB = new Date(
+            b.subscritionExp.split("/").reverse().join("/")
+          ).getTime();
+          return dateA - dateB;
         });
         break;
       default:
@@ -187,12 +216,46 @@ export const UserManagement = () => {
     setUser(order);
   };
 
-  const parseDate2 = (dateString) => {
-    return new Date(dateString).toLocaleString("it-IT", { dateStyle: "short" });
-  };
+  const notifySubscription = () =>
+    toast.success("Rinnovato con successo!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+
+  const notifyDeleted = () =>
+    toast.success("Utente eliminato con successo!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
 
   return (
     <>
+      <ToastContainer
+        toastStyle={{ backgroundColor: "#F87A2C" }}
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+
       <div className="flex flex-col gap-10 max-h-[100vh] mx-5  ">
         <button className="absolute right-5 top-5">
           <img src={esc} alt="" className=" w-9 " />
@@ -280,13 +343,20 @@ export const UserManagement = () => {
                       <td>
                         <button
                           className="text-red-200 text-center underline decoration-1 font-montserrat  font-normal hover:text-red-300"
-                          onClick={openCalendar}
+                          onClick={() => openCalendar(user.id)}
                         >
                           Scaduto
                         </button>
                       </td>
                     ) : (
-                      <td>{user.subscritionExp}</td>
+                      <td>
+                        <button
+                          className="text-white-100 text-center underline decoration-1 font-montserrat  font-normal hover:text-secondary-300 "
+                          onClick={() => openCalendar(user.id)}
+                        >
+                          {user.subscritionExp}
+                        </button>
+                      </td>
                     )}
 
                     <td>
@@ -304,7 +374,6 @@ export const UserManagement = () => {
           </table>
         </div>
       </div>
-
       <Modal
         isOpen={isCalendarOpen}
         onRequestClose={closeCalendar}

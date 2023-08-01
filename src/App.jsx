@@ -6,7 +6,6 @@ import { UserDashboard } from "./Pages/UserDashboard";
 import { AdminDashboard } from "./Pages/AdminDashboard";
 import LoginPage from "./Pages/LoginPage";
 import { UserManagement } from "./Pages/UserManagement";
-import { Prova } from "./Pages/prova";
 
 const App = () => {
   return (
@@ -19,7 +18,6 @@ const App = () => {
         <Route path="user" element={<UserDashboard />} />
         <Route path="admin" element={<AdminDashboard />} />
         <Route path="usermanagement" element={<UserManagement />} />
-        <Route path="prova" element={<Prova />} />
       </Routes>
     </>
   );
