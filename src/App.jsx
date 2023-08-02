@@ -5,6 +5,7 @@ import { Settings } from "./Pages/Settings";
 import { UserDashboard } from "./Pages/UserDashboard";
 import { AdminDashboard } from "./Pages/AdminDashboard";
 import LoginPage from "./Pages/LoginPage";
+import { PersonalCard } from "./Pages/PersonalCard";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="settings" element={<Settings />} />
         <Route path="user" element={<UserDashboard />} />
         <Route path="admin" element={<AdminDashboard />} />
+        <Route path="card" element={<PersonalCard />} />
       </Routes>
     </>
   );
