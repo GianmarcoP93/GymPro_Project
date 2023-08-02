@@ -28,16 +28,20 @@ const LoginPage = () => {
                 required
               />
             </div>
-            <div className="flex flex-row pl-10 w-full">
-              <input type="checkbox" />
-              <span className="font-montserrat text-white-100 pl-1 font-extralight text-sm">
-                Rimani Loggato
-              </span>
-              <a
-                href="#"
-                className="flex text-white-100 pl-2 underline font-montserrat font-extralight pr-2 text-sm hover:text-yellow-200">
-                Password dimenticata?
-              </a>
+            <div className="flex flex-col pl-10 w-full">
+              <div>
+                <input type="checkbox" />
+                <span className="font-montserrat text-white-100 pl-1 font-extralight text-sm">
+                  Resta connesso
+                </span>
+              </div>
+              <div>
+                <a
+                  href="#"
+                  className="flex text-white-100 underline font-montserrat font-extralight pr-2 text-sm hover:text-yellow-200">
+                  Password dimenticata?
+                </a>
+              </div>
             </div>
 
             <div className="flex justify-center pt-8 pb-14">
