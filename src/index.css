@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    font-family: "Montserrat, sans-serif";
+  body {
+    background-color: #14161f;
+    font-family: "Montserrat", sans-serif;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
   }
 }
 
@@ -22,9 +26,18 @@
   }
 }
 
+@layer components {
+  .btn {
+    @apply px-12 py-1 border-black border-[1px] rounded-[50px] text-black;
+  }
+  .btn-yellow {
+    @apply btn bg-yellow-100  hover:bg-yellow-200;
+  }
+}
+
 @layer utilities {
 }
 
-body{
-  background-color:#14161f ;
+body {
+  background-color: #14161f;
 }

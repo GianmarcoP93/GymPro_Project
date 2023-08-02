@@ -13,7 +13,7 @@ import clsx from "clsx";
 import UserBmiChart from "../Component/UserBmiChart";
 
 export const UserDashboard = () => {
-  return <UserBmiChart />;
+  return;
 };
 
 export default UserDashboard;

@@ -5,7 +5,7 @@ import weights from "../assets/images/second-section/weights.png";
 
 export const SecondSection = () => {
   return (
-    <div className="bg-primary flex justify-center py-16">
+    <div className="flex justify-center py-16">
       <div className="max-w-section flex justify-center">
         <div className="relative pb-56 pr-40">
           <img src={weights} alt="Weight bench" className="relative z-10" />
