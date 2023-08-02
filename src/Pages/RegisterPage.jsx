@@ -16,7 +16,7 @@ const RegisterPage = () => {
             </div>
             <div className="flex flex-col px-10 pb-2">
               <p className="flex justify-items-start text-yellow-200 pb-2 font-montserrat font-extralight">
-                Username*
+                Azienda*
               </p>
               <input type="text" className="rounded-lg w h-8 pl-2" required />
             </div>
