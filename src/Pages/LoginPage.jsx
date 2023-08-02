@@ -16,24 +16,28 @@ const LoginPage = () => {
               <p className="flex justify-items-start text-yellow-100 pb-3 font-montserrat font-extralight">
                 Email*
               </p>
-              <input type="text" className="rounded-lg w h-8 pl-2" required/>
+              <input type="text" className="rounded-lg w h-8 pl-2" required />
             </div>
             <div className="flex flex-col px-10 pb-2">
               <p className="flex justify-items-start text-yellow-100 pb-3 font-montserrat font-extralight">
                 Password*
               </p>
-              <input type="password" className="rounded-lg w h-8 pl-2" required/>
+              <input
+                type="password"
+                className="rounded-lg w h-8 pl-2"
+                required
+              />
             </div>
             <div className="flex flex-row pl-10 w-full">
               <input type="checkbox" />
-              <span className="font-montserrat text-white-100 pl-1 font-extralight text-sm">Rimani Loggato</span>
+              <span className="font-montserrat text-white-100 pl-1 font-extralight text-sm">
+                Rimani Loggato
+              </span>
               <a
                 href="#"
                 className="flex text-white-100 pl-2 underline font-montserrat font-extralight pr-2 text-sm hover:text-yellow-200">
                 Password dimenticata?
               </a>
-              
-
             </div>
 
             <div className="flex justify-center pt-8 pb-14">
@@ -44,18 +48,20 @@ const LoginPage = () => {
             <p className="flex justify-center text-white-100 font-montserrat font-extralight">
               Non hai un account?
             </p>
-            <a href="#" className="underline font-bold font-montserrat text-white-100 hover:text-yellow-100">
+            <a
+              href="#"
+              className="underline font-bold font-montserrat text-white-100 hover:text-yellow-100">
               Registrati
             </a>
           </div>
         </div>
         <div className="pt-10 w-full">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="435"
             height="418"
             viewBox="0 0 435 418"
-            fill="none">
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <mask
               id="mask0_194_52"
               maskUnits="userSpaceOnUse"
@@ -82,7 +88,7 @@ const LoginPage = () => {
                 <path
                   d="M217.5 0C97.3687 0 0 93.5283 0 208.921C0 324.297 97.3687 417.843 217.5 417.843C337.613 417.843 435 324.297 435 208.921C435 93.5283 337.613 0 217.5 0Z"
                   stroke="#FF914D"
-                  strokeWidth="3.99413"
+                  stroke-width="3.99413"
                 />
               </g>
             </g>
@@ -115,7 +121,7 @@ const LoginPage = () => {
                 <path
                   d="M217.445 14.6387C105.757 14.6387 15.2378 101.587 15.2378 208.87C15.2378 316.136 105.757 403.102 217.445 403.102C329.115 403.102 419.652 316.136 419.652 208.87C419.652 101.587 329.115 14.6387 217.445 14.6387Z"
                   stroke="#FF914D"
-                  strokeWidth="7.98528"
+                  stroke-width="7.98528"
                 />
               </g>
             </g>
@@ -269,19 +275,13 @@ const LoginPage = () => {
               id="mask13_194_52"
               maskUnits="userSpaceOnUse"
               x="373"
-              y="209"
-              width="20"
+              y="193"
+              width="19"
               height="33">
-              <path
-                d="M373.767 209.042H392.069V241.413H373.767V209.042Z"
-                fill="white"
-              />
+              <path d="M373 193H391.302V225.372H373V193Z" fill="white" />
             </mask>
             <g mask="url(#mask13_194_52)">
-              <path
-                d="M373.767 209.042H392.352V242.196H373.767V209.042Z"
-                fill="white"
-              />
+              <path d="M373 193H391.585V226.154H373V193Z" fill="white" />
             </g>
             <mask
               id="mask14_194_52"
