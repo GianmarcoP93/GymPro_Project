@@ -7,9 +7,10 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
-
-import clsx from "clsx";
+import { OrangeButton } from "./OrangeButton";
+import { internalMemory } from "../storage/internalMemory.mjs";
 
 const data = [
   {
@@ -71,10 +72,10 @@ export const UserBmiChart = () => {
   });
 
   const [chartData, setChartData] = useState(() => {
-    const storedChartData = localStorage.getItem("chartData");
+    const storedChartData = internalMemory.get("chartData");
     if (storedChartData) {
       try {
-        return JSON.parse(storedChartData);
+        return storedChartData;
       } catch (error) {
         console.error(
           "Errore durante il parsing dei dati dal localStorage:",
@@ -120,7 +121,7 @@ export const UserBmiChart = () => {
 
     setChartData(updateChartData);
 
-    localStorage.setItem("chartData", JSON.stringify(updateChartData));
+    internalMemory.save("chartData", updateChartData);
   };
 
   const myFunction = (month, height, weight, bmi) => {
@@ -131,84 +132,96 @@ export const UserBmiChart = () => {
   };
 
   return (
-    <div className=" bg-slate-100">
+    <div className=" bg-gray rounded-2xl">
       <div className="p-10 shadow-lg">
-        <h2 className="text-2xl text-yellow-500">I tuoi obbiettivi</h2>
-        <div className="shadow-lg mt-4 rounded-lg p-3">
-          <h3>Inserisci i tuoi dati</h3>
+        <h2 className="text-2xl text-secondary-100">I tuoi obbiettivi</h2>
+        <div className="border border-white-100  mt-4 rounded-lg p-3">
+          <h3 className="text-white-100">Inserisci i tuoi dati</h3>
           <form
             onSubmit={handleSubmit}
             name="userForm"
-            className="flex flex-row gap-20 mt-10"
+            className="flex flex-row gap-20 mt-6"
           >
             <div>
-              <label htmlFor="peso" name="weight">
+              <label htmlFor="weight" className="text-white-100">
                 Inserisci il tuo peso
+                <input
+                  value={formData.weight}
+                  onChange={handleChange}
+                  name="weight"
+                  type="text"
+                  className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 "
+                />
               </label>
-              <input
-                value={formData.weight}
-                onChange={handleChange}
-                name="weight"
-                type="text"
-                className="ml-5"
-              />
             </div>
             <div>
-              <label htmlFor="height" name="height">
+              <label htmlFor="height" className="text-white-100">
                 Inserisci la tua statura
+                <input
+                  value={formData.height}
+                  onChange={handleChange}
+                  name="height"
+                  type="text"
+                  className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 "
+                />
               </label>
-              <input
-                value={formData.height}
-                onChange={handleChange}
-                name="height"
-                type="text"
-                className="ml-5"
-              />
             </div>
             <div>
-              <label htmlFor="month" name="month">
+              <label htmlFor="month" className="text-white-100">
                 Inserisci il mese
+                <select
+                  value={formData.month}
+                  onChange={handleChange}
+                  name="month"
+                  className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 "
+                >
+                  <option value="null">---</option>
+                  <option value="Gen">Gennaio</option>
+                  <option value="Feb">Febbraio</option>
+                  <option value="Mar">Marzo</option>
+                  <option value="Apr">Aprile</option>
+                  <option value="Mag">Maggio</option>
+                  <option value="Giu">Giugno</option>
+                  <option value="Lug">Luglio</option>
+                  <option value="Ago">Agosto</option>
+                  <option value="Set">Settembre</option>
+                  <option value="Ott">Ottobre</option>
+                  <option value="Nov">Novembre</option>
+                  <option value="Dic">Dicembre</option>
+                </select>
               </label>
-              <select
-                value={formData.month}
-                onChange={handleChange}
-                name="month"
-              >
-                <option value="null">---</option>
-                <option value="Gen">Gennaio</option>
-                <option value="Feb">Febbraio</option>
-                <option value="Mar">Marzo</option>
-                <option value="Apr">Aprile</option>
-                <option value="Mag">Maggio</option>
-                <option value="Giu">Giugno</option>
-                <option value="Lug">Luglio</option>
-                <option value="Ago">Agosto</option>
-                <option value="Set">Settembre</option>
-                <option value="Ott">Ottobre</option>
-                <option value="Nov">Novembre</option>
-                <option value="Dic">Dicembre</option>
-              </select>
             </div>
-            <div>
-              <button type="submit">Invia</button>
+            <div className="flex items-end">
+              <OrangeButton text="Invia" type="submit" />
             </div>
           </form>
         </div>
-        <div className="shadow-lg mt-4 rounded-lg">
+        <div className="border border-white-100 mt-4 rounded-lg">
           <div className="p-3">
-            <h3>Il tuo andamento</h3>
+            <h3 className="text-secondary-100">Il tuo andamento</h3>
             <div className="flex flex-col items-center">
-              <p>Stacked Bar Charts</p>
-              <div>
-                <BarChart data={chartData} width={1500} height={300}>
-                  <CartesianGrid></CartesianGrid>
-                  <XAxis dataKey="month"></XAxis>
-                  <YAxis dataKey="bmi"></YAxis>
-                  <Tooltip></Tooltip>
-                  <Legend></Legend>
-                  <Bar dataKey="bmi" fill="#F87A2C"></Bar>
-                </BarChart>
+              <p className="text-white-100">Grafici a barre</p>
+              <div className="w-full">
+                <ResponsiveContainer width="99%" height={300}>
+                  <BarChart data={chartData}>
+                    <CartesianGrid></CartesianGrid>
+                    <XAxis dataKey="month"></XAxis>
+                    <YAxis dataKey="bmi"></YAxis>
+                    <Tooltip></Tooltip>
+                    <Legend></Legend>
+                    <Bar dataKey="bmi" fill="#F87A2C"></Bar>
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
+              <OrangeButton
+                type="button"
+                text="Reset"
+                twProp="self-end"
+                func={() => {
+                  internalMemory.clear();
+                  location.reload();
+                }}
+              />
             </div>
           </div>
         </div>
@@ -216,5 +229,3 @@ export const UserBmiChart = () => {
     </div>
   );
 };
-
-export default UserBmiChart;

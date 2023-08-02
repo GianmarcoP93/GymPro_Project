@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export const OrangeButton = ({ text, twProp, type, submitfunc }) => {
+export const OrangeButton = ({ text, twProp, type, func }) => {
   return (
     <>
       {type === "submit" ? (
@@ -10,7 +10,7 @@ export const OrangeButton = ({ text, twProp, type, submitfunc }) => {
             twProp && `${twProp}`
           )}
           type={type}
-          onSubmit={submitfunc}
+          onSubmit={func}
         >
           {text}
         </button>
@@ -21,6 +21,7 @@ export const OrangeButton = ({ text, twProp, type, submitfunc }) => {
             twProp && `${twProp}`
           )}
           type={type}
+          onClick={func}
         >
           {text}
         </button>

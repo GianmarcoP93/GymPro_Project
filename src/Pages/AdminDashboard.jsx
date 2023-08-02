@@ -2,6 +2,7 @@ import { OrangeButton } from "../Component/OrangeButton";
 import { Plans } from "../Component/Plans";
 import { ProfileDescription } from "../Component/ProfileDescription";
 import { Sidebar } from "../Component/Sidebar";
+import { UserBmiChart } from "../Component/UserBmiChart";
 import { UserSubscription } from "../Component/UserSubscription";
 
 export const AdminDashboard = () => {
@@ -22,7 +23,7 @@ export const AdminDashboard = () => {
         />
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col py-4 px-8 rounded-2xl bg-gray gap-4"
+          className="flex flex-col p-10 rounded-2xl bg-gray gap-4"
         >
           <div className="flex justify-between gap-32">
             <UserSubscription />
@@ -34,6 +35,7 @@ export const AdminDashboard = () => {
             type="submit"
           />
         </form>
+        <UserBmiChart />
       </div>
     </div>
   );

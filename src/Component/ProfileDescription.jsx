@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const ProfileDescription = ({ name, email, address, isGym }) => {
   return (
-    <div className="flex py-4 px-8 bg-gray rounded-2xl justify-between">
+    <div className="flex p-10 bg-gray rounded-2xl justify-between">
       <div className="flex flex-col gap-4">
         <p className="text-secondary-100 font-bold text-2xl">{name}</p>
         <div className="flex gap-20 justify-center items-center">
@@ -57,9 +57,9 @@ export const ProfileDescription = ({ name, email, address, isGym }) => {
           </div>
         </div>
       </div>
-      <div className="w-24 h-24 rounded-full">
+      <button className="w-24 h-24 rounded-full hover:opacity-60">
         <img src={proPic} alt="profile picture" />
-      </div>
+      </button>
     </div>
   );
 };
