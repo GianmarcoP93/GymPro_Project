@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import esc from "../assets/images/icons/escOrange.png";
+
 import cancel from "../assets/images/icons/cancelRed.png";
 import garbage from "../assets/images/icons/garbage.png";
 import Modal from "react-modal";
@@ -7,6 +7,8 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TitleCard } from "../Component/TitleCard";
+import { ButtonCloseWindow } from "../Component/ButtonCloseWindow";
 
 const rootElement = document.getElementById("root");
 
@@ -257,12 +259,8 @@ export const UserManagement = () => {
       />
 
       <div className="flex flex-col gap-10 max-h-[100vh] mx-5  ">
-        <button className="absolute right-5 top-5">
-          <img src={esc} alt="" className=" w-9 " />
-        </button>
-        <div className="flex justify-center mt-10">
-          <h1 className=" text-secondary-100 text-3xl">Gestione Utenti</h1>
-        </div>
+        <ButtonCloseWindow />
+        <TitleCard text="Gestione utenti" />
         <div className="flex font-montserrat">
           <select
             className="bg-gray text-secondary-300 border border-white-100 py-1 outline-none rounded-md pl-3"
