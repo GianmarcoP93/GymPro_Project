@@ -24,11 +24,18 @@ const LoginPage = () => {
               </p>
               <input type="password" className="rounded-lg w h-8 pl-2" required/>
             </div>
-            <a
-              href="#"
-              className="flex text-white-100 pl-10 underline font-montserrat font-extralight">
-              Password dimenticata?
-            </a>
+            <div className="flex flex-row pl-10 w-full">
+              <input type="checkbox" />
+              <span className="font-montserrat text-white-100 pl-1 font-extralight text-sm">Rimani Loggato</span>
+              <a
+                href="#"
+                className="flex text-white-100 pl-2 underline font-montserrat font-extralight pr-2 text-sm hover:text-yellow-200">
+                Password dimenticata?
+              </a>
+              
+
+            </div>
+
             <div className="flex justify-center pt-8 pb-14">
               <Button />
             </div>
@@ -37,7 +44,7 @@ const LoginPage = () => {
             <p className="flex justify-center text-white-100 font-montserrat font-extralight">
               Non hai un account?
             </p>
-            <a href="#" className="underline font-bold font-montserrat text-white-100">
+            <a href="#" className="underline font-bold font-montserrat text-white-100 hover:text-yellow-100">
               Registrati
             </a>
           </div>
