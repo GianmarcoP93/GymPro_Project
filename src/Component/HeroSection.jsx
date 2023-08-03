@@ -6,7 +6,7 @@ import Clock from "../assets/images/hero-section/Clock.png";
 
 export const HeroSection = () => {
   return (
-    <div className="bg-primary flex justify-center py-16">
+    <div className="flex justify-center py-16">
       <div className="max-w-section flex justify-center">
         <div className="flex flex-col justify-center gap-4">
           <h1 className="text-2xl text-yellow-100">

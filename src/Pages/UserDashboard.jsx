@@ -1,3 +1,5 @@
 export const UserDashboard = () => {
-  return <></>;
+  return;
 };
+
+export default UserDashboard;

@@ -1,9 +1,12 @@
 import React from "react";
 import YellowButton from "../Component/YellowButton";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 import LogoGrande from "../assets/images/logo/LogoGrande.png";
 
 const LoginPage = () => {
+  const error = false;
+
   return (
     <div className="flex flex-col items-center pt-48">
       <div className="flex flex-row gap-40">
@@ -26,7 +29,10 @@ const LoginPage = () => {
               </p>
               <input
                 type="password"
-                className="rounded-lg w h-8 pl-2"
+                className={clsx(
+                  "rounded-lg w h-8 pl-2",
+                  error && "border border-red"
+                )}
                 required
               />
             </div>
@@ -47,7 +53,7 @@ const LoginPage = () => {
           </div>
         </div>
         <div className="pt-10 w-full">
-          <img src={LogoGrande} className="max-w-[440px] w-[440%]"/>
+          <img src={LogoGrande} className="max-w-[440px] w-[440%]" />
         </div>
       </div>
     </div>
