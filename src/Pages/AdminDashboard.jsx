@@ -1,14 +1,37 @@
+import { useDispatch, useSelector } from "react-redux";
 import { OrangeButton } from "../Component/OrangeButton";
 import { Plans } from "../Component/Plans";
 import { ProfileDescription } from "../Component/ProfileDescription";
 import { Sidebar } from "../Component/Sidebar";
 import { UserBmiChart } from "../Component/UserBmiChart";
 import { UserSubscription } from "../Component/UserSubscription";
+import { useFetch } from "../hooks/useFetch";
+import { serverURL } from "../constants/constants";
+import { setPost } from "../store/userSlice";
 
 export const AdminDashboard = () => {
+  const post = useSelector((state) => state.user.post);
+  const dispatch = useDispatch();
+
+  const { error, update } = useFetch(`${serverURL}/api/users`, {
+    method: "POST",
+    body: JSON.stringify(post),
+    headers: { "Content-Type": "application/json" },
+  });
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("a");
+    update();
+    dispatch(
+      setPost({
+        username: "",
+        subscription: "",
+        passNumber: "",
+        email: "",
+        tel: "",
+        plan: "",
+      })
+    );
   };
 
   return (

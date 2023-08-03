@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Bar,
   BarChart,
@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { OrangeButton } from "./OrangeButton";
-import { internalMemory } from "../storage/internalMemory.mjs";
+import { internalMemory } from "../utility/internalMemory.mjs";
 
 const data = [
   {
