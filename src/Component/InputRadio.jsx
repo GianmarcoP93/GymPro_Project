@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPost } from "../store/userSlice";
 
 export const InputRadio = ({ text, entrance, subscription = "20", cost }) => {
-  const [radio, setRadio] = useState("60");
+  const post = useSelector((state) => state.user.post);
+  const dispatch = useDispatch();
 
   const stringValue = typeof cost === "number" ? String(cost) : cost;
 
   const handleRadioChange = (event) => {
-    const { value } = event.target;
-    setRadio(value);
+    const { name, value } = event.target;
+    dispatch(setPost({ ...post, [name]: value }));
   };
 
   return (
@@ -20,7 +22,7 @@ export const InputRadio = ({ text, entrance, subscription = "20", cost }) => {
           <input
             className="cursor-pointer"
             type="radio"
-            name="subscription"
+            name="plan"
             value={stringValue}
             onChange={handleRadioChange}
             required

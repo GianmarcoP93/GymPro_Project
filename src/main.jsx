@@ -10,11 +10,15 @@ import {
   faClock,
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
+import { Provider } from "react-redux";
+import store from "./store.js";
 
 library.add(faEnvelope, faPhone, faLocationDot, faClock);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
