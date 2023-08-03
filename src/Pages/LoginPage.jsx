@@ -29,16 +29,24 @@ const LoginPage = () => {
               </p>
               <input
                 type="password"
-                className={clsx(
-                  "rounded-lg w h-8 pl-2",
-                  error && "border border-red"
-                )}
+                className="rounded-lg w h-8 pl-2"
                 required
               />
             </div>
-            <Link className="flex text-white-100 pl-10 font-montserrat font-extralight hover:text-yellow-200">
-              <span className="border-b">Password dimenticata?</span>
-            </Link>
+            <div className="flex flex-col pl-10 w-full">
+              <div>
+                <input type="checkbox" />
+                <span className="font-montserrat text-white-100 pl-1 font-extralight text-sm">
+                  Resta connesso
+                </span>
+              </div>
+              <div>
+                <Link className="flex text-white-100 underline font-montserrat font-extralight pr-2 text-sm hover:text-yellow-200">
+                  Password dimenticata?
+                </Link>
+              </div>
+            </div>
+
             <div className="flex justify-center pt-8 pb-14">
               <YellowButton text="Login" />
             </div>
@@ -47,7 +55,10 @@ const LoginPage = () => {
             <p className="flex justify-center text-white-100 font-montserrat font-extralight">
               Non hai un account?
             </p>
-            <Link className=" font-semibold font-montserrat text-white-100 hover:text-yellow-200">
+            <Link
+              to="/register"
+              className=" font-semibold font-montserrat text-white-100 hover:text-yellow-200"
+            >
               <span className="border-b">Registrati</span>
             </Link>
           </div>
