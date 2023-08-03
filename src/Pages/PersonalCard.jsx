@@ -108,13 +108,15 @@ export const PersonalCard = () => {
                       <>
                         {item["exercises"] &&
                           item["exercises"].map((exercise) => {
-                            console.log(exercise.id);
                             return (
-                              <tr key={exercise.id}>
+                              <tr
+                                key={exercise.id}
+                                className=" border-b border-slate-300 text-center "
+                              >
                                 <td>
                                   <button
                                     onClick={() => openExerciseModal(exercise)}
-                                    className="text-secondary-200 underline"
+                                    className="text-secondary-200  py-5 underline decoration-1 hover:text-secondary-300"
                                   >
                                     {exercise.name}
                                   </button>
