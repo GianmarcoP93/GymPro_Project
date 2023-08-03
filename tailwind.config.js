@@ -7,13 +7,17 @@ export default {
       montserrat: ["Montserrat", "sans-serif"],
     },
     extend: {
+      maxWidth: {
+        section: "1200px",
+      },
       colors: {
         //sfondo scuro
         primary: "#14161F",
         //arancione-100 normale, 200:hover
         secondary: {
-          100: "#FF721B",
+          100: "#F87A2C",
           200: "#F87A2C",
+          300: "#F59C64",
         },
         //yellow-100 normale, 200:hover
         yellow: {
@@ -28,11 +32,18 @@ export default {
         white: {
           100: "#dfdfdf",
           200: "#afafaf",
+          300: "#F1F2F8",
+          400: "#FFFFFF",
         },
         //sfondo 2 sezione chiara
         bgwhite: "#F1F2F8",
         //colore rosso
-        red: "#D60000",
+        red: {
+          100: "#D60000",
+          200: "#FF4040",
+          300: "#ED6464",
+        },
+        divider: "#5B5050",
       },
     },
   },
