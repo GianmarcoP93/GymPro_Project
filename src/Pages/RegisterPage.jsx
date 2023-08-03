@@ -7,11 +7,8 @@ import { SvgBigLogo } from "../components/shared/SvgBigLogo";
 const RegisterPage = () => {
   const [register,setRegister] = useState({company:"",email:"",password:"",confirmPassword:"",remember:false});
   
-  console.log(register)
-
   const handleInputChange = (e) => {
     const {name,value,checked,type} = e.target 
-    console.log(type,checked,name,value)
     setRegister(prevState => {
       return {...prevState,[name]:type === "checkbox" ? checked : value}
     })

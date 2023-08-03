@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import YellowButton from "../Component/YellowButton";
 import { Link } from "react-router-dom";
-import clsx from "clsx";
-import LogoGrande from "../assets/images/logo/LogoGrande.png";
 import { FormInputs } from "../components/shared/FormInputs";
 import { SvgBigLogo } from "../components/shared/SvgBigLogo";
 
 const LoginPage = () => {
-  const error = false;
+
+  const [login,setLogin] = useState({email:"",password:"",remember:false});
+  console.log(login)
+  
+  const handleInputChange = (e) => {
+    const {name,value,checked,type} = e.target 
+    setLogin(prevState => {
+      return {...prevState,[name]:type === "checkbox" ? checked : value}
+    })
+  }
 
   return (
     <div className="flex flex-col items-center h-full min-h-[100vh] justify-center">
@@ -23,17 +30,17 @@ const LoginPage = () => {
               <p className="flex justify-items-start text-yellow-200 pb-3 font-montserrat font-extralight">
                 Email*
               </p>
-              <FormInputs type="email" />
+              <FormInputs type="email" value={login.email} name="email" func={handleInputChange}/>
             </div>
             <div className="flex flex-col px-10 pb-2">
               <p className="flex justify-items-start text-yellow-200 pb-3 font-montserrat font-extralight">
                 Password*
               </p>
-              <FormInputs type="password" />
+              <FormInputs type="password" value={login.password} name="password" func={handleInputChange}/>
             </div>
             <div className="flex flex-col pl-10 w-full">
               <div>
-                <input type="checkbox" />
+                <FormInputs type="checkbox" checked={login.remember} name="remember" func={handleInputChange}/>
                 <span className="font-montserrat text-white-100 pl-1 font-extralight text-sm">
                   Resta connesso
                 </span>
