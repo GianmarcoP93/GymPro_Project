@@ -15,7 +15,7 @@ export default {
         primary: "#14161F",
         //arancione-100 normale, 200:hover
         secondary: {
-          100: "#FF721B",
+          100: "#F87A2C",
           200: "#F87A2C",
           300: "#F59C64",
         },

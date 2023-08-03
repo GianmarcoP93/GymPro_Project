@@ -3,10 +3,16 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    font-family: "Montserrat, sans-serif";
+  body {
+    background-color: #14161f;
+    font-family: "Montserrat", sans-serif;
   }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+}
 
+@layer components {
   h1,
   h2,
   h3,
