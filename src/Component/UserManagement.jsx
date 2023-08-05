@@ -7,8 +7,8 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { TitleCard } from "../Component/TitleCard";
-import { ButtonCloseWindow } from "../Component/ButtonCloseWindow";
+import { TitleCard } from "./TitleCard";
+import { ButtonCloseWindow } from "./ButtonCloseWindow";
 
 const rootElement = document.getElementById("root");
 

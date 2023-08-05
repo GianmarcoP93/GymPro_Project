@@ -4,8 +4,9 @@ import { Settings } from "./Pages/Settings";
 import { UserDashboard } from "./Pages/UserDashboard";
 import { AdminDashboard } from "./Pages/AdminDashboard";
 import LoginPage from "./Pages/LoginPage";
-import { UserManagement } from "./Pages/UserManagement";
+import { UserManagement } from "./Component/UserManagement";
 import RegisterPage from "./Pages/RegisterPage";
+import { PersonalCard } from "./Component/PersonalCard";
 
 const App = () => {
   return (
