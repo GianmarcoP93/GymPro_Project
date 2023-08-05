@@ -5,8 +5,6 @@ export const InputRadio = ({ text, entrance, subscription = "20", cost }) => {
   const post = useSelector((state) => state.user.post);
   const dispatch = useDispatch();
 
-  const stringValue = typeof cost === "number" ? String(cost) : cost;
-
   const handleRadioChange = (event) => {
     const { name, value } = event.target;
     dispatch(setPost({ ...post, [name]: value }));
@@ -23,7 +21,7 @@ export const InputRadio = ({ text, entrance, subscription = "20", cost }) => {
             className="cursor-pointer"
             type="radio"
             name="plan"
-            value={stringValue}
+            value={cost}
             onChange={handleRadioChange}
             required
           />

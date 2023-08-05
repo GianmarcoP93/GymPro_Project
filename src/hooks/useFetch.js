@@ -1,43 +1,41 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 const defaultOptions = {
   method: "GET",
-  data: {},
   headers: {},
+  data: {},
 };
 
-export const useFetch = (url, options = { ...defaultOptions }) => {
+export const useAxios = (url, options = { ...defaultOptions }) => {
   options = { ...defaultOptions, ...options };
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
-  const [_url, _setUrl] = useState(url);
   const [loading, setLoading] = useState(true);
 
   const update = async () => {
     setLoading(true);
-    if (!url) {
-      _setUrl(url);
-      return;
-    }
     setError(null);
     setData(null);
     try {
-      const response = await fetch(_url, options);
-      if (response.ok) {
-        setData(response.data);
-        setLoading(false);
-      }
+      const response = await axios({ url, ...options });
+
+      setData(response.data);
+      setLoading(false);
     } catch (error) {
-      setError(error);
-      console.log(error.message);
+      if (error?.response?.data?.message) {
+        setError(error.response.data);
+      } else setError(error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    options.method === "POST" ? "" : update();
-  }, [_url]);
+    if (options.method === "GET") {
+      update();
+    }
+  }, [url]);
 
   return { data, error, update };
 };
