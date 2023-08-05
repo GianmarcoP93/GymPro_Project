@@ -261,7 +261,7 @@ export const UserManagement = () => {
       <div className="flex flex-col gap-10 max-h-[100vh] mx-5  ">
         <ButtonCloseWindow />
         <TitleCard text="Gestione utenti" />
-        <div className="flex font-montserrat">
+        <div className="flex font-montserrat justify-between items-center">
           <select
             className="bg-gray text-secondary-300 border border-white-100 py-1 outline-none rounded-md pl-3"
             onChange={selectChoose}
@@ -271,21 +271,22 @@ export const UserManagement = () => {
             <option value="scheda">Scadenza scheda</option>
             <option value="abbonamento">Scadenza abbonamento</option>
           </select>
+          <div className="flex items-center border bg-gray border-white-100 rounded-md">
+            <input
+              type="text"
+              className="bg-transparent text-secondary-300 font-montserrat pl-3 outline-none  border-none"
+              placeholder="Cerca utente"
+              onInput={searchMember}
+              value={searchValue}
+            />
 
-          <input
-            type="text"
-            className="ml-auto bg-gray text-secondary-300 font-montserrat pl-3 border outline-none rounded-md border-white-100"
-            placeholder="Cerca utente"
-            onInput={searchMember}
-            value={searchValue}
-          />
-
-          <button
-            className=" transform -translate-y-1/2 focus:outline-none relative top-2 right-4"
-            onClick={clearSearchText}
-          >
-            <img src={cancel} alt="" className=" w-3  " />
-          </button>
+            <button
+              className="mx-2 focus:outline-none relative"
+              onClick={clearSearchText}
+            >
+              <img src={cancel} alt="" className=" w-3  " />
+            </button>
+          </div>
         </div>
 
         <div className="bg-white-00 border border-slate-300 rounded-xl w-full mx-auto bg-gray ">
