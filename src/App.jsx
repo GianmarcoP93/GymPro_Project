@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import { LandingPage } from "./Pages/LandingPage";
 import { Settings } from "./Pages/Settings";
-import { UserDashboard } from "./Pages/UserDashboard";
 import { AdminDashboard } from "./Pages/AdminDashboard";
 import LoginPage from "./Pages/LoginPage";
 import { UserManagement } from "./Pages/UserManagement";
 import RegisterPage from "./Pages/RegisterPage";
+import { UserDashboard } from "./Pages/UserDashboard";
 
 const App = () => {
   return (
