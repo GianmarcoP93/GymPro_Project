@@ -3,11 +3,12 @@ import YellowButton from "../Component/YellowButton";
 import { Link } from "react-router-dom";
 import { FormInputs } from "../components/shared/FormInputs";
 import { SvgBigLogo } from "../components/shared/SvgBigLogo";
+import { GymProText } from "../components/shared/GymProText";
 
 const LoginPage = () => {
 
   const [login,setLogin] = useState({email:"",password:"",remember:false});
-  console.log(login)
+  
   
   const handleInputChange = (e) => {
     const {name,value,checked,type} = e.target 
@@ -17,9 +18,9 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center h-full min-h-[100vh] justify-center">
-      <div className="flex flex-row items-center gap-40">
-        <div className="flex flex-col gap-8">
+    <div className="flex flex-col items-center h-full min-h-[100vh] justify-center sm:flex-col">
+      <div className="flex flex-row items-center gap-10 max-sm:flex-col max-sm:justify-center max-sm:items-center">
+        <div className="flex flex-col gap-8 ">
           <div className="border border-solid border-white-100 rounded-xl ">
             <div className="pt-8 pb-6">
               <p className="flex justify-center text-yellow-100 font-bold font-roboto">
@@ -67,8 +68,8 @@ const LoginPage = () => {
             </Link>
           </div>
         </div>
-        <div className="w-full">
-          <SvgBigLogo />
+        <div className="max-sm:max-w-[160px] max-sm:max-h-[160px]">
+          <SvgBigLogo className="max-sm:max-w-[150px] max-sm:max-h-[150px]"/>
         </div>
       </div>
     </div>
