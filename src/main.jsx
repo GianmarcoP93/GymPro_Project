@@ -9,11 +9,12 @@ import {
   faPhone,
   faClock,
   faEnvelope,
+  faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { Provider } from "react-redux";
 import store from "./store.js";
 
-library.add(faEnvelope, faPhone, faLocationDot, faClock);
+library.add(faEnvelope, faPhone, faLocationDot, faClock,faArrowRight);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>

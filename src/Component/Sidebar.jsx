@@ -5,7 +5,7 @@ import logout from "../assets/images/icons/logout.png";
 
 export const Sidebar = ({ name, email }) => {
   return (
-    <div className="bg-gray max-w-xs flex flex-col p-6 rounded-2xl">
+    <div className="bg-gray max-w-xs flex flex-col p-6 rounded-2xl mt-4">
       <div className="flex justify-center items-center gap-4">
         <div className="rounded-full w-12 h-12">
           <img src={proPic} />
