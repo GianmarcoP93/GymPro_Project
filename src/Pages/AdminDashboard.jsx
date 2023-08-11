@@ -11,6 +11,7 @@ import { setPost } from "../store/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
+import AdminChart from "../Component/AdminChart";
 
 export const AdminDashboard = () => {
   const post = useSelector((state) => state.user.post);
@@ -119,7 +120,7 @@ export const AdminDashboard = () => {
               type="submit"
             />
           </form>
-          <UserBmiChart />
+          <AdminChart />
         </div>
       </div>
     </>

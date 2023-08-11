@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { SubscriptionInput } from "./SubscriptionInput";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../store/userSlice";
+import { setPost, updateUserSub } from "../store/userSlice";
 
 export const UserSubscription = () => {
   const post = useSelector((state) => state.user.post);
   const dispatch = useDispatch();
+
+  const handleSubSubmit = () => {
+    dispatch(updateUserSub(post))
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -72,7 +76,9 @@ export const UserSubscription = () => {
           text="Cellulare*:"
         />
       </div>
-      <div></div>
+      <div>
+        <button onClick={handleSubSubmit}>Invia abbonamento</button>
+      </div>
     </div>
   );
 };
