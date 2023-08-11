@@ -1,6 +1,6 @@
-export const SvgBigLogo = () => {
+export const SvgBigLogo = (props) => {
     return (
-        <svg
+        <svg className={props.className}
             width="440"
             height="440"
             viewBox="0 0 435 418"

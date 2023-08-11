@@ -19,7 +19,7 @@ const RegisterPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full min-h-[100vh]">
-      <div className="flex flex-row gap-40">
+      <div className="flex flex-row max-sm:flex max-sm:flex-col gap-10">
         <div className="flex flex-col gap-8">
           <div className="border border-solid border-white-100 rounded-xl">
             <div className="pt-8 pb-6">
@@ -59,7 +59,7 @@ const RegisterPage = () => {
               <YellowButton text="Registrati" />
             </div>
           </div>
-          <div className="flex flex-row justify-center py-6 border border-solid border-white-100 rounded-xl w-96 gap-2">
+          <div className="flex flex-row justify-center py-6 border border-solid border-white-100 rounded-xl w-full gap-2">
             <p className="flex justify-center text-white-100 font-montserrat font-extralight">
               Sei già registrato?
             </p>
@@ -68,8 +68,8 @@ const RegisterPage = () => {
             </Link>
           </div>
         </div>
-        <div className="pt-10 w-full">
-          <SvgBigLogo />
+        <div className="w-full flex justify-center items-center">
+          <SvgBigLogo className="max-sm:max-w-[150px] max-sm:max-h-[150px]"/>
         </div>
       </div>
     </div>
