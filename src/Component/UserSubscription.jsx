@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { SubscriptionInput } from "./SubscriptionInput";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, updateUserSub } from "../store/userSlice";

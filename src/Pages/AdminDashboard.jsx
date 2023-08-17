@@ -3,7 +3,6 @@ import { OrangeButton } from "../Component/OrangeButton";
 import { Plans } from "../Component/Plans";
 import { ProfileDescription } from "../Component/ProfileDescription";
 import { Sidebar } from "../Component/Sidebar";
-import { UserBmiChart } from "../Component/UserBmiChart";
 import { UserSubscription } from "../Component/UserSubscription";
 import { useAxios } from "../hooks/useFetch";
 import { serverURL } from "../constants/constants";

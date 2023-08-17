@@ -31,8 +31,11 @@ const userReducer = createSlice({
     setPost: (state, action) => {
       state.post = action.payload;
     },
+    updateUserSub: (state, action) => {
+      state.userSubData = [...state.userSubData, action.payload];
+    },
   },
 });
 
-export const { login, logout, setPost } = userReducer.actions;
+export const { login, logout, setPost, updateUserSub } = userReducer.actions;
 export default userReducer.reducer;

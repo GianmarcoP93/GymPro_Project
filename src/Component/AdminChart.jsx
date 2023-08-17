@@ -11,76 +11,93 @@ import {
 } from "recharts";
 import { OrangeButton } from "./OrangeButton";
 import { internalMemory } from "../utility/internalMemory.mjs";
-import { updateUserSub } from "./userSlice";
+import { updateUserSub } from "../store/userSlice";
 import { useDispatch } from "react-redux";
 
 const data = [
   {
     month: "Gen",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Feb",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Mar",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Apr",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Mag",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Giu",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Lug",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Ago",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Set",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Ott",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Nov",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
   {
     month: "Dic",
     revenue: 0,
-    subscribers: 0
+    subscribers: 0,
   },
 ];
 
-export const AdminChart = () => {
-    const [userSubData, setUserSubData] = useState([])
+const calculateTotalRevenue = (data, month) => {
+  const filteredData = data.filter((item) => item.month === month);
+  const totalRevenue = filteredData.reduce(
+    (total, item) => total + item.revenue,
+    0
+  );
+  return totalRevenue;
+};
+const calculateNewSubs = (data, month) => {
+  const filteredData = data.filter((item) => item.month === month);
+  const newSubs = filteredData.reduce(
+    (total, item) => total + item.subscribers,
+    0
+  );
+  return newSubs;
+};
 
-    const dispatch = useDispatch()
+export const AdminChart = () => {
+  const [userSubData, setUserSubData] = useState([]);
+
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     month: "",
@@ -113,24 +130,24 @@ export const AdminChart = () => {
   };
 
   const handleSubmit = (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      const month = formData.month;
+    const month = formData.month;
 
-      const revenue = calculateTotalRevenue(userSubData, month)
+    const revenue = calculateTotalRevenue(userSubData, month);
 
-      const subscribers = calculateNewSubs(userSubData, month)
-      
-      const newUserSubData = {
-          month: month,
-          revenue: revenue,
-          subscribers: subscribers
-      }
+    const subscribers = calculateNewSubs(userSubData, month);
 
-      dispatch(updateUserSub(newUserSubData))
+    const newUserSubData = {
+      month: month,
+      revenue: revenue,
+      subscribers: subscribers,
+    };
 
-      const updateUserSubData = userSubData.concat(newUserSubData)
-      setUserSubData(updateUserSubData)
+    dispatch(updateUserSub(newUserSubData));
+
+    const updateUserSubData = userSubData.concat(newUserSubData);
+    setUserSubData(updateUserSubData);
 
     const weight = parseFloat(formData.weight);
     const height = parseFloat(formData.height);
@@ -216,7 +233,7 @@ export const AdminChart = () => {
                   <AreaChart data={chartData}>
                     <CartesianGrid></CartesianGrid>
                     <XAxis dataKey="month"></XAxis>
-                    <YAxis dataKey="bmi"></YAxis>
+                    <YAxis></YAxis>
                     <Tooltip></Tooltip>
                     <Legend></Legend>
                     <Area
