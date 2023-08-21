@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/images/logo/Logo.png";
+import logo from "../../assets/images/logo/Logo.png";
 import { OrangeButton } from "./OrangeButton";
 
 export const Navbar = () => {
@@ -15,7 +15,7 @@ export const Navbar = () => {
         <Link className="hover:border-b hover:text-yellow-200">FAQ</Link>
       </div>
       <div className="flex items-center ">
-        <OrangeButton text="Login" />
+        <OrangeButton text="Login" type="link" path="/login" />
       </div>
     </nav>
   );

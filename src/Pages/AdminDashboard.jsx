@@ -1,28 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
-import { OrangeButton } from "../Component/OrangeButton";
-import { Plans } from "../Component/Plans";
-import { ProfileDescription } from "../Component/ProfileDescription";
-import { Sidebar } from "../Component/Sidebar";
-import { UserBmiChart } from "../Component/UserBmiChart";
-import { UserSubscription } from "../Component/UserSubscription";
-import { useAxios } from "../hooks/useFetch";
+import { OrangeButton } from "../components/shared/OrangeButton";
+import { Plans } from "../components/Plans";
+import { ProfileDescription } from "../components/shared/ProfileDescription";
+import { Sidebar } from "../components/shared/Sidebar";
+import { UserBmiChart } from "../components/UserBmiChart";
+import { UserSubscription } from "../components/UserSubscription";
+import { useAxios } from "../hooks/useAxios";
 import { serverURL } from "../constants/constants";
 import { setPost } from "../store/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 
 export const AdminDashboard = () => {
   const post = useSelector((state) => state.user.post);
   const dispatch = useDispatch();
 
-  const { error, update } = useAxios(`${serverURL}/api/users`, {
+  const { error, update } = useAxios(`${serverURL}/api/users/register`, {
     method: "POST",
     data: post,
     headers: { "Content-Type": "application/json" },
   });
 
-  const [didSumbit, setDidSubmit] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -69,20 +68,20 @@ export const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    if (error && didSumbit) {
+    if (error && didSubmit) {
       notifyError();
       setDidSubmit(false);
-    } else if (!error && didSumbit) {
+    } else if (!error && didSubmit) {
       notifySuccess();
       setDidSubmit(false);
     }
-  }, [didSumbit]);
+  }, [didSubmit]);
 
   return (
     <>
       <ToastContainer
         toastStyle={{
-          backgroundColor: clsx("red", !error && "#F87A2C"),
+          backgroundColor: error ? "red" : "#F87A2C",
         }}
         position="top-right"
         autoClose={4000}

@@ -1,4 +1,4 @@
-import { InputRadio } from "./InputRadio";
+import { InputRadio } from "./shared/InputRadio";
 
 export const Plans = () => {
   return (
