@@ -14,6 +14,7 @@ const userReducer = createSlice({
       tel: "",
       plan: "",
     },
+    data: [],
   },
   reducers: {
     login: (state, action) => {
@@ -31,8 +32,11 @@ const userReducer = createSlice({
     setPost: (state, action) => {
       state.post = action.payload;
     },
+    setData: (state, action) => {
+      state.data = action.payload;
+    },
   },
 });
 
-export const { login, logout, setPost } = userReducer.actions;
+export const { login, logout, setPost, setData } = userReducer.actions;
 export default userReducer.reducer;
