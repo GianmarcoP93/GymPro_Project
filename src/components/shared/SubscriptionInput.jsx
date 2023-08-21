@@ -14,6 +14,7 @@ export const SubscriptionInput = ({
       {isButton ? (
         <div className="flex justify-between">
           <button
+            type="button"
             onClick={clickfunc}
             className="text-center font-semibold text-white-100 font-montserrat underline underline-offset-2 hover:text-secondary-300"
           >
@@ -21,7 +22,6 @@ export const SubscriptionInput = ({
           </button>
           <input
             className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 min-w-[220px]"
-            disabled
             type={type}
             name={name}
             placeholder={placeholder}
@@ -29,10 +29,11 @@ export const SubscriptionInput = ({
             onInput={onInput}
             min={mindate}
             required
+            disabled={true}
           />
         </div>
       ) : (
-        <label
+        <p
           htmlFor={name}
           className="font-semibold text-white-100 flex justify-between"
         >
@@ -47,7 +48,7 @@ export const SubscriptionInput = ({
             min={mindate}
             required
           />
-        </label>
+        </p>
       )}
     </>
   );

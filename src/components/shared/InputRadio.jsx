@@ -1,32 +1,29 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPost } from "../../store/userSlice";
 
 export const InputRadio = ({ text, entrance, subscription = "20", cost }) => {
-  const [radio, setRadio] = useState("60");
-
-  const stringValue = typeof cost === "number" ? String(cost) : cost;
+  const post = useSelector((state) => state.user.post);
+  const dispatch = useDispatch();
 
   const handleRadioChange = (event) => {
-    const { value } = event.target;
-    setRadio(value);
+    const { name, value } = event.target;
+    dispatch(setPost({ ...post, [name]: value }));
   };
 
   return (
     <div className="flex items-center justify-between">
       <div>
-        <label
-          htmlFor={subscription}
-          className="text-white-100 font-semibold text-lg flex gap-[7px]"
-        >
+        <p className="text-white-100 font-semibold text-lg flex gap-[7px]">
           <input
             className="cursor-pointer"
             type="radio"
-            name="subscription"
-            value={stringValue}
+            name="plan"
+            value={cost}
             onChange={handleRadioChange}
             required
           />
           {text}
-        </label>
+        </p>
         <p className="pl-5 text-white-100">{entrance} ingressi a settimana</p>
         {subscription !== "free" ? (
           <p className="pl-5 text-secondary-100">{subscription}€ iscrizione</p>

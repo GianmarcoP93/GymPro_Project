@@ -16,6 +16,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@reduxjs/toolkit": "^1.9.5",
     "animate.css": "^4.1.1",
+    "axios": "^1.4.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
     "react": "^18.2.0",

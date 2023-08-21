@@ -1,34 +1,22 @@
 import React, { useEffect, useState } from "react";
 import YellowButton from "../components/shared/YellowButton";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FormInputs } from "../components/shared/FormInputs";
 import { SvgBigLogo } from "../components/shared/SvgBigLogo";
 import { useAxios } from "../hooks/useAxios";
-import { login, setData } from "../store/userSlice";
-import { serverURL } from "../constants/constants";
-import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { serverURL } from "../constants/constants";
 
-const LoginPage = () => {
-  const navigate = useNavigate();
-
-  const userToken = useSelector((state) => state.user.token);
-
-  const [didSubmit, setDidSubmit] = useState(false);
-
+const RegisterPage = () => {
   const [form, setForm] = useState({
+    company: "",
     email: "",
     password: "",
+    confirmPassword: "",
     remember: false,
   });
 
-  const dispatch = useDispatch();
-
-  const { error, update, data } = useAxios(`${serverURL}/api/users/login`, {
-    method: "POST",
-    data: form,
-    headers: { "Content-Type": "application/json" },
-  });
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, checked, type } = e.target;
@@ -37,11 +25,24 @@ const LoginPage = () => {
     });
   };
 
+  const { error, update } = useAxios(`${serverURL}/api/admins/register`, {
+    method: "POST",
+    data: form,
+    headers: { "Content-Type": "application/json" },
+  });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     await update();
 
-    setForm({ email: "", password: "", remember: false });
+    setForm({
+      company: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      remember: false,
+    });
 
     setDidSubmit(true);
   };
@@ -79,16 +80,8 @@ const LoginPage = () => {
     } else if (!error && didSubmit) {
       notifySuccess();
       setDidSubmit(false);
-
-      const token = data.token;
-      const user = data._id;
-      dispatch(setData([data]));
-      dispatch(login({ token, user }));
-      navigate("/user");
     }
-  }, [error, didSubmit]);
-
-  if (userToken) return <Navigate to="/user" />;
+  }, [didSubmit]);
 
   return (
     <>
@@ -107,78 +100,91 @@ const LoginPage = () => {
         pauseOnHover
         theme="colored"
       />
-      <div className="flex flex-col items-center h-full min-h-[100vh] justify-center">
-        <div className="flex flex-row items-center gap-40">
+
+      <div className="flex flex-col items-center justify-center h-full min-h-[100vh]">
+        <div className="flex flex-row gap-40">
           <div className="flex flex-col gap-8">
-            <div className="border border-solid border-white-100 rounded-xl ">
+            <div className="border border-solid border-white-100 rounded-xl">
               <div className="pt-8 pb-6">
                 <p className="flex justify-center text-yellow-100 font-bold font-roboto">
-                  Sign-In
+                  Sign-Up
                 </p>
               </div>
               <form onSubmit={handleSubmit}>
-                <div className="flex flex-col px-10 pb-5">
-                  <p className="flex justify-items-start text-yellow-200 pb-3 font-montserrat font-extralight">
+                <div className="flex flex-col px-10 pb-2">
+                  <p className="flex justify-items-start text-yellow-200 pb-2 font-montserrat font-extralight">
+                    Azienda*
+                  </p>
+                  <FormInputs
+                    type="text"
+                    value={form.company}
+                    func={handleInputChange}
+                    name="company"
+                  />
+                </div>
+                <div className="flex flex-col px-10 pb-2">
+                  <p className="flex justify-items-start text-yellow-200 pb-2 font-montserrat font-extralight">
                     Email*
                   </p>
                   <FormInputs
                     type="email"
                     value={form.email}
-                    name="email"
                     func={handleInputChange}
-                    required={true}
+                    name="email"
                   />
                 </div>
                 <div className="flex flex-col px-10 pb-2">
-                  <p className="flex justify-items-start text-yellow-200 pb-3 font-montserrat font-extralight">
-                    Password*
+                  <p className="flex justify-items-start text-yellow-200 pb-2 font-montserrat font-extralight">
+                    Crea Password*
                   </p>
                   <FormInputs
                     type="password"
                     value={form.password}
+                    func={handleInputChange}
                     name="password"
+                  />
+                </div>
+                <div className="flex flex-col px-10 pb-2">
+                  <p className="flex justify-items-start text-yellow-200 pb-2 font-montserrat font-extralight">
+                    Conferma Password*
+                  </p>
+                  <FormInputs
+                    type="password"
+                    value={form.confirmPassword}
+                    func={handleInputChange}
+                    name="confirmPassword"
+                  />
+                </div>
+                <div className="gap-2 flex text-white-100 pl-10 font-montserrat font-extralight hover:text-yellow-200">
+                  <FormInputs
+                    type="checkbox"
+                    checked={form.remember}
+                    name="remember"
                     func={handleInputChange}
                     required={true}
                   />
+                  <span className="border-b ">
+                    Accetta termini e condizioni
+                  </span>
                 </div>
-                <div className="flex flex-col pl-10 w-full">
-                  <div>
-                    <FormInputs
-                      type="checkbox"
-                      checked={form.remember}
-                      name="remember"
-                      func={handleInputChange}
-                      required={false}
-                    />
-                    <span className="font-montserrat text-white-100 pl-1 font-extralight text-sm">
-                      Resta connesso
-                    </span>
-                  </div>
-                  <div>
-                    <Link className="flex text-white-100 underline font-montserrat font-extralight pr-2 text-sm hover:text-yellow-200">
-                      Password dimenticata?
-                    </Link>
-                  </div>
-                </div>
-
                 <div className="flex justify-center pt-8 pb-14">
-                  <YellowButton text="Login" />
+                  <YellowButton text="Registrati" />
                 </div>
               </form>
             </div>
             <div className="flex flex-row justify-center py-6 border border-solid border-white-100 rounded-xl w-96 gap-2">
               <p className="flex justify-center text-white-100 font-montserrat font-extralight">
-                Non hai un account?
+                Sei già registrato?
               </p>
               <Link
-                to="/register"
+                to="/login"
                 className=" font-semibold font-montserrat text-white-100 hover:text-yellow-200"
               >
-                <span className="border-b">Registrati</span>
+                <span className="border-b">Accedi</span>
               </Link>
             </div>
           </div>
-          <div className="w-full">
+          <div className="pt-10 w-full">
             <SvgBigLogo />
           </div>
         </div>
@@ -187,4 +193,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

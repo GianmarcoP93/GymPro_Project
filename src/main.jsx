@@ -9,12 +9,29 @@ import {
   faPhone,
   faClock,
   faEnvelope,
+  faDumbbell,
+  faCalendarXmark,
+  faCamera,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
+import { Provider } from "react-redux";
+import store from "./store.js";
 
-library.add(faEnvelope, faPhone, faLocationDot, faClock);
+library.add(
+  faEnvelope,
+  faPhone,
+  faLocationDot,
+  faClock,
+  faDumbbell,
+  faCalendarXmark,
+  faCamera,
+  faUsers
+);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );

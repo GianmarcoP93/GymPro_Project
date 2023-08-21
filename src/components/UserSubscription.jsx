@@ -1,25 +1,16 @@
 import { useState } from "react";
-import { SubscriptionInput } from "./SubscriptionInput";
+import { SubscriptionInput } from "./shared/SubscriptionInput";
+import { useDispatch, useSelector } from "react-redux";
+import { setPost } from "../store/userSlice";
 
 export const UserSubscription = () => {
-  const [user, setUser] = useState({
-    username: "",
-    subscription: "",
-    card: "",
-    email: "",
-    tel: "",
-  });
+  const post = useSelector((state) => state.user.post);
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUser((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
+    dispatch(setPost({ ...post, [name]: value }));
   };
-
   const today = new Date().toISOString().split("T")[0];
 
   const generatePassNumber = (len, arr) => {
@@ -27,12 +18,7 @@ export const UserSubscription = () => {
     for (let i = len; i > 0; i--) {
       ans += arr[Math.floor(Math.random() * arr.length)];
     }
-    setUser((prevState) => {
-      return {
-        ...prevState,
-        card: ans,
-      };
-    });
+    dispatch(setPost({ ...post, passNumber: ans }));
   };
 
   return (
@@ -46,7 +32,7 @@ export const UserSubscription = () => {
           type="text"
           name="username"
           placeholder="Mario Rossi"
-          value={user.name}
+          value={post.username}
           onInput={handleInputChange}
           text="Nome utente*:"
         />
@@ -54,15 +40,15 @@ export const UserSubscription = () => {
         <SubscriptionInput
           type="date"
           name="subscription"
-          value={user.subscription}
+          value={post.subscription}
           onInput={handleInputChange}
           mindate={today}
           text="Data iscrizione*:"
         />
         <SubscriptionInput
           type="text"
-          name="card"
-          value={user.card}
+          name="passNumber"
+          value={post.passNumber}
           onInput={handleInputChange}
           text="Numero tessera*:"
           isButton={true}
@@ -74,19 +60,18 @@ export const UserSubscription = () => {
           type="email"
           name="email"
           placeholder="example@gmail.com"
-          value={user.email}
+          value={post.email}
           onInput={handleInputChange}
           text="Email*:"
         />
         <SubscriptionInput
           type="tel"
           name="tel"
-          value={user.phone}
+          value={post.tel}
           onInput={handleInputChange}
           text="Cellulare*:"
         />
       </div>
-      <div></div>
     </div>
   );
 };
