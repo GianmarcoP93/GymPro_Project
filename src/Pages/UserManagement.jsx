@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import cancel from "../assets/images/icons/cancelRed.png";
 import garbage from "../assets/images/icons/garbage.png";
 import Modal from "react-modal";
@@ -7,8 +6,8 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { TitleCard } from "../Component/TitleCard";
-import { ButtonCloseWindow } from "../Component/ButtonCloseWindow";
+import { TitleCard } from "../components/shared/TitleCard";
+import { ButtonCloseWindow } from "../components/shared/ButtonCloseWindow";
 
 const rootElement = document.getElementById("root");
 

@@ -9,7 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { OrangeButton } from "./OrangeButton";
+import { OrangeButton } from "./shared/OrangeButton";
 import { internalMemory } from "../utility/internalMemory.mjs";
 
 const data = [
@@ -149,6 +149,7 @@ export const UserBmiChart = () => {
                   value={formData.weight}
                   onChange={handleChange}
                   name="weight"
+                  id="weight"
                   type="text"
                   className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 "
                 />
@@ -161,6 +162,7 @@ export const UserBmiChart = () => {
                   value={formData.height}
                   onChange={handleChange}
                   name="height"
+                  id="height"
                   type="text"
                   className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 "
                 />
@@ -173,7 +175,8 @@ export const UserBmiChart = () => {
                   value={formData.month}
                   onChange={handleChange}
                   name="month"
-                  className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 "
+                  id="month"
+                  className="text-white-100 border border-white-100 rounded-lg outline-none pl-2 bg-gray"
                 >
                   <option value="null">---</option>
                   <option value="Gen">Gennaio</option>

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../store/userSlice";
+import { setPost } from "../../store/userSlice";
 
 export const InputRadio = ({ text, entrance, subscription = "20", cost }) => {
   const post = useSelector((state) => state.user.post);
@@ -13,10 +13,7 @@ export const InputRadio = ({ text, entrance, subscription = "20", cost }) => {
   return (
     <div className="flex items-center justify-between">
       <div>
-        <label
-          htmlFor={subscription}
-          className="text-white-100 font-semibold text-lg flex gap-[7px]"
-        >
+        <p className="text-white-100 font-semibold text-lg flex gap-[7px]">
           <input
             className="cursor-pointer"
             type="radio"
@@ -26,7 +23,7 @@ export const InputRadio = ({ text, entrance, subscription = "20", cost }) => {
             required
           />
           {text}
-        </label>
+        </p>
         <p className="pl-5 text-white-100">{entrance} ingressi a settimana</p>
         {subscription !== "free" ? (
           <p className="pl-5 text-secondary-100">{subscription}€ iscrizione</p>

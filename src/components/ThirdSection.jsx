@@ -1,4 +1,4 @@
-import { OrangeButton } from "./OrangeButton";
+import { OrangeButton } from "./shared/OrangeButton";
 import customize from "../assets/images/third-section/CustomizeIcon.png";
 import manage from "../assets/images/third-section/ManageIcon.png";
 import support from "../assets/images/third-section/SupportIcon.png";

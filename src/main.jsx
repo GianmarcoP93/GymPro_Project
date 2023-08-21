@@ -11,6 +11,8 @@ import {
   faEnvelope,
   faDumbbell,
   faCalendarXmark,
+  faCamera,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { Provider } from "react-redux";
 import store from "./store.js";
@@ -21,7 +23,9 @@ library.add(
   faLocationDot,
   faClock,
   faDumbbell,
-  faCalendarXmark
+  faCalendarXmark,
+  faCamera,
+  faUsers
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -1,10 +1,10 @@
-import { FourthSection } from "../Component/FourthSection";
-import { HeroSection } from "../Component/HeroSection";
-import { Navbar } from "../Component/Navbar";
-import { SecondSection } from "../Component/SecondSection";
-import { SectionDivider } from "../Component/SectionDivider";
-import { ThirdSection } from "../Component/ThirdSection";
-import Footer from "../Component/Footer";
+import Footer from "../components/shared/Footer";
+import { FourthSection } from "../components/FourthSection";
+import { HeroSection } from "../components/HeroSection";
+import { Navbar } from "../components/shared/Navbar";
+import { SecondSection } from "../components/SecondSection";
+import { SectionDivider } from "../components/shared/SectionDivider";
+import { ThirdSection } from "../components/ThirdSection";
 
 export const LandingPage = () => {
   return (
