@@ -33,7 +33,7 @@ export const SubscriptionInput = ({
           />
         </div>
       ) : (
-        <label
+        <p
           htmlFor={name}
           className="font-semibold text-white-100 flex justify-between"
         >
@@ -48,7 +48,7 @@ export const SubscriptionInput = ({
             min={mindate}
             required
           />
-        </label>
+        </p>
       )}
     </>
   );

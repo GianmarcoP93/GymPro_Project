@@ -15,8 +15,12 @@ export const SecondSection = () => {
           <div className="absolute bottom-[12.5rem] left-44 z-0">
             <img src={jar} alt="jar" />
           </div>
-          <div className="absolute bottom-2 right-14 z-20">
-            <img src={hand} alt="hand" />
+          <div className="absolute bottom-2 right-14 z-40">
+            <img
+              src={hand}
+              alt="hand"
+              className="relative animate__animated animate__bounce animate__slower animate__delay-0s animate__infinite"
+            />
           </div>
         </div>
         <div className="flex flex-col justify-center gap-4">

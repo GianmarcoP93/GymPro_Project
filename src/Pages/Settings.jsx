@@ -1,8 +1,8 @@
-import { Sidebar } from "../Component/Sidebar";
-import { Visualizzazione } from "../Component/Visualizzazione";
-import { GestioneAccount } from "../Component/GestioneAccount";
-import { PreferenzeAccount } from "../Component/PreferenzeAccount";
-import { SettingsTitle } from "../Component/SettingsTitle";
+import { Visualizzazione } from "../components/Visualizzazione";
+import { SettingsTitle } from "../components/SettingsTitle";
+import { PreferenzeAccount } from "../components/PreferenzeAccount";
+import { GestioneAccount } from "../components/GestioneAccount";
+import { Sidebar } from "../components/shared/Sidebar";
 
 export const Settings = () => {
   return (
