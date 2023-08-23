@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SubscriptionInput } from "./SubscriptionInput";
+import { SubscriptionInput } from "./shared/SubscriptionInput";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "../store/userSlice";
 
@@ -72,7 +72,6 @@ export const UserSubscription = () => {
           text="Cellulare*:"
         />
       </div>
-      <div></div>
     </div>
   );
 };

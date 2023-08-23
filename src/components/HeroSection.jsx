@@ -1,4 +1,4 @@
-import { OrangeButton } from "./OrangeButton";
+import { OrangeButton } from "../components/shared/OrangeButton";
 import Bag from "../assets/images/hero-section/Bag.png";
 import Bottle from "../assets/images/hero-section/Bottle.png";
 import Carpet from "../assets/images/hero-section/Carpet.png";

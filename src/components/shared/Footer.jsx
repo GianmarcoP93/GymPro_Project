@@ -1,5 +1,5 @@
 import React from "react";
-import LogoFooter from "../assets/images/logo/LogoPiccolo.png";
+import LogoFooter from "../../assets/images/logo/LogoPiccolo.png";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -140,7 +140,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col justify-center">
-          <div className="flex flex-row  gap-5">
+          <div className="flex flex-row gap-5 items-center">
             <svg
               width="46"
               height="45"
