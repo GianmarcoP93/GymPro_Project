@@ -3,10 +3,11 @@ import { LandingPage } from "./Pages/LandingPage";
 import { Settings } from "./Pages/Settings";
 import { AdminDashboard } from "./Pages/AdminDashboard";
 import LoginPage from "./Pages/LoginPage";
-import { UserManagement } from "./Pages/UserManagement";
+import { UserManagement } from "./components/UserManagement";
 import RegisterPage from "./Pages/RegisterPage";
 import { UserDashboard } from "./Pages/UserDashboard";
 import { useSelector } from "react-redux";
+import { PersonalCard } from "./components/shared/PersonalCard";
 import { ModalProfiloAdmin } from "./Pages/ModalProfiloAdmin";
 
 const App = () => {
@@ -80,6 +81,7 @@ const App = () => {
           />
           <Route path="ModalProfiloAdmin" element={<ModalProfiloAdmin />} />
         </Route>
+        <Route path="card" element={<PersonalCard />} />
         <Route path="settings" element={<Settings />} />
       </Routes>
     </>
