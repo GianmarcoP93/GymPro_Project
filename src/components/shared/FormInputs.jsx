@@ -8,6 +8,7 @@ export const FormInputs = ({ type, name, value, func, checked, required }) => {
           checked={checked}
           onChange={func}
           required={required}
+          className="cursor-pointer"
         />
       ) : (
         <input
