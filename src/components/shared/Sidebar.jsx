@@ -1,19 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import proPic from "../../assets/images/placeholders/noPicture.jpg";
 import logo from "../../assets/images/logo/LogoPiccolo.png";
 import logoutImg from "../../assets/images/icons/logout.png";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
-import { logout } from "../../store/userSlice";
+import { adminLogout, logout } from "../../store/userSlice";
 
 export const Sidebar = ({ name, email, isGym }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(adminLogout());
+    navigate("/login");
   };
+
   return (
-    <div className="bg-gray min-w-[300px] flex flex-col p-6 rounded-2xl ">
+    <div className="sticky bg-gray min-w-[300px] min-h-full top-6 left-0  max-h-[calc(100vh_-_48px)] flex flex-col p-6 rounded-2xl">
       <div className="flex justify-center items-center gap-4">
         <div className="rounded-full w-12 h-12 flex-shrink-0">
           <img src={proPic} className="rounded-full" />

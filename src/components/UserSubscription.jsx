@@ -1,15 +1,9 @@
-import { useState } from "react";
 import { SubscriptionInput } from "./shared/SubscriptionInput";
-import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../store/userSlice";
 
-export const UserSubscription = () => {
-  const post = useSelector((state) => state.user.post);
-  const dispatch = useDispatch();
-
+export const UserSubscription = ({ state, setState }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    dispatch(setPost({ ...post, [name]: value }));
+    setState({ ...state, [name]: value });
   };
   const today = new Date().toISOString().split("T")[0];
 
@@ -18,7 +12,7 @@ export const UserSubscription = () => {
     for (let i = len; i > 0; i--) {
       ans += arr[Math.floor(Math.random() * arr.length)];
     }
-    dispatch(setPost({ ...post, passNumber: ans }));
+    setState({ ...state, passNumber: ans });
   };
 
   return (
@@ -32,7 +26,7 @@ export const UserSubscription = () => {
           type="text"
           name="username"
           placeholder="Mario Rossi"
-          value={post.username}
+          value={state.username}
           onInput={handleInputChange}
           text="Nome utente*:"
         />
@@ -40,7 +34,7 @@ export const UserSubscription = () => {
         <SubscriptionInput
           type="date"
           name="subscription"
-          value={post.subscription}
+          value={state.subscription}
           onInput={handleInputChange}
           mindate={today}
           text="Data iscrizione*:"
@@ -48,7 +42,7 @@ export const UserSubscription = () => {
         <SubscriptionInput
           type="text"
           name="passNumber"
-          value={post.passNumber}
+          value={state.passNumber}
           onInput={handleInputChange}
           text="Numero tessera*:"
           isButton={true}
@@ -60,14 +54,14 @@ export const UserSubscription = () => {
           type="email"
           name="email"
           placeholder="example@gmail.com"
-          value={post.email}
+          value={state.email}
           onInput={handleInputChange}
           text="Email*:"
         />
         <SubscriptionInput
           type="tel"
           name="tel"
-          value={post.tel}
+          value={state.tel}
           onInput={handleInputChange}
           text="Cellulare*:"
         />

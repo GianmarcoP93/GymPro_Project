@@ -1,14 +1,16 @@
+import { useSelector } from "react-redux";
 import { ProfileDescription } from "../components/shared/ProfileDescription";
 import { Sidebar } from "../components/shared/Sidebar";
 import { UserBmiChart } from "../components/UserBmiChart";
 import { serverURL } from "../constants/constants";
 import { useAxios } from "../hooks/useAxios";
-import { internalMemory } from "../utility/internalMemory.mjs";
 
 export const UserDashboard = () => {
-  const user = internalMemory.get("user");
+  const token = useSelector((state) => state.user.userToken);
 
-  const { data } = useAxios(`${serverURL}/api/users/getUser?id=${user}`);
+  const { data } = useAxios(`${serverURL}/api/users/getUser`, {
+    headers: { authorization: `Bearer ${token}` },
+  });
 
   let date = new Date(data && data.subscription);
 

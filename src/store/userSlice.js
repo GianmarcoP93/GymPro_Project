@@ -1,42 +1,49 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { internalMemory } from "../utility/internalMemory.mjs";
 
-const userReducer = createSlice({
-  name: "user",
-  initialState: {
-    token: internalMemory.get("token") || null,
-    user: internalMemory.get("user") || null,
-    post: {
-      username: "",
-      subscription: "",
-      passNumber: "",
-      email: "",
-      tel: "",
-      plan: "",
-    },
-    data: [],
-  },
-  reducers: {
-    login: (state, action) => {
-      state.token = action.payload.token;
-      state.user = action.payload.user;
-      internalMemory.save("token", action.payload.token);
-      internalMemory.save("user", action.payload.user);
-    },
-    logout: (state) => {
-      state.token = null;
-      state.user = null;
-      internalMemory.remove("token");
-      internalMemory.remove("user");
-    },
-    setPost: (state, action) => {
-      state.post = action.payload;
-    },
-    setData: (state, action) => {
-      state.data = action.payload;
-    },
-  },
-});
+const userSlice = () => {
+  const userToken = internalMemory.get("userToken") || null;
+  const userId = internalMemory.get("userId") || null;
+  const adminToken = internalMemory.get("adminToken") || null;
+  const adminId = internalMemory.get("adminId") || null;
 
-export const { login, logout, setPost, setData } = userReducer.actions;
-export default userReducer.reducer;
+  return createSlice({
+    name: "user",
+    initialState: {
+      userToken: userToken,
+      userId: userId,
+      adminToken: adminToken,
+      adminId: adminId,
+    },
+    reducers: {
+      login: (state, action) => {
+        state.userToken = action.payload.token;
+        state.userId = action.payload.id;
+        internalMemory.save("userToken", action.payload.token);
+        internalMemory.save("userId", action.payload.id);
+      },
+      adminLogin: (state, action) => {
+        state.adminToken = action.payload.token;
+        state.adminId = action.payload.id;
+        internalMemory.save("adminToken", action.payload.token);
+        internalMemory.save("adminId", action.payload.id);
+      },
+      logout: (state) => {
+        state.userToken = null;
+        state.userId = null;
+        internalMemory.remove("userToken");
+        internalMemory.remove("userId");
+      },
+      adminLogout: (state) => {
+        state.adminToken = null;
+        state.adminId = null;
+        internalMemory.remove("adminToken");
+        internalMemory.remove("adminId");
+      },
+    },
+  });
+};
+
+export const { login, adminLogin, logout, adminLogout, setData } =
+  userSlice().actions;
+export default userSlice().reducer;

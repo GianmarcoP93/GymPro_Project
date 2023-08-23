@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
 import YellowButton from "../components/shared/YellowButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormInputs } from "../components/shared/FormInputs";
 import { SvgBigLogo } from "../components/shared/SvgBigLogo";
 import { useAxios } from "../hooks/useAxios";
 import { ToastContainer, toast } from "react-toastify";
 import { serverURL } from "../constants/constants";
+import { useDispatch } from "react-redux";
+import { adminLogin } from "../store/userSlice";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [form, setForm] = useState({
     company: "",
     email: "",
     password: "",
     confirmPassword: "",
     remember: false,
+    role: "admin",
   });
 
   const [didSubmit, setDidSubmit] = useState(false);
@@ -25,7 +31,7 @@ const RegisterPage = () => {
     });
   };
 
-  const { error, update } = useAxios(`${serverURL}/api/admins/register`, {
+  const { data, error, update } = useAxios(`${serverURL}/api/admins/register`, {
     method: "POST",
     data: form,
     headers: { "Content-Type": "application/json" },
@@ -42,6 +48,7 @@ const RegisterPage = () => {
       password: "",
       confirmPassword: "",
       remember: false,
+      role: "admin",
     });
 
     setDidSubmit(true);
@@ -60,26 +67,16 @@ const RegisterPage = () => {
     });
   };
 
-  const notifySuccess = () => {
-    toast.success("Utente registrato con successo!", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-  };
-
   useEffect(() => {
     if (error && didSubmit) {
       notifyError();
       setDidSubmit(false);
     } else if (!error && didSubmit) {
-      notifySuccess();
       setDidSubmit(false);
+      const token = data.token;
+      const id = data._id;
+      dispatch(adminLogin({ token, id }));
+      navigate("/admin/dashboard");
     }
   }, [didSubmit]);
 

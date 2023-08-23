@@ -1,15 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../../store/userSlice";
-
-export const InputRadio = ({ text, entrance, subscription = "20", cost }) => {
-  const post = useSelector((state) => state.user.post);
-  const dispatch = useDispatch();
-
-  const handleRadioChange = (event) => {
-    const { name, value } = event.target;
-    dispatch(setPost({ ...post, [name]: value }));
-  };
-
+export const InputRadio = ({
+  text,
+  entrance,
+  subscription = "20",
+  cost,
+  func,
+}) => {
   return (
     <div className="flex items-center justify-between">
       <div>
@@ -19,7 +14,7 @@ export const InputRadio = ({ text, entrance, subscription = "20", cost }) => {
             type="radio"
             name="plan"
             value={cost}
-            onChange={handleRadioChange}
+            onChange={func}
             required
           />
           {text}

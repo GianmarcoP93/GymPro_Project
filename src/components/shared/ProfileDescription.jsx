@@ -8,6 +8,7 @@ export const ProfileDescription = ({
   tel,
   isGym,
   subscription,
+  list,
 }) => {
   const handleMouseEnter = () => {
     const icon = document.querySelector(".fa-camera");
@@ -36,7 +37,7 @@ export const ProfileDescription = ({
                 icon="fa-solid fa-users"
                 style={{ color: "#46af4d" }}
               />
-              Utenti registrati: {}
+              Utenti registrati: {list && list.length}
             </p>
           </>
         )}
