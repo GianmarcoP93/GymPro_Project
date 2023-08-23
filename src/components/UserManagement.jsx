@@ -423,7 +423,7 @@ export const UserManagement = () => {
                           </span>
                         )
                       ) : (
-                        <button className=" text-green2 text-center underline decoration-1 font-montserrat font-normal hover:text-green">
+                        <button className=" text-green-200 text-center underline decoration-1 font-montserrat font-normal hover:text-green-100">
                           Aggiungi scheda
                         </button>
                       )}

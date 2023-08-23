@@ -25,7 +25,10 @@ export default {
           200: "#EDCD6B",
         },
         //verde
-        green: "#167b20",
+        green: {
+          100: "#167b20",
+          200: "#3d863d",
+        },
         //grigio
         gray: "#393b44",
         //bianco-100 normale, 200:hover
