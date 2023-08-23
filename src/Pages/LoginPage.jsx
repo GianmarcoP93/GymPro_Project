@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
 import YellowButton from "../components/shared/YellowButton";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormInputs } from "../components/shared/FormInputs";
 import { SvgBigLogo } from "../components/shared/SvgBigLogo";
 import { useAxios } from "../hooks/useAxios";
-import { login, setData } from "../store/userSlice";
+import { adminLogin, login, setData } from "../store/userSlice";
 import { serverURL } from "../constants/constants";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const userToken = useSelector((state) => state.user.token);
-
-  const [didSubmit, setDidSubmit] = useState(false);
+  const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     email: "",
@@ -22,9 +20,7 @@ const LoginPage = () => {
     remember: false,
   });
 
-  const dispatch = useDispatch();
-
-  const { error, update, data } = useAxios(`${serverURL}/api/users/login`, {
+  const { error, update, data, setError } = useAxios(`${serverURL}/api/login`, {
     method: "POST",
     data: form,
     headers: { "Content-Type": "application/json" },
@@ -39,15 +35,17 @@ const LoginPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await update();
+    try {
+      setError(null);
 
-    setForm({ email: "", password: "", remember: false });
+      await update();
 
-    setDidSubmit(true);
+      setForm({ email: "", password: "", remember: false });
+    } catch (error) {}
   };
 
   const notifyError = () => {
-    toast.error(error.message, {
+    toast.error(error && error.message, {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -60,7 +58,7 @@ const LoginPage = () => {
   };
 
   const notifySuccess = () => {
-    toast.success("Utente registrato con successo!", {
+    toast.success("Login effettuato!", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -73,22 +71,24 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    if (error && didSubmit) {
+    if (error) {
       notifyError();
-      setDidSubmit(false);
-    } else if (!error && didSubmit) {
+    }
+    if (data && !error) {
       notifySuccess();
-      setDidSubmit(false);
 
       const token = data.token;
-      const user = data._id;
-      dispatch(setData([data]));
-      dispatch(login({ token, user }));
-      navigate("/user");
-    }
-  }, [error, didSubmit]);
 
-  if (userToken) return <Navigate to="/user" />;
+      const id = data._id;
+      if (data.role === "user") {
+        dispatch(login({ token, id }));
+        navigate("/user");
+      } else {
+        dispatch(adminLogin({ token, id }));
+        navigate("/admin/dashboard");
+      }
+    }
+  }, [error, data]);
 
   return (
     <>
@@ -110,14 +110,14 @@ const LoginPage = () => {
       <div className="flex flex-col items-center h-full min-h-[100vh] justify-center">
         <div className="flex flex-row items-center gap-40">
           <div className="flex flex-col gap-8">
-            <div className="border border-solid border-white-100 rounded-xl ">
-              <div className="pt-8 pb-6">
+            <div className="border border-solid border-white-100 rounded-xl px-10 pt-8 pb-14">
+              <div className="pb-6">
                 <p className="flex justify-center text-yellow-100 font-bold font-roboto">
                   Sign-In
                 </p>
               </div>
               <form onSubmit={handleSubmit}>
-                <div className="flex flex-col px-10 pb-5">
+                <div className="flex flex-col pb-5">
                   <p className="flex justify-items-start text-yellow-200 pb-3 font-montserrat font-extralight">
                     Email*
                   </p>
@@ -129,7 +129,7 @@ const LoginPage = () => {
                     required={true}
                   />
                 </div>
-                <div className="flex flex-col px-10 pb-2">
+                <div className="flex flex-col pb-2">
                   <p className="flex justify-items-start text-yellow-200 pb-3 font-montserrat font-extralight">
                     Password*
                   </p>
@@ -141,7 +141,7 @@ const LoginPage = () => {
                     required={true}
                   />
                 </div>
-                <div className="flex flex-col pl-10 w-full">
+                <div className="flex flex-col w-full">
                   <div>
                     <FormInputs
                       type="checkbox"
@@ -161,7 +161,7 @@ const LoginPage = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-center pt-8 pb-14">
+                <div className="flex justify-center pt-8">
                   <YellowButton text="Login" />
                 </div>
               </form>

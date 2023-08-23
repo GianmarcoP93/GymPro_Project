@@ -10,10 +10,32 @@ import { useSelector } from "react-redux";
 import { ModalProfiloAdmin } from "./Pages/ModalProfiloAdmin";
 
 const App = () => {
-  const ProtectedRoute = ({ children }) => {
-    const token = useSelector((state) => state.user.token);
+  const ProtectedUserRoute = ({ children }) => {
+    const userToken = useSelector((state) => state.user.userToken);
 
-    if (token === null) return <Navigate to="/login" />;
+    if (userToken === null) return <Navigate to="/login" />;
+    return children;
+  };
+
+  const ProtectedAdminRoute = ({ children }) => {
+    const adminToken = useSelector((state) => state.user.adminToken);
+
+    if (adminToken === null) return <Navigate to="/login" />;
+    return children;
+  };
+
+  const AlreadyLogged = ({ children }) => {
+    const adminToken = useSelector((state) => state.user.adminToken);
+    const userToken = useSelector((state) => state.user.userToken);
+
+    if (userToken !== null) {
+      return <Navigate to="/user" />;
+    }
+
+    if (adminToken !== null) {
+      return <Navigate to="/admin/dashboard" />;
+    }
+
     return children;
   };
 
@@ -21,20 +43,41 @@ const App = () => {
     <>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="login" element={<LoginPage />} />
+        <Route
+          path="login"
+          element={
+            <AlreadyLogged>
+              <LoginPage />
+            </AlreadyLogged>
+          }
+        />
         <Route path="register" element={<RegisterPage />} />
         <Route path="settings" element={<Settings />} />
         <Route
           path="user"
           element={
-            <ProtectedRoute>
+            <ProtectedUserRoute>
               <UserDashboard />
-            </ProtectedRoute>
+            </ProtectedUserRoute>
           }
         />
         <Route path="admin">
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="manage" element={<UserManagement />} />
+          <Route
+            path="dashboard"
+            element={
+              <ProtectedAdminRoute>
+                <AdminDashboard />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="manage"
+            element={
+              <ProtectedAdminRoute>
+                <UserManagement />
+              </ProtectedAdminRoute>
+            }
+          />
           <Route path="ModalProfiloAdmin" element={<ModalProfiloAdmin />} />
         </Route>
         <Route path="settings" element={<Settings />} />
