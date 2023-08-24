@@ -40,10 +40,13 @@ const userSlice = () => {
         internalMemory.remove("adminToken");
         internalMemory.remove("adminId");
       },
+      updateUserSub: (state, action) => {
+        state.userSubData = [...state.userSubData, action.payload];
+      },
     },
   });
 };
 
-export const { login, adminLogin, logout, adminLogout, setData } =
+export const { login, adminLogin, logout, adminLogout, updateUserSub } =
   userSlice().actions;
 export default userSlice().reducer;

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FormInputs } from "../components/shared/FormInputs";
 import { SvgBigLogo } from "../components/shared/SvgBigLogo";
 import { useAxios } from "../hooks/useAxios";
-import { adminLogin, login, setData } from "../store/userSlice";
+import { adminLogin, login } from "../store/userSlice";
 import { serverURL } from "../constants/constants";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
