@@ -22,7 +22,7 @@ app.post("/register", async (req, res) => {
     gym: Joi.string().required(),
   });
   try {
-    const { email } = req.body;
+    const { email, tel } = req.body;
 
     const data = await schema.validateAsync(req.body);
 
@@ -37,6 +37,17 @@ app.post("/register", async (req, res) => {
     if (findEmail) {
       return res.status(400).json({
         message: "Email già esistente.",
+      });
+    }
+
+    const findTel = await User.findOne({ tel }, "-_id tel", {
+      lean: true,
+    });
+
+    if (findTel) {
+      console.log(findTel);
+      return res.status(400).json({
+        message: "Numero cellulare già esistente.",
       });
     }
 

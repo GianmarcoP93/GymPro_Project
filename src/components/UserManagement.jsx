@@ -8,14 +8,27 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TitleCard } from "../components/shared/TitleCard";
 import { ButtonCloseWindow } from "../components/shared/ButtonCloseWindow";
+import { useAxios } from "../hooks/useAxios";
+import { serverURL } from "../constants/constants";
+import { useSelector } from "react-redux";
 
 const rootElement = document.getElementById("root");
 
 Modal.setAppElement(rootElement);
 
 export const UserManagement = () => {
-  const [user, setUser] = useState();
-  const [_user, _setUser] = useState();
+  const token = useSelector((state) => state.user.adminToken);
+  const id = useSelector((state) => state.user.adminId);
+
+  const { data, setData, _setData, _data } = useAxios(
+    `${serverURL}/api/admins/usersList/${id}`,
+    {
+      headers: { authorization: `Bearer ${token}` },
+    }
+  );
+
+  const [user, setUser] = useState(data);
+  const [_user, _setUser] = useState(data);
   const [searchValue, setSearchValue] = useState("");
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [subscriptionExp, setSubscriptionExp] = useState(null);
@@ -23,123 +36,43 @@ export const UserManagement = () => {
   const [isUserSet, setIsUserSet] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [localDate, setLocalDate] = useState("");
 
-  const members = [
-    {
-      id: 1,
-      name: "Gianmarco Pesola",
-      renewal: "11/04/2023",
+  // const setMembers = () => {
+  //   if (isUserSet) {
+  //     return;
+  //   } else {
+  //     setUser(data);
+  //     _setUser(data);
+  //     setIsUserSet(true);
+  //   }
+  // };
 
-      cardNumber: "QR3434JHSU",
-      subscritionExp: "07/01/2024",
-    },
-    {
-      id: 2,
-      name: "Antonino Alampi",
-      renewal: "15/03/2022",
-      cardExpiry: "30/05/2023",
-      cardNumber: "ABCD1234EF",
-      subscritionExp: "10/02/2023",
-    },
-    {
-      id: 3,
-      name: "Andrea Izzo",
-      renewal: "22/08/2023",
-      cardExpiry: "05/07/2023",
-      cardNumber: "WXYZ5678UV",
-      subscritionExp: "22/03/2024",
-    },
-    {
-      id: 4,
-      name: "Simone Sbrilli",
-      renewal: "09/06/2023",
-      cardExpiry: "28/09/2023",
-      cardNumber: "PQRS9012KL",
-      subscritionExp: "05/04/2024",
-    },
-    {
-      id: 5,
-      name: "Nicola Pisani",
-      renewal: "30/07/2023",
-      cardExpiry: "27/10/2023",
-      cardNumber: "MNOP3456IJ",
-      subscritionExp: "17/12/2021",
-    },
-    {
-      id: 6,
-      name: "Marco Ingraiti",
-      renewal: "04/09/2023",
-      cardExpiry: "01/01/2023",
-      cardNumber: "EFGH7890AB",
-      subscritionExp: "29/06/2024",
-    },
-    {
-      id: 7,
-      name: "Gabriele Barberio",
-      renewal: "19/05/2023",
-      cardExpiry: "10/01/2024",
-      cardNumber: "IJKL2345CD",
-      subscritionExp: "03/07/2024",
-    },
-    {
-      id: 8,
-      name: "Davide Simone",
-      renewal: "28/06/2023",
-      cardExpiry: "22/09/2022",
-      cardNumber: "UVWX6789YZ",
-      subscritionExp: "14/09/2024",
-    },
-    {
-      id: 9,
-      name: "Jonna Jeronimo",
-      renewal: "12/07/2023",
-      cardExpiry: "09/10/2023",
-      cardNumber: "QRST1234MN",
-      subscritionExp: "31/12/2023",
-    },
-    {
-      id: 10,
-      name: "Alessandro D'Antoni",
-      renewal: "25/08/2023",
-      cardExpiry: "20/11/2023",
-      cardNumber: "WXYZ5678UV",
-      subscritionExp: "08/11/2023",
-    },
-  ];
+  // useEffect(() => {
+  //   setMembers();
+  // }, [data]);
 
-  const setMembers = () => {
-    if (isUserSet) {
-      return;
-    } else {
-      setUser(members);
-      _setUser(members);
-      setIsUserSet(true);
-    }
-  };
-
-  useEffect(() => {
-    setMembers();
-  }, [user, _user]);
+  console.log(user);
 
   const searchMember = (event) => {
     const title = event.target.value.toLowerCase();
-    const search = [..._user].filter((a) =>
+    const search = [..._data].filter((a) =>
       a.name.toLowerCase().includes(title)
     );
-    setUser(search);
+    setData(search);
     setSearchValue(event.target.value);
     return;
   };
 
   const clearSearchText = () => {
     setSearchValue("");
-    setUser(_user);
+    setData(_data);
     return;
   };
 
   const deleteUser = () => {
-    setUser((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-    _setUser((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    setData((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    _setData((prevUsers) => prevUsers.filter((user) => user.id !== userId));
     notifyDeleted();
     setIsModalOpen(false);
     setUserId(null);
@@ -162,9 +95,16 @@ export const UserManagement = () => {
     return now >= cardExp;
   };
 
+  let renewalDate;
+  const convertDate = (date) => {
+    renewalDate = new Date(date);
+
+    renewalDate = date.toLocaleDateString();
+  };
+
   const handleSubscriptionExpChange = (value) => {
     const newDate = value.toLocaleDateString();
-    setUser((prevUsers) =>
+    setData((prevUsers) =>
       prevUsers.map((item) => {
         return item.id === date ? { ...item, subscritionExp: newDate } : item;
       })
@@ -193,7 +133,7 @@ export const UserManagement = () => {
 
   const selectChoose = (event) => {
     const selected = event.target.value;
-    let order = [...user];
+    let order = [...data];
 
     switch (selected) {
       case "default":
@@ -227,7 +167,7 @@ export const UserManagement = () => {
       default:
         break;
     }
-    setUser(order);
+    setData(order);
   };
 
   const notifySubscription = () =>
@@ -390,26 +330,27 @@ export const UserManagement = () => {
               </tr>
             </thead>
             <tbody className="w-full font-montserrat  ">
-              {user && user.length === 0 ? (
+              {data && data.length === 0 ? (
                 <tr className="border-t border-slate-300 text-white-100 text-center">
                   <td className=" text-secondary-100 font-roboto font-bold text-xl  py-5">
                     No user
                   </td>
                 </tr>
               ) : (
-                user &&
-                user.map((user) => (
+                data &&
+                data.map((user) => (
                   <tr
-                    key={user.id}
+                    key={user._id}
                     className="border-t border-slate-300 text-white-100 text-center"
                   >
                     <td className="py-5">
                       <button className="underline decoration-1 hover:text-secondary-300">
-                        {user.name}
+                        {user.username}
                       </button>
                     </td>
 
-                    <td>{user.renewal}</td>
+                    {convertDate(user.subscription)}
+                    <td>{renewalDate}</td>
 
                     <td>
                       {user.cardExpiry ? (
@@ -429,9 +370,9 @@ export const UserManagement = () => {
                       )}
                     </td>
 
-                    <td>{user.cardNumber}</td>
+                    <td>{user.passNumber}</td>
 
-                    {isSubscribedExpired(user.subscritionExp) ? (
+                    {/* {isSubscribedExpired(user.subscritionExp) ? (
                       <td>
                         <button
                           className="text-red-200 text-center underline decoration-1 font-montserrat  font-normal hover:text-red-600"
@@ -449,7 +390,7 @@ export const UserManagement = () => {
                           {user.subscritionExp}
                         </button>
                       </td>
-                    )}
+                    )} */}
 
                     <td>
                       <button

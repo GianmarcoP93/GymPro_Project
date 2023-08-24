@@ -11,6 +11,7 @@ export const useAxios = (url, options = { ...defaultOptions }) => {
   options = { ...defaultOptions, ...options };
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [_data, _setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const update = async () => {
@@ -21,6 +22,7 @@ export const useAxios = (url, options = { ...defaultOptions }) => {
       const response = await axios({ url, ...options });
 
       setData(response.data);
+      _setData(response.data);
       setLoading(false);
     } catch (error) {
       if (error?.response?.data?.message) {
@@ -37,5 +39,5 @@ export const useAxios = (url, options = { ...defaultOptions }) => {
     }
   }, [url]);
 
-  return { data, error, update, setError };
+  return { data, _data, _setData, setData, error, update, setError };
 };
