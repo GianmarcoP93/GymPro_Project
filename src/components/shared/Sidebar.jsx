@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useDispatch } from "react-redux";
 import { adminLogout, logout } from "../../store/userSlice";
 
-export const Sidebar = ({ name, email, isGym }) => {
+export const Sidebar = ({ name, email, isGym, isFaq }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,13 +38,16 @@ export const Sidebar = ({ name, email, isGym }) => {
         </Link>
         {isGym && (
           <Link
-            to="../manage"
+            to={clsx(isGym && "../manage", isFaq && "../../admin/manage")}
             className="hover:underline underline-offset-8 hover:text-secondary-200"
           >
             Lista Utenti
           </Link>
         )}
-        <Link to="/faq" className="hover:text-secondary-200 cursor-pointer">
+        <Link
+          to="/faq"
+          className="hover:underline underline-offset-8 hover:text-secondary-200 cursor-pointer"
+        >
           FAQ
         </Link>
         <Link

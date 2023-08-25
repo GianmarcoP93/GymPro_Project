@@ -140,6 +140,7 @@ export const Faq = () => {
             name={data && data.company}
             email={data && data.email}
             isGym={data && data.role === "admin" ? true : false}
+            isFaq={true}
           />
 
           <div className="flex flex-col grow-[1] mx-auto max-w-section ">
