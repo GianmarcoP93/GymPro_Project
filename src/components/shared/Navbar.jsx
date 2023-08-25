@@ -12,7 +12,9 @@ export const Navbar = () => {
           Aziende Partner
         </Link>
         <Link className="hover:border-b hover:text-yellow-200">Chi siamo</Link>
-        <Link className="hover:border-b hover:text-yellow-200">FAQ</Link>
+        <Link to="/faq" className="hover:border-b hover:text-yellow-200">
+          FAQ
+        </Link>
       </div>
       <div className="flex items-center ">
         <OrangeButton text="Login" type="link" path="/login" />

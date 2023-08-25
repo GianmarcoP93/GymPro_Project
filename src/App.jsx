@@ -9,6 +9,7 @@ import { UserDashboard } from "./Pages/UserDashboard";
 import { useSelector } from "react-redux";
 import { PersonalCard } from "./components/shared/PersonalCard";
 import { ModalProfiloAdmin } from "./Pages/ModalProfiloAdmin";
+import { Faq } from "./Pages/Faq";
 
 const App = () => {
   const ProtectedUserRoute = ({ children }) => {
@@ -83,6 +84,7 @@ const App = () => {
         </Route>
         <Route path="card" element={<PersonalCard />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="faq" element={<Faq />} />
       </Routes>
     </>
   );

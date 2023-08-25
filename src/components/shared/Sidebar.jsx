@@ -36,12 +36,6 @@ export const Sidebar = ({ name, email, isGym }) => {
         >
           Home
         </Link>
-        <Link
-          to="settings"
-          className="hover:underline underline-offset-8 hover:text-secondary-200"
-        >
-          Impostazioni
-        </Link>
         {isGym && (
           <Link
             to="../manage"
@@ -50,11 +44,17 @@ export const Sidebar = ({ name, email, isGym }) => {
             Lista Utenti
           </Link>
         )}
-        <Link aria-disabled className="hover:text-red-500 cursor-not-allowed">
-          Assistenza
+        <Link to="/faq" className="hover:text-secondary-200 cursor-pointer">
+          FAQ
+        </Link>
+        <Link
+          to="settings"
+          className="hover:underline underline-offset-8 hover:text-secondary-200"
+        >
+          Impostazioni
         </Link>
         <Link aria-disabled className="hover:text-red-500 cursor-not-allowed">
-          FAQ
+          Assistenza
         </Link>
       </div>
       <div className="flex flex-col items-center gap-10">
