@@ -221,7 +221,7 @@ export const UserBmiChart = () => {
                 text="Reset"
                 twProp="self-end"
                 func={() => {
-                  internalMemory.clear();
+                  internalMemory.remove("chartData");
                   location.reload();
                 }}
               />

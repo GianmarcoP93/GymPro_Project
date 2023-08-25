@@ -27,11 +27,19 @@ const userSchema = new Schema(
       unique: true,
     },
     plan: {
-      type: String,
-      required: true,
+      months: Number,
+      cost: Number,
     },
     role: {
       type: String,
+      required: true,
+    },
+    subscriptionExp: {
+      type: Date,
+      required: true,
+    },
+    card: {
+      type: Object,
       required: true,
     },
     gym: {

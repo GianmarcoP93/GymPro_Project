@@ -8,32 +8,17 @@ import { useAxios } from "../hooks/useAxios";
 export const UserDashboard = () => {
   const token = useSelector((state) => state.user.userToken);
 
-  const { data } = useAxios(`${serverURL}/api/users/getUser`, {
+  const { data, loading } = useAxios(`${serverURL}/api/users/getUser`, {
     headers: { authorization: `Bearer ${token}` },
   });
 
-  let date = new Date(data && data.subscription);
-
-  switch (data && data.plan) {
-    case "60":
-      date.setMonth(date.getMonth() + 1);
-      break;
-    case "160":
-      date.setMonth(date.getMonth() + 3);
-      break;
-    case "280":
-      date.setMonth(date.getMonth() + 6);
-      break;
-    case "460":
-      date.setMonth(date.getMonth() + 12);
-      break;
-  }
+  let date = new Date(data && data.subscriptionExp);
 
   date = date.toLocaleDateString();
 
   return (
     <>
-      {data && (
+      {!loading && data && (
         <div className="flex p-6 gap-6 min-h-[100vh] h-full">
           <Sidebar name={data.username} email={data.email} isGym={false} />
           <div className="flex flex-col flex-grow max-w-section justify-between gap-4 mx-auto">
