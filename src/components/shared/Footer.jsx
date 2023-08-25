@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray py-8">
-      <div className="flex flex-row justify-center w-11/12 mx-auto space-x-80 gap-16">
+    <footer className="bg-gray ">
+      <div className="flex flex-row justify-between px-8 py-8">
         <div className="flex items-center">
           <img src={LogoFooter}></img>
         </div>
