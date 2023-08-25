@@ -39,5 +39,5 @@ export const useAxios = (url, options = { ...defaultOptions }) => {
     }
   }, [url]);
 
-  return { data, _data, _setData, setData, error, update, setError };
+  return { data, _data, _setData, setData, error, update, setError, loading };
 };

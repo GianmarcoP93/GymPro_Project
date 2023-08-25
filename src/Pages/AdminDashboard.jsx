@@ -14,40 +14,56 @@ export const AdminDashboard = () => {
   const token = useSelector((state) => state.user.adminToken);
   const id = useSelector((state) => state.user.adminId);
 
-  const [form, setForm] = useState({
-    username: "",
-    subscription: "",
-    passNumber: "",
-    email: "",
-    tel: "",
-    plan: "",
-    role: "user",
-    gym: id,
-  });
-
-  const { data } = useAxios(`${serverURL}/api/admins/getAdmin`, {
-    headers: { authorization: `Bearer ${token}` },
-  });
-
-  const { data: usersList, update: listUpdate } = useAxios(
+  const { data: allUsers, loading: listLoading } = useAxios(
     `${serverURL}/api/admins/usersList/${id}`,
     {
       headers: { authorization: `Bearer ${token}` },
     }
   );
 
+  const { data, loading } = useAxios(`${serverURL}/api/admins/getAdmin`, {
+    headers: { authorization: `Bearer ${token}` },
+  });
+
+  const [form, setForm] = useState({
+    username: "",
+    subscription: "",
+    passNumber: "",
+    email: "",
+    tel: "",
+    plan: {
+      month_cost: "",
+      months: "",
+      cost: "",
+    },
+    role: "user",
+    gym: id,
+    card: {
+      expiry: "",
+    },
+    subscriptionExp: "",
+  });
+  console.log(form);
   const { error, update } = useAxios(`${serverURL}/api/users/register`, {
     method: "POST",
     data: form,
     headers: { "Content-Type": "application/json" },
   });
 
+  const [usersList, setUserList] = useState(0);
+
+  useEffect(() => {
+    if (allUsers) {
+      setUserList(allUsers.length);
+    }
+  }, [allUsers]);
+
   const [didSubmit, setDidSubmit] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     await update();
-    await listUpdate();
+    setUserList((prevState) => (prevState += 1));
 
     setForm({
       username: "",
@@ -55,9 +71,17 @@ export const AdminDashboard = () => {
       passNumber: "",
       email: "",
       tel: "",
-      plan: "",
+      plan: {
+        month_cost: "",
+        months: "",
+        cost: "",
+      },
       role: "user",
       gym: id,
+      card: {
+        expiry: "",
+      },
+      subscriptionExp: "",
     });
 
     setDidSubmit(true);
@@ -100,52 +124,54 @@ export const AdminDashboard = () => {
   }, [didSubmit]);
 
   return (
-    <>
-      <ToastContainer
-        toastStyle={{
-          backgroundColor: error ? "red" : "#F87A2C",
-        }}
-        position="top-right"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-
-      <div className="relative flex p-6 gap-6">
-        <Sidebar
-          name={data && data.company}
-          email={data && data.email}
-          isGym={true}
+    !loading &&
+    !listLoading && (
+      <>
+        <ToastContainer
+          toastStyle={{
+            backgroundColor: error ? "red" : "#F87A2C",
+          }}
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
         />
-        <div className="flex flex-col flex-grow max-w-section gap-4 mx-auto">
-          <ProfileDescription
+
+        <div className="relative flex p-6 gap-6">
+          <Sidebar
             name={data && data.company}
-            list={usersList}
+            email={data && data.email}
             isGym={true}
           />
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col p-10 rounded-2xl bg-gray gap-4"
-          >
-            <div className="flex justify-between gap-32">
-              <UserSubscription state={form} setState={setForm} />
-              <Plans state={form} setState={setForm} />
-            </div>
-            <OrangeButton
-              text="Aggiungi utente"
-              twProp="self-end"
-              type="submit"
+          <div className="flex flex-col flex-grow max-w-section gap-4 mx-auto">
+            <ProfileDescription
+              name={data && data.company}
+              list={usersList}
+              isGym={true}
             />
-          </form>
-          <UserBmiChart />
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col p-10 rounded-2xl bg-gray gap-4"
+            >
+              <div className="flex justify-between gap-32">
+                <UserSubscription state={form} setState={setForm} />
+                <Plans state={form} setState={setForm} />
+              </div>
+              <OrangeButton
+                text="Aggiungi utente"
+                twProp="self-end"
+                type="submit"
+              />
+            </form>
+          </div>
         </div>
-      </div>
-    </>
+      </>
+    )
   );
 };

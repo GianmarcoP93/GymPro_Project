@@ -2,9 +2,12 @@ export const InputRadio = ({
   text,
   entrance,
   subscription = "20",
-  cost,
+  plan,
   func,
+  cost,
+  state,
 }) => {
+  console.log(state.plan.month_cost);
   return (
     <div className="flex items-center justify-between">
       <div>
@@ -12,10 +15,11 @@ export const InputRadio = ({
           <input
             className="cursor-pointer"
             type="radio"
-            name="plan"
-            value={cost}
+            name="month_cost"
+            value={plan}
             onChange={func}
             required
+            checked={state.plan.month_cost === plan}
           />
           {text}
         </p>
