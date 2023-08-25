@@ -3,12 +3,12 @@ import { OrangeButton } from "../components/shared/OrangeButton";
 import { Plans } from "../components/Plans";
 import { ProfileDescription } from "../components/shared/ProfileDescription";
 import { Sidebar } from "../components/shared/Sidebar";
-import { UserBmiChart } from "../components/UserBmiChart";
 import { UserSubscription } from "../components/UserSubscription";
 import { useAxios } from "../hooks/useAxios";
 import { serverURL } from "../constants/constants";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import AdminChart from "../components/AdminChart";
 
 export const AdminDashboard = () => {
   const token = useSelector((state) => state.user.adminToken);
@@ -169,6 +169,7 @@ export const AdminDashboard = () => {
                 type="submit"
               />
             </form>
+            <AdminChart />
           </div>
         </div>
       </>
