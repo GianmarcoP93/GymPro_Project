@@ -2,19 +2,10 @@ import { useSelector } from "react-redux";
 import { ProfileDescription } from "../components/shared/ProfileDescription";
 import { Sidebar } from "../components/shared/Sidebar";
 import { UserBmiChart } from "../components/UserBmiChart";
-import { serverURL } from "../constants/constants";
-import { useAxios } from "../hooks/useAxios";
 
 export const UserDashboard = () => {
-  const token = useSelector((state) => state.user.userToken);
-
-  const { data, loading } = useAxios(`${serverURL}/api/users/getUser`, {
-    headers: { authorization: `Bearer ${token}` },
-  });
-
-  let date = new Date(data && data.subscriptionExp);
-
-  date = date.toLocaleDateString();
+  const data = useSelector((state) => state.data.me);
+  const loading = useSelector((state) => state.data.userLoading);
 
   return (
     <>
@@ -25,7 +16,9 @@ export const UserDashboard = () => {
             <ProfileDescription
               name={data.username}
               email={data.email}
-              subscription={date}
+              subscription={new Date(
+                data && data.subscriptionExp
+              ).toLocaleDateString()}
               isGym={false}
               tel={data.tel}
             />

@@ -3,7 +3,7 @@ const app = express.Router();
 
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
-const { User } = require("../../db");
+const { User, Admin } = require("../../db");
 const { verifyUser } = require("../../middleWare/userAuth");
 
 /**
@@ -37,11 +37,19 @@ app.post("/register", async (req, res) => {
 
     data.email = data.email.toLowerCase();
 
-    const findEmail = await User.findOne({ email }, "-_id email", {
+    const findUserEmail = await User.findOne({ email }, "-password", {
       lean: true,
     });
 
-    if (findEmail) {
+    const findAdminEmail = await Admin.findOne(
+      { email: req.body.email },
+      "-_id email",
+      {
+        lean: true,
+      }
+    );
+
+    if (findUserEmail || findAdminEmail) {
       return res.status(400).json({
         message: "Email già esistente.",
       });
@@ -79,7 +87,6 @@ app.post("/register", async (req, res) => {
     user.subscriptionExp = subscriptionExp;
     user.plan.months = months;
     user.plan.cost = cost;
-
     await user.save();
 
     return res.status(201).json({ user: user._doc });

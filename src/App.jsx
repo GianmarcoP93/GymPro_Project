@@ -10,25 +10,33 @@ import { useSelector } from "react-redux";
 import { PersonalCard } from "./components/shared/PersonalCard";
 import { ModalProfiloAdmin } from "./Pages/ModalProfiloAdmin";
 import { Faq } from "./Pages/Faq";
+import { DataFetcher } from "./components/DataFetcher";
 
 const App = () => {
   const ProtectedUserRoute = ({ children }) => {
-    const userToken = useSelector((state) => state.user.userToken);
+    const userToken = useSelector((state) => state.auth.userToken);
 
-    if (userToken === null) return <Navigate to="/login" />;
-    return children;
+    if (!userToken) return <Navigate to="/login" />;
+
+    return <DataFetcher userToken={userToken}>{children}</DataFetcher>;
   };
 
   const ProtectedAdminRoute = ({ children }) => {
-    const adminToken = useSelector((state) => state.user.adminToken);
+    const adminToken = useSelector((state) => state.auth.adminToken);
+    const adminId = useSelector((state) => state.auth.adminId);
 
-    if (adminToken === null) return <Navigate to="/login" />;
-    return children;
+    if (!adminToken) return <Navigate to="/login" />;
+
+    return (
+      <DataFetcher adminToken={adminToken} adminId={adminId}>
+        {children}
+      </DataFetcher>
+    );
   };
 
   const AlreadyLogged = ({ children }) => {
-    const adminToken = useSelector((state) => state.user.adminToken);
-    const userToken = useSelector((state) => state.user.userToken);
+    const adminToken = useSelector((state) => state.auth.adminToken);
+    const userToken = useSelector((state) => state.auth.userToken);
 
     if (userToken) {
       return <Navigate to="/user" />;
@@ -39,6 +47,22 @@ const App = () => {
     }
 
     return children;
+  };
+
+  const FaqDataFetcher = ({ children }) => {
+    const adminToken = useSelector((state) => state.auth.adminToken);
+    const userToken = useSelector((state) => state.auth.userToken);
+
+    if (adminToken) {
+      return (
+        <DataFetcher adminToken={adminToken} isFaq={true}>
+          {children}
+        </DataFetcher>
+      );
+    }
+    if (userToken) {
+      return <DataFetcher userToken={userToken}>{children}</DataFetcher>;
+    }
   };
 
   return (
@@ -91,7 +115,14 @@ const App = () => {
         </Route>
         <Route path="card" element={<PersonalCard />} />
         <Route path="settings" element={<Settings />} />
-        <Route path="faq" element={<Faq />} />
+        <Route
+          path="faq"
+          element={
+            <FaqDataFetcher>
+              <Faq />
+            </FaqDataFetcher>
+          }
+        />
       </Routes>
     </>
   );

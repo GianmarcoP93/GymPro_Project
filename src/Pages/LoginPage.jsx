@@ -3,13 +3,15 @@ import YellowButton from "../components/shared/YellowButton";
 import { Link, useNavigate } from "react-router-dom";
 import { FormInputs } from "../components/shared/FormInputs";
 import { SvgBigLogo } from "../components/shared/SvgBigLogo";
-import { useAxios } from "../hooks/useAxios";
-import { adminLogin, login } from "../store/userSlice";
+import { adminLogin, login, setIsExpiredError } from "../store/authSlice";
 import { serverURL } from "../constants/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 
 const LoginPage = () => {
+  const isExpiredError = useSelector((state) => state.auth.isExpiredError);
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -20,11 +22,7 @@ const LoginPage = () => {
     remember: false,
   });
 
-  const { error, update, data, setError } = useAxios(`${serverURL}/api/login`, {
-    method: "POST",
-    data: form,
-    headers: { "Content-Type": "application/json" },
-  });
+  const [error, setError] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value, checked, type } = e.target;
@@ -38,14 +36,37 @@ const LoginPage = () => {
     try {
       setError(null);
 
-      await update();
+      const response = await axios({
+        url: `${serverURL}/api/login`,
+        method: "POST",
+        data: form,
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const {
+        data: { token, _id: id, role },
+      } = response;
+
+      notifySuccess();
+
+      if (role === "user") {
+        dispatch(login({ token, id }));
+        navigate("/user");
+      } else {
+        dispatch(adminLogin({ token, id }));
+        navigate("/admin/dashboard");
+      }
 
       setForm({ email: "", password: "", remember: false });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      setError(error);
+      notifyError(error.response.data.message);
+    }
   };
 
-  const notifyError = () => {
-    toast.error(error && error.message, {
+  const notifyError = (error) => {
+    toast.error(error, {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -71,30 +92,29 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    if (error) {
+    if (isExpiredError) {
+      const notifyError = () => {
+        toast.error("Sessione scaduta", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      };
       notifyError();
     }
-    if (data && !error) {
-      notifySuccess();
-
-      const token = data.token;
-
-      const id = data._id;
-      if (data.role === "user") {
-        dispatch(login({ token, id }));
-        navigate("/user");
-      } else {
-        dispatch(adminLogin({ token, id }));
-        navigate("/admin/dashboard");
-      }
-    }
-  }, [error, data]);
+    dispatch(setIsExpiredError(false));
+  }, [isExpiredError]);
 
   return (
     <>
       <ToastContainer
         toastStyle={{
-          backgroundColor: error ? "red" : "#F87A2C",
+          backgroundColor: error || !isExpiredError ? "red" : "#F87A2C",
         }}
         position="top-right"
         autoClose={4000}

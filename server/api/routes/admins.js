@@ -29,7 +29,9 @@ app.post("/register", async (req, res) => {
 
     data.password = bcrypt.hashSync(data.password, 12);
 
-    const findEmail = await Admin.findOne(
+    data.email = data.email.toLowerCase();
+
+    const findAdminEmail = await Admin.findOne(
       { email: req.body.email },
       "-_id email",
       {
@@ -37,7 +39,15 @@ app.post("/register", async (req, res) => {
       }
     );
 
-    if (findEmail)
+    const findUserEmail = await User.findOne(
+      { email: req.body.email },
+      "-_id email",
+      {
+        lean: true,
+      }
+    );
+
+    if (findAdminEmail || findUserEmail)
       return res.status(400).json({
         message: "Email già esistente.",
       });
@@ -52,8 +62,7 @@ app.post("/register", async (req, res) => {
       }
     );
 
-    admin._doc.token = token;
-    return res.status(200).json(admin._doc);
+    return res.status(200).json({ admin, token });
   } catch (error) {
     console.log(error);
     return res.status(500).json(error);
@@ -90,20 +99,34 @@ app.get("/usersList/:admin_id", verifyAdmin, async (req, res) => {
 });
 
 /**
- * @path /api/users/updateSubscription
+ * @path /api/admins/updateSubscription
  */
 
 app.patch("/updateSubscription", verifyAdmin, async (req, res) => {
   try {
     const { id, date } = req.body;
 
-    const user = await User.findOne({ _id: id }, "-password", {
-      lean: true,
-    });
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { subscriptionExp: date }
+    );
 
-    user.subscriptionExp = date;
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+});
 
-    await user.save();
+/**
+ * @path /api/admins/deleteUser
+ */
+
+app.delete("/deleteUser", verifyAdmin, async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const user = await User.findByIdAndDelete({ _id: id });
 
     return res.status(200).json(user);
   } catch (error) {

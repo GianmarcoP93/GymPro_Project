@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { Sidebar } from "../components/shared/Sidebar";
-import { useAxios } from "../hooks/useAxios";
-import { serverURL } from "../constants/constants";
 import { useSelector } from "react-redux";
 import { Navbar } from "../components/shared/Navbar";
 
 export const Faq = () => {
-  const adminToken = useSelector((state) => state.user.adminToken);
-  const userToken = useSelector((state) => state.user.userToken);
+  const data = useSelector((state) => state.data.me);
+  const loading = useSelector((state) => state.data.userLoading);
 
   const faqData = [
     {
@@ -116,28 +114,12 @@ export const Faq = () => {
     }));
   };
 
-  const getUser = () => {
-    if (adminToken) {
-      const { data } = useAxios(`${serverURL}/api/admins/getAdmin`, {
-        headers: { authorization: `Bearer ${adminToken}` },
-      });
-      return data;
-    } else if (userToken) {
-      const { data } = useAxios(`${serverURL}/api/users/getUser`, {
-        headers: { authorization: `Bearer ${userToken}` },
-      });
-      return data;
-    }
-  };
-
-  const data = getUser();
-
   return (
     <>
-      {data && (
-        <div className="flex p-5">
+      {!loading && data && (
+        <div className="flex p-6">
           <Sidebar
-            name={data && data.company}
+            name={data && data.role === "admin" ? data.company : data.username}
             email={data && data.email}
             isGym={data && data.role === "admin" ? true : false}
             isFaq={true}
