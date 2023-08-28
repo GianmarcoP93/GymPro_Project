@@ -3,7 +3,7 @@ import { LandingPage } from "./Pages/LandingPage";
 import { Settings } from "./Pages/Settings";
 import { AdminDashboard } from "./Pages/AdminDashboard";
 import LoginPage from "./Pages/LoginPage";
-import { UserManagement } from "./components/UserManagement";
+import { UserManagement } from "./Pages/UserManagement";
 import RegisterPage from "./Pages/RegisterPage";
 import { UserDashboard } from "./Pages/UserDashboard";
 import { useSelector } from "react-redux";
@@ -30,11 +30,11 @@ const App = () => {
     const adminToken = useSelector((state) => state.user.adminToken);
     const userToken = useSelector((state) => state.user.userToken);
 
-    if (userToken !== null) {
+    if (userToken) {
       return <Navigate to="/user" />;
     }
 
-    if (adminToken !== null) {
+    if (adminToken) {
       return <Navigate to="/admin/dashboard" />;
     }
 
@@ -44,7 +44,14 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/"
+          element={
+            <AlreadyLogged>
+              <LandingPage />
+            </AlreadyLogged>
+          }
+        />
         <Route
           path="login"
           element={

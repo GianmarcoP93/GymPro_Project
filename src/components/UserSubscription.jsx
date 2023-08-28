@@ -3,8 +3,9 @@ import { SubscriptionInput } from "./shared/SubscriptionInput";
 export const UserSubscription = ({ state, setState }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setState({ ...state, [name]: value });
+    setState({ ...state, [name]: value, subscriptionExp: new Date() });
   };
+
   const today = new Date().toISOString().split("T")[0];
 
   const generatePassNumber = (len, arr) => {

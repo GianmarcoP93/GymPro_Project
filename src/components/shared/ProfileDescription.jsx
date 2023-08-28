@@ -37,7 +37,7 @@ export const ProfileDescription = ({
                 icon="fa-solid fa-users"
                 style={{ color: "#46af4d" }}
               />
-              Utenti registrati: {list && list.length}
+              Utenti registrati: {list}
             </p>
           </>
         )}

@@ -89,4 +89,27 @@ app.get("/usersList/:admin_id", verifyAdmin, async (req, res) => {
   }
 });
 
+/**
+ * @path /api/users/updateSubscription
+ */
+
+app.patch("/updateSubscription", verifyAdmin, async (req, res) => {
+  try {
+    const { id, date } = req.body;
+
+    const user = await User.findOne({ _id: id }, "-password", {
+      lean: true,
+    });
+
+    user.subscriptionExp = date;
+
+    await user.save();
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+});
+
 module.exports = app;
