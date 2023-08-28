@@ -200,7 +200,6 @@ export const UserManagement = () => {
     });
 
   useEffect(() => {
-    console.log("ciao");
     setData(usersData);
     _setData(usersData);
   }, [usersData]);

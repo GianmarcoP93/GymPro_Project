@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { adminLogout, logout, setIsExpiredError } from "../store/authSlice";
 
 const defaultOptions = {
@@ -14,7 +13,6 @@ export const useAxios = (url, options = { ...defaultOptions }) => {
   options = { ...defaultOptions, ...options };
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
-  const [_data, _setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
@@ -27,7 +25,6 @@ export const useAxios = (url, options = { ...defaultOptions }) => {
       const response = await axios({ url, ...options });
 
       setData(response.data);
-      _setData(response.data);
       setLoading(false);
     } catch (error) {
       if (error.response.status === 403) {
@@ -48,5 +45,5 @@ export const useAxios = (url, options = { ...defaultOptions }) => {
     update();
   }, [url]);
 
-  return { data, _data, _setData, setData, error, update, setError, loading };
+  return { data, error, update, loading };
 };

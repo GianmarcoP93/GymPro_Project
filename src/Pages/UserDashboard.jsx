@@ -7,10 +7,6 @@ export const UserDashboard = () => {
   const data = useSelector((state) => state.data.me);
   const loading = useSelector((state) => state.data.userLoading);
 
-  let date = new Date(data && data.subscriptionExp);
-
-  date = date.toLocaleDateString();
-
   return (
     <>
       {!loading && data && (
@@ -20,7 +16,9 @@ export const UserDashboard = () => {
             <ProfileDescription
               name={data.username}
               email={data.email}
-              subscription={date}
+              subscription={new Date(
+                data && data.subscriptionExp
+              ).toLocaleDateString()}
               isGym={false}
               tel={data.tel}
             />

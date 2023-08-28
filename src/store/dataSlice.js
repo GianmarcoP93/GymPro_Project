@@ -6,7 +6,7 @@ const dataSlice = () => {
     initialState: {
       allUsers: [],
       me: null,
-      userloading: false,
+      userLoading: false,
       allUsersLoading: false,
     },
     reducers: {
@@ -17,7 +17,7 @@ const dataSlice = () => {
         state.me = action.payload;
       },
       setUserLoading: (state, action) => {
-        state.userloading = action.payload;
+        state.userLoading = action.payload;
       },
       setAllUsersLoading: (state, action) => {
         state.allUsersLoading = action.payload;

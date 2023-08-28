@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useDispatch } from "react-redux";
 import { adminLogout, logout } from "../../store/authSlice";
 
-export const Sidebar = ({ name, email, isGym }) => {
+export const Sidebar = ({ name, email, isGym, isFaq }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,25 +36,28 @@ export const Sidebar = ({ name, email, isGym }) => {
         >
           Home
         </Link>
+        {isGym && (
+          <Link
+            to={clsx(isGym && "../manage", isFaq && "../../admin/manage")}
+            className="hover:underline underline-offset-8 hover:text-secondary-200"
+          >
+            Lista Utenti
+          </Link>
+        )}
+        <Link
+          to="/faq"
+          className="hover:underline underline-offset-8 hover:text-secondary-200 cursor-pointer"
+        >
+          FAQ
+        </Link>
         <Link
           to="settings"
           className="hover:underline underline-offset-8 hover:text-secondary-200"
         >
           Impostazioni
         </Link>
-        {isGym && (
-          <Link
-            to="../manage"
-            className="hover:underline underline-offset-8 hover:text-secondary-200"
-          >
-            Lista Utenti
-          </Link>
-        )}
         <Link aria-disabled className="hover:text-red-500 cursor-not-allowed">
           Assistenza
-        </Link>
-        <Link aria-disabled className="hover:text-red-500 cursor-not-allowed">
-          FAQ
         </Link>
       </div>
       <div className="flex flex-col items-center gap-10">
