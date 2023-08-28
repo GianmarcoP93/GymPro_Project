@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { OrangeButton } from "./shared/OrangeButton";
 import { internalMemory } from "../utility/internalMemory.mjs";
-import { updateUserSub } from "../store/userSlice";
+import { updateUserSub } from "../store/authSlice";
 import { useDispatch } from "react-redux";
 
 const data = [

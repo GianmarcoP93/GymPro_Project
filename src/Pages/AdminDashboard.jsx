@@ -1,30 +1,25 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { OrangeButton } from "../components/shared/OrangeButton";
 import { Plans } from "../components/Plans";
 import { ProfileDescription } from "../components/shared/ProfileDescription";
 import { Sidebar } from "../components/shared/Sidebar";
 import { UserSubscription } from "../components/UserSubscription";
-import { useAxios } from "../hooks/useAxios";
 import { serverURL } from "../constants/constants";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import AdminChart from "../components/AdminChart";
+import axios from "axios";
+import { setAllUsers } from "../store/dataSlice";
 
 export const AdminDashboard = () => {
-  const token = useSelector((state) => state.user.adminToken);
-  const id = useSelector((state) => state.user.adminId);
+  const id = useSelector((state) => state.auth.adminId);
+  const data = useSelector((state) => state.data.me);
+  const allUsers = useSelector((state) => state.data.allUsers);
+  const allUsersLoading = useSelector((state) => state.data.allUsersLoading);
+  const userLoading = useSelector((state) => state.data.userLoading);
 
-  const { data: allUsers, loading: listLoading } = useAxios(
-    `${serverURL}/api/admins/usersList/${id}`,
-    {
-      headers: { authorization: `Bearer ${token}` },
-    }
-  );
-
-  const { data, loading } = useAxios(`${serverURL}/api/admins/getAdmin`, {
-    headers: { authorization: `Bearer ${token}` },
-  });
-
+  const [usersList, setUserList] = useState(0);
+  const [error, setError] = useState(false);
   const [form, setForm] = useState({
     username: "",
     subscription: "",
@@ -43,52 +38,51 @@ export const AdminDashboard = () => {
     },
     subscriptionExp: "",
   });
-  console.log(form);
-  const { error, update } = useAxios(`${serverURL}/api/users/register`, {
-    method: "POST",
-    data: form,
-    headers: { "Content-Type": "application/json" },
-  });
 
-  const [usersList, setUserList] = useState(0);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (allUsers) {
-      setUserList(allUsers.length);
-    }
-  }, [allUsers]);
-
-  const [didSubmit, setDidSubmit] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    await update();
-    setUserList((prevState) => (prevState += 1));
+    try {
+      setError(null);
 
-    setForm({
-      username: "",
-      subscription: "",
-      passNumber: "",
-      email: "",
-      tel: "",
-      plan: {
-        month_cost: "",
-        months: "",
-        cost: "",
-      },
-      role: "user",
-      gym: id,
-      card: {
-        expiry: "",
-      },
-      subscriptionExp: "",
-    });
+      const response = await axios({
+        url: `${serverURL}/api/users/register`,
+        method: "POST",
+        data: form,
+        headers: { "Content-Type": "application/json" },
+      });
 
-    setDidSubmit(true);
+      setForm({
+        username: "",
+        subscription: "",
+        passNumber: "",
+        email: "",
+        tel: "",
+        plan: {
+          month_cost: "",
+          months: "",
+          cost: "",
+        },
+        role: "user",
+        gym: id,
+        card: {
+          expiry: "",
+        },
+        subscriptionExp: "",
+      });
+      notifySuccess();
+
+      dispatch(setAllUsers([...allUsers, response.data.user]));
+    } catch (error) {
+      setError(error);
+      notifyError(error?.response?.data?.message);
+    }
   };
 
-  const notifyError = () => {
-    toast.error(error.message, {
+  const notifyError = (error) => {
+    toast.error(error, {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -114,18 +108,12 @@ export const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    if (error && didSubmit) {
-      notifyError();
-      setDidSubmit(false);
-    } else if (!error && didSubmit) {
-      notifySuccess();
-      setDidSubmit(false);
-    }
-  }, [didSubmit]);
+    setUserList(allUsers.length || 0);
+  }, [allUsers]);
 
   return (
-    !loading &&
-    !listLoading && (
+    !userLoading &&
+    !allUsersLoading && (
       <>
         <ToastContainer
           toastStyle={{

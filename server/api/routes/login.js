@@ -13,7 +13,9 @@ const { User, Admin } = require("../../db");
 
 app.post("/", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+
+    email = email.toLowerCase();
 
     const user = await User.findOne({ email }, "_id email passNumber role", {
       lean: true,

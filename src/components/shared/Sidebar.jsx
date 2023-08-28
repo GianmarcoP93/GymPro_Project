@@ -4,7 +4,7 @@ import logo from "../../assets/images/logo/LogoPiccolo.png";
 import logoutImg from "../../assets/images/icons/logout.png";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
-import { adminLogout, logout } from "../../store/userSlice";
+import { adminLogout, logout } from "../../store/authSlice";
 
 export const Sidebar = ({ name, email, isGym }) => {
   const dispatch = useDispatch();

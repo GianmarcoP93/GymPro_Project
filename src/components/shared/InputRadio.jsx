@@ -7,7 +7,6 @@ export const InputRadio = ({
   cost,
   state,
 }) => {
-  console.log(state.plan.month_cost);
   return (
     <div className="flex items-center justify-between">
       <div>

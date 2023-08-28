@@ -3,11 +3,11 @@ import YellowButton from "../components/shared/YellowButton";
 import { Link, useNavigate } from "react-router-dom";
 import { FormInputs } from "../components/shared/FormInputs";
 import { SvgBigLogo } from "../components/shared/SvgBigLogo";
-import { useAxios } from "../hooks/useAxios";
 import { ToastContainer, toast } from "react-toastify";
 import { serverURL } from "../constants/constants";
 import { useDispatch } from "react-redux";
-import { adminLogin } from "../store/userSlice";
+import { adminLogin } from "../store/authSlice";
+import axios from "axios";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const RegisterPage = () => {
     role: "admin",
   });
 
-  const [didSubmit, setDidSubmit] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value, checked, type } = e.target;
@@ -31,31 +31,8 @@ const RegisterPage = () => {
     });
   };
 
-  const { data, error, update } = useAxios(`${serverURL}/api/admins/register`, {
-    method: "POST",
-    data: form,
-    headers: { "Content-Type": "application/json" },
-  });
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    await update();
-
-    setForm({
-      company: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      remember: false,
-      role: "admin",
-    });
-
-    setDidSubmit(true);
-  };
-
-  const notifyError = () => {
-    toast.error(error.message, {
+  const notifyError = (error) => {
+    toast.error(error, {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -67,18 +44,41 @@ const RegisterPage = () => {
     });
   };
 
-  useEffect(() => {
-    if (error && didSubmit) {
-      notifyError();
-      setDidSubmit(false);
-    } else if (!error && didSubmit) {
-      setDidSubmit(false);
-      const token = data.token;
-      const id = data._id;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      setError(null);
+      const response = await axios({
+        url: `${serverURL}/api/admins/register`,
+        method: "POST",
+        data: form,
+        headers: { "Content-Type": "application/json" },
+      });
+
+      setForm({
+        company: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        remember: false,
+        role: "admin",
+      });
+
+      const {
+        data: {
+          token,
+          admin: { _id: id },
+        },
+      } = response;
+
       dispatch(adminLogin({ token, id }));
       navigate("/admin/dashboard");
+    } catch (error) {
+      setError(error);
+      notifyError(error?.response?.data?.message);
     }
-  }, [didSubmit]);
+  };
 
   return (
     <>

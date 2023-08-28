@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import cancel from "../assets/images/icons/cancelRed.png";
 import garbage from "../assets/images/icons/garbage.png";
 import Modal from "react-modal";
@@ -8,43 +8,83 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TitleCard } from "../components/shared/TitleCard";
 import { ButtonCloseWindow } from "../components/shared/ButtonCloseWindow";
-import { useAxios } from "../hooks/useAxios";
 import { serverURL } from "../constants/constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { setAllUsers } from "../store/dataSlice";
 
 const rootElement = document.getElementById("root");
 
 Modal.setAppElement(rootElement);
 
 export const UserManagement = () => {
-  const token = useSelector((state) => state.user.adminToken);
-  const id = useSelector((state) => state.user.adminId);
+  const token = useSelector((state) => state.auth.adminToken);
+  const usersData = useSelector((state) => state.data.allUsers);
+  const loading = useSelector((state) => state.data.allUsersLoading);
 
+  const [data, setData] = useState(null);
+  const [_data, _setData] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [subscriptionExp, setSubscriptionExp] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userId, setUserId] = useState(null);
-  const [patcher, setPatcher] = useState({ id: "", date: "" });
 
-  const { data, setData, _setData, _data, loading } = useAxios(
-    `${serverURL}/api/admins/usersList/${id}`,
-    {
-      headers: { authorization: `Bearer ${token}` },
-    }
-  );
+  const dispatch = useDispatch();
 
-  const { update: patchDate } = useAxios(
-    `${serverURL}/api/admins/updateSubscription`,
-    {
-      method: "PATCH",
-      data: patcher,
-      headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+  const deleteUser = async () => {
+    try {
+      await axios({
+        url: `${serverURL}/api/admins/deleteUser`,
+        method: "DELETE",
+        data: { id: userId },
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      dispatch(setAllUsers(usersData.filter((user) => user._id !== userId)));
+
+      notifyDeleted();
+      setIsModalOpen(false);
+      setUserId(null);
+    } catch (error) {
+      console.log(error?.data?.response?.message);
     }
-  );
+  };
+
+  const handleSubscriptionExpChange = async (value) => {
+    const date = new Date(
+      value.getTime() - value.getTimezoneOffset() * 60000
+    ).toISOString();
+
+    const patcher = { id: userId, date };
+
+    try {
+      await axios({
+        url: `${serverURL}/api/admins/updateSubscription`,
+        method: "PATCH",
+        data: patcher,
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      setData((prevUsers) =>
+        prevUsers.map((item) => {
+          return item._id === userId
+            ? { ...item, subscriptionExp: date }
+            : item;
+        })
+      );
+
+      setIsCalendarOpen(false);
+      notifySubscription();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const searchMember = (event) => {
     const title = event.target.value.toLowerCase();
@@ -53,21 +93,11 @@ export const UserManagement = () => {
     );
     setData(search);
     setSearchValue(event.target.value);
-    return;
   };
 
   const clearSearchText = () => {
     setSearchValue("");
     setData(_data);
-    return;
-  };
-
-  const deleteUser = () => {
-    setData((prevUsers) => prevUsers.filter((user) => user._id !== userId));
-    _setData((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-    notifyDeleted();
-    setIsModalOpen(false);
-    setUserId(null);
     return;
   };
 
@@ -85,23 +115,6 @@ export const UserManagement = () => {
       cardExpiry.toLocaleDateString().split("/").reverse().join("/")
     ).getTime();
     return now >= cardExp;
-  };
-
-  let renewalDate;
-
-  const convertDate = (date) => {
-    renewalDate = new Date(date);
-    renewalDate = renewalDate.toLocaleDateString();
-  };
-
-  const handleSubscriptionExpChange = async (value) => {
-    const newDate = value.toLocaleDateString();
-    setPatcher({ ...patcher, id: userId, date: newDate });
-
-    await patchDate();
-
-    setIsCalendarOpen(false);
-    notifySubscription();
   };
 
   const openCalendar = (id, subscriptionExp) => {
@@ -148,10 +161,10 @@ export const UserManagement = () => {
       case "abbonamento":
         order.sort((a, b) => {
           const dateA = new Date(
-            a.subscritionExp.split("/").reverse().join("/")
+            a.subscriptionExp.split("/").reverse().join("/")
           ).getTime();
           const dateB = new Date(
-            b.subscritionExp.split("/").reverse().join("/")
+            b.subscriptionExp.split("/").reverse().join("/")
           ).getTime();
           return dateA - dateB;
         });
@@ -186,6 +199,12 @@ export const UserManagement = () => {
       theme: "colored",
     });
 
+  useEffect(() => {
+    console.log("ciao");
+    setData(usersData);
+    _setData(usersData);
+  }, [usersData]);
+
   return (
     !loading && (
       <>
@@ -203,7 +222,7 @@ export const UserManagement = () => {
           theme="colored"
         />
 
-        <div className="flex flex-col gap-10 max-h-[100vh] mx-5  relative ">
+        <div className="flex flex-col gap-10  relative px-5 py-10 ">
           <div
             id="popup-modal"
             tabIndex="-1"
@@ -326,7 +345,7 @@ export const UserManagement = () => {
                 {data && data.length === 0 ? (
                   <tr className="border-t border-slate-300 text-white-100 text-center">
                     <td className=" text-secondary-100 font-roboto font-bold text-xl  py-5">
-                      No user
+                      No users
                     </td>
                   </tr>
                 ) : (
@@ -340,8 +359,7 @@ export const UserManagement = () => {
                         <p className="font-bold">{user.username}</p>
                       </td>
 
-                      {convertDate(user.createdAt)}
-                      <td>{renewalDate}</td>
+                      <td>{new Date(user.createdAt).toLocaleDateString()}</td>
 
                       <td>
                         {user.card.expiry ? (
