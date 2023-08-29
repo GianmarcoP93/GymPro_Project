@@ -99,7 +99,7 @@ const RegisterPage = () => {
       />
 
       <div className="flex flex-col items-center justify-center h-full min-h-[100vh]">
-        <div className="flex flex-row gap-40">
+        <div className="flex flex-row gap-40 max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:gap-10">
           <div className="flex flex-col gap-8">
             <div className="border border-solid border-white-100 rounded-xl">
               <div className="pt-8 pb-6">
@@ -181,7 +181,7 @@ const RegisterPage = () => {
               </Link>
             </div>
           </div>
-          <div className="pt-10 w-full">
+          <div className="flex justify-center w-full">
             <SvgBigLogo />
           </div>
         </div>
