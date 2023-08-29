@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import AdminChart from "../components/AdminChart";
 import axios from "axios";
-import { setAllUsers } from "../store/dataSlice";
+import { setAllUsers, updateAllUsers } from "../store/dataSlice";
 
 export const AdminDashboard = () => {
   const id = useSelector((state) => state.auth.adminId);
@@ -74,7 +74,7 @@ export const AdminDashboard = () => {
       });
       notifySuccess();
 
-      dispatch(setAllUsers([...allUsers, response.data.user]));
+      dispatch(updateAllUsers(response.data.user));
     } catch (error) {
       setError(error);
       notifyError(error?.response?.data?.message);

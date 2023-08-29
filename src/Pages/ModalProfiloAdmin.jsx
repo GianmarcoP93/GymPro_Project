@@ -6,8 +6,8 @@ import { OrangeButton } from "../components/shared/OrangeButton";
 export const ModalProfiloAdmin = () => {
   return (
     <>
-      <div className="flex flex-col gap-10 max-h-[100vh] mx-5  ">
-        <ButtonCloseWindow />
+      <div className="flex flex-col gap-10 max-h-[100vh]">
+        <ButtonCloseWindow path="/admin/manage" />
         <TitleCard text="Nuova scheda" />
         <div className="flex font-montserrat"></div>
 
