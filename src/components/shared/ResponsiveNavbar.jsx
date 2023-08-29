@@ -6,7 +6,7 @@ import Profilo from '../../assets/images/ResponsiveNavbar/Profile.png'
 
 const ResponsiveNavbar = () => {
     return(
-        <nav className="max-sm:bg-[#393B44] max-sm:fixed max-sm:bottom-0 max-sm:w-full">
+        <nav className="md:hidden max-sm:bg-[#393B44] max-sm:fixed max-sm:bottom-0 max-sm:w-full">
             <div className="max-sm:py-8 max-sm:flex max-sm:flex-row max-sm:place-content-evenly">
                 <button><img src={Home} /></button>
                 <button><img src={Scheda} /></button>
