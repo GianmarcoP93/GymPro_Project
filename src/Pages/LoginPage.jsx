@@ -128,7 +128,7 @@ const LoginPage = () => {
         theme="colored"
       />
       <div className="flex flex-col items-center h-full min-h-[100vh] justify-center">
-        <div className="flex flex-row items-center gap-40">
+        <div className="flex flex-row items-center gap-40 max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:gap-10">
           <div className="flex flex-col gap-8">
             <div className="border border-solid border-white-100 rounded-xl px-10 pt-8 pb-14">
               <div className="pb-6">
@@ -198,7 +198,7 @@ const LoginPage = () => {
               </Link>
             </div>
           </div>
-          <div className="w-full">
+          <div className="w-full max-sm:max-w-[160px] max-sm:max-h-[160px]">
             <SvgBigLogo />
           </div>
         </div>
