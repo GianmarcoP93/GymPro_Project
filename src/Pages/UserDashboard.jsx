@@ -11,24 +11,26 @@ export const UserDashboard = () => {
   return (
     <>
       {!loading && data && (
-        <div className="flex p-6 gap-6 min-h-[100vh] h-full max-sm:flex-col">
-          <Sidebar name={data.username} email={data.email} isGym={false} />
-          <div className="flex flex-col flex-grow max-w-section justify-between gap-4 mx-auto">
-            <ProfileDescription
-              name={data.username}
-              email={data.email}
-              subscription={new Date(
-                data && data.subscriptionExp
-              ).toLocaleDateString()}
-              isGym={false}
-              tel={data.tel}
-            />
+        <>
+          <div className="flex p-6 gap-6 min-h-[100vh] h-full max-sm:flex-col">
+            <Sidebar name={data.username} email={data.email} isGym={false} />
+            <div className="flex flex-col flex-grow max-w-section justify-between gap-4 mx-auto max-sm:mx-0">
+              <ProfileDescription
+                name={data.username}
+                email={data.email}
+                subscription={new Date(
+                  data && data.subscriptionExp
+                ).toLocaleDateString()}
+                isGym={false}
+                tel={data.tel}
+              />
 
-            <UserBmiChart />
+              <UserBmiChart />
+            </div>
           </div>
-        </div>
+          <ResponsiveNavbar />
+        </>
       )}
-      <ResponsiveNavbar />
     </>
   );
 };

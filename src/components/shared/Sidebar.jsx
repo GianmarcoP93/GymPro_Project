@@ -17,7 +17,7 @@ export const Sidebar = ({ name, email, isGym, isFaq }) => {
   };
 
   return (
-    <div className="sticky bg-gray min-w-[300px] top-6 left-0 h-[calc(100vh_-_48px)]  flex flex-col p-6 rounded-2xl max-sm:hidden">
+    <div className="sticky bg-gray min-w-[300px] top-6 left-0 h-[calc(100vh_-_48px)] flex-col p-6 rounded-2xl hidden dashboard:flex ">
       <div className="flex justify-center items-center gap-4">
         <div className="rounded-full w-12 h-12 flex-shrink-0">
           <img src={proPic} className="rounded-full" />
