@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sidebar } from "../components/shared/Sidebar";
 import { useSelector } from "react-redux";
 import { Navbar } from "../components/shared/Navbar";
+import ResponsiveNavbar from "../components/shared/ResponsiveNavbar"
 
 export const Faq = () => {
   const data = useSelector((state) => state.data.me);
@@ -193,6 +194,7 @@ export const Faq = () => {
           </div>
         </div>
       )}
+      <ResponsiveNavbar />
     </>
   );
 };
