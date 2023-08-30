@@ -11,6 +11,7 @@ import { PersonalCard } from "./components/shared/PersonalCard";
 import { ModalProfiloAdmin } from "./Pages/ModalProfiloAdmin";
 import { Faq } from "./Pages/Faq";
 import { DataFetcher } from "./components/DataFetcher";
+import { Assistance } from "./Pages/Assistance";
 
 const App = () => {
   const ProtectedUserRoute = ({ children }) => {
@@ -115,6 +116,14 @@ const App = () => {
         </Route>
         <Route path="card" element={<PersonalCard />} />
         <Route path="settings" element={<Settings />} />
+        <Route
+          path="assistance"
+          element={
+            <FaqDataFetcher>
+              <Assistance />
+            </FaqDataFetcher>
+          }
+        />
         <Route
           path="faq"
           element={
