@@ -56,7 +56,10 @@ export const Sidebar = ({ name, email, isGym, isFaq }) => {
         >
           Impostazioni
         </Link>
-        <Link aria-disabled className="hover:text-red-500 cursor-not-allowed">
+        <Link
+          to="/assistance"
+          className="hover:underline underline-offset-8 hover:text-secondary-200 cursor-pointer"
+        >
           Assistenza
         </Link>
       </div>
