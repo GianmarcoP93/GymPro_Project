@@ -14,6 +14,7 @@ const userSlice = () => {
       userId: userId,
       adminToken: adminToken,
       adminId: adminId,
+      userSubData: [],
     },
     reducers: {
       login: (state, action) => {
@@ -41,7 +42,7 @@ const userSlice = () => {
         internalMemory.remove("adminId");
       },
       updateUserSub: (state, action) => {
-        state.userSubData = [...state.userSubData, action.payload];
+        state.userSubData.push(action.payload);
       },
     },
   });

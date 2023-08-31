@@ -143,7 +143,7 @@ export const AdminDashboard = () => {
               type="submit"
             />
           </form>
-          <AdminChart />
+          <AdminChart usersList={usersList} />
         </div>
       </div>
     </>

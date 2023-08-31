@@ -19,4 +19,10 @@ app.use("/admins", require("./routes/admins"));
 
 app.use("/login", require("./routes/login"));
 
+/**
+ * @path /api/chartData
+ */
+
+app.use("/chartData", require("./routes/chartData"));
+
 module.exports = app;

@@ -12,98 +12,37 @@ import {
 import { OrangeButton } from "./shared/OrangeButton";
 import { internalMemory } from "../utility/internalMemory.mjs";
 import { updateUserSub } from "../store/userSlice";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useAxios } from "../hooks/useAxios";
 
-const data = [
-  {
-    month: "Gen",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Feb",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Mar",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Apr",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Mag",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Giu",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Lug",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Ago",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Set",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Ott",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Nov",
-    revenue: 0,
-    subscribers: 0,
-  },
-  {
-    month: "Dic",
-    revenue: 0,
-    subscribers: 0,
-  },
-];
-
-const calculateTotalRevenue = (data, month) => {
-  const filteredData = data.filter((item) => item.month === month);
-  const totalRevenue = filteredData.reduce(
-    (total, item) => total + item.revenue,
-    0
-  );
-  return totalRevenue;
-};
-const calculateNewSubs = (data, month) => {
-  const filteredData = data.filter((item) => item.month === month);
-  const newSubs = filteredData.reduce(
-    (total, item) => total + item.subscribers,
-    0
-  );
-  return newSubs;
-};
-
-export const AdminChart = () => {
-  const [userSubData, setUserSubData] = useState([]);
-
-  const dispatch = useDispatch();
-
+export const AdminChart = ({ usersList }) => {
   const [formData, setFormData] = useState({
     month: "",
-    weight: "",
-    height: "",
-    bmi: "",
+  });
+  const id = useSelector((state) => state.auth.adminId);
+  const token = useSelector((state) => state.auth.adminToken);
+
+  const calculateTotalRevenue = (data, month) => {
+    const filteredData = data.filter((item) => item.month === month);
+    const totalRevenue = filteredData.reduce(
+      (total, item) => total + item.revenue,
+      0
+    );
+    return totalRevenue;
+  };
+  const calculateNewSubs = (data, month) => {
+    const filteredData = data.filter((item) => item.month === month);
+    const newSubs = filteredData.reduce(
+      (total, item) => total + item.subscribers,
+      0
+    );
+    return newSubs;
+  };
+
+  const { data } = useAxios(`http://localhost:3030/api/chartData/${id}`, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
   });
 
   const [chartData, setChartData] = useState(() => {
@@ -133,53 +72,26 @@ export const AdminChart = () => {
     e.preventDefault();
 
     const month = formData.month;
-
-    const revenue = calculateTotalRevenue(userSubData, month);
-
-    const subscribers = calculateNewSubs(userSubData, month);
+    const revenue = calculateTotalRevenue(usersList, formData.month);
+    const subscribers = calculateNewSubs(usersList, formData.month);
 
     const newUserSubData = {
       month: month,
-      revenue: revenue,
-      subscribers: subscribers,
+      Entrate: revenue,
+      Iscritti: subscribers,
     };
 
     dispatch(updateUserSub(newUserSubData));
 
-    const updateUserSubData = userSubData.concat(newUserSubData);
-    setUserSubData(updateUserSubData);
-
-    const weight = parseFloat(formData.weight);
-    const height = parseFloat(formData.height);
-
-    if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
-      console.log("Inserisci i valori validi per il peso e l'altezza");
-      return;
-    }
-
-    const bmi = weight / ((height / 100) * (height / 100));
-
-    myFunction(month, weight, height, bmi);
-
-    const newData = {
-      month: month,
-      bmi: bmi.toFixed(2),
-    };
-
     const updateChartData = chartData.map((item) =>
-      item.month === month ? newData : item
+      item.month === month
+        ? { ...item, Entrate: revenue, Iscritti: subscribers }
+        : item
     );
 
     setChartData(updateChartData);
 
     internalMemory.save("chartData", updateChartData);
-  };
-
-  const myFunction = (month, height, weight, bmi) => {
-    console.log("mese: ", month);
-    console.log("peso: ", height);
-    console.log("altezza: ", weight);
-    console.log("BMI: ", bmi);
   };
 
   return (
@@ -231,20 +143,20 @@ export const AdminChart = () => {
               <div className="w-full">
                 <ResponsiveContainer width="99%" height={300}>
                   <AreaChart data={chartData}>
-                    <CartesianGrid></CartesianGrid>
-                    <XAxis dataKey="month"></XAxis>
-                    <YAxis></YAxis>
-                    <Tooltip></Tooltip>
-                    <Legend></Legend>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
                     <Area
                       type="monotone"
-                      dataKey="revenue"
+                      dataKey="Entrate"
                       stroke="#F87A2C"
                       fill="#F87A2C"
                     ></Area>
                     <Area
                       type="monotone"
-                      dataKey="subscribers"
+                      dataKey="Iscritti"
                       stroke="#62B34C"
                       fill="#62B34C"
                     ></Area>
