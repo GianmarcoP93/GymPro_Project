@@ -218,7 +218,7 @@ export const ModalProfiloAdmin = ({ id, closeModal, onError, resetError }) => {
                               </option>
                               <option
                                 className="text-white-100 font-semibold"
-                                value="PancaPianaBil"
+                                value="pancaPianaBil"
                               >
                                 Panca piana bilanciere
                               </option>

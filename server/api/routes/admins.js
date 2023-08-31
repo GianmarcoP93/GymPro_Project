@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs");
 const { Admin, User } = require("../../db");
 const jwt = require("jsonwebtoken");
 const { verifyAdmin } = require("../../middleWare/adminAuth");
+const fs = require("fs");
 
 /**
  * @path /api/admins/register
@@ -148,13 +149,13 @@ app.patch("/createCard/:user_id", verifyAdmin, async (req, res) => {
       "string.empty": `Compilare il campo set`,
     }),
     rep: Joi.number().required().min(1).messages({
-      "number.min": `Ripetizioni deve essere maggiore di 1`,
+      "number.min": `Ripetizioni deve essere maggiore di 0`,
     }),
     rec: Joi.string().required().messages({
       "string.empty": `Compilare il campo recupero`,
     }),
     kg: Joi.number().required().min(1).messages({
-      "number.min": `Kg deve essere maggiore di 1`,
+      "number.min": `Kg deve essere maggiore di 0`,
     }),
   });
 
@@ -170,26 +171,46 @@ app.patch("/createCard/:user_id", verifyAdmin, async (req, res) => {
     card: Joi.array().items(objSchema).min(1).required(),
   });
 
+  const exercisesImage = [
+    {
+      name: "pancaPianaBil",
+      img: "https://hips.hearstapps.com/menshealth-uk/main/assets/bench-press.gif?resize=980:*",
+    },
+  ];
+
   try {
     const { user_id } = req.params;
 
     const data = await cardSchema.validateAsync(req.body);
 
-    console.log(data);
+    const insertImage = data.card.map((item) => {
+      const findExerciseName = item.exercises.find((ex) => {
+        const updatedExercise = exercisesImage.find((obj) => {
+          if (obj.name === ex.name) {
+            return (ex.img = obj.img);
+          }
+        });
+        return updatedExercise;
+      });
+      return { ...item, exercises: findExerciseName };
+    });
+
+    const updatedData = { ...data, card: insertImage };
 
     const user = await User.findByIdAndUpdate(
       { _id: user_id },
-      { cardInfo: data }
+      { cardInfo: updatedData }
     );
 
     return res.status(200).json(user);
   } catch (error) {
-    console.log(error);
-
-    if (error?.details[0]?.message) {
-      return res.status(500).json({ message: `${error?.details[0]?.message}` });
+    if (error?.details?.[0]?.message) {
+      return res.status(500).json({ message: `${error.details[0].message}` });
     } else {
-      return res.status(500).json(error);
+      console.log(error);
+      return res
+        .status(500)
+        .json({ message: `Errore durante la compilazione scheda` });
     }
   }
 });
