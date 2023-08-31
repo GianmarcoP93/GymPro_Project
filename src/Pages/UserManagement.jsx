@@ -216,9 +216,7 @@ export const UserManagement = () => {
     _setData(usersData);
   }, [usersData]);
 
-  useEffect(() => {
-    setError(null);
-  }, [error]);
+  console.log(error);
 
   return (
     !loading && (
@@ -377,7 +375,7 @@ export const UserManagement = () => {
                       <td>{new Date(user.createdAt).toLocaleDateString()}</td>
 
                       <td>
-                        {user.cardInfo.expiry ? (
+                        {user.cardInfo?.expiry ? (
                           isCardExpired(user.cardInfo.expiry) ? (
                             <button
                               onClick={() => handleOpenCardModal(user._id)}
@@ -477,6 +475,7 @@ export const UserManagement = () => {
             onError={(error) => {
               setError(error);
             }}
+            resetError={() => setError(null)}
           />
         </Modal>
       </>

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUserCard } from "../store/dataSlice";
 import { toast } from "react-toastify";
 
-export const ModalProfiloAdmin = ({ id, closeModal, onError }) => {
+export const ModalProfiloAdmin = ({ id, closeModal, onError, resetError }) => {
   const token = useSelector((state) => state.auth.adminToken);
   const dispatch = useDispatch();
 
@@ -142,6 +142,7 @@ export const ModalProfiloAdmin = ({ id, closeModal, onError }) => {
   };
 
   const handleSubmit = async () => {
+    resetError();
     try {
       await axios({
         url: `${serverURL}/api/admins/createCard/${id}`,
