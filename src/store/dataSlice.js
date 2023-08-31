@@ -13,6 +13,21 @@ const dataSlice = () => {
       setAllUsers: (state, action) => {
         state.allUsers = action.payload;
       },
+      updateAllUsers: (state, action) => {
+        state.allUsers.push(action.payload);
+      },
+      deleteUser: (state, action) => {
+        state.allUsers = state.allUsers.filter(
+          (user) => user._id != action.payload
+        );
+      },
+      updateUserCard: (state, action) => {
+        state.allUsers = state.allUsers.map((item) => {
+          return item._id === action.payload.id
+            ? { ...item, cardInfo: action.payload.card }
+            : item;
+        });
+      },
       setMe: (state, action) => {
         state.me = action.payload;
       },
@@ -26,7 +41,14 @@ const dataSlice = () => {
   });
 };
 
-export const { setAllUsers, setMe, setAllUsersLoading, setUserLoading } =
-  dataSlice().actions;
+export const {
+  setAllUsers,
+  setMe,
+  setAllUsersLoading,
+  setUserLoading,
+  updateAllUsers,
+  deleteUser,
+  updateUserCard,
+} = dataSlice().actions;
 
 export default dataSlice().reducer;

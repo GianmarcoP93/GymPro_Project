@@ -11,7 +11,7 @@ export const OrangeButton = ({ text, twProp, type, func, path }) => {
             twProp && `${twProp}`
           )}
           type={type}
-          onSubmit={func}
+          onClick={func}
         >
           {text}
         </button>

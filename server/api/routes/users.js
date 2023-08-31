@@ -25,7 +25,7 @@ app.post("/register", async (req, res) => {
     plan: Joi.object().required(),
     role: Joi.string().required(),
     subscriptionExp: Joi.date().required(),
-    card: Joi.object().required(),
+    cardInfo: Joi.object().required(),
     gym: Joi.string().required(),
   });
   try {
@@ -92,7 +92,9 @@ app.post("/register", async (req, res) => {
     return res.status(201).json({ user: user._doc });
   } catch (error) {
     console.log(error);
-    return res.status(500).json(error);
+    return res
+      .status(500)
+      .json({ message: "Richiesta fallita, codice errore: 500" });
   }
 });
 

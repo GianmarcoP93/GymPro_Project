@@ -38,7 +38,7 @@ const userSchema = new Schema(
       type: Date,
       required: true,
     },
-    card: {
+    cardInfo: {
       type: Object,
       required: true,
     },

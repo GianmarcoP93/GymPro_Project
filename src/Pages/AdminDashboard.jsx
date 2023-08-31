@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import AdminChart from "../components/AdminChart";
 import axios from "axios";
-import { setAllUsers } from "../store/dataSlice";
+import { updateAllUsers } from "../store/dataSlice";
 
 export const AdminDashboard = () => {
   const id = useSelector((state) => state.auth.adminId);
@@ -33,12 +33,12 @@ export const AdminDashboard = () => {
     },
     role: "user",
     gym: id,
-    card: {
+    cardInfo: {
       expiry: "",
     },
     subscriptionExp: "",
   });
-
+  console.log(form);
   const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
@@ -67,16 +67,17 @@ export const AdminDashboard = () => {
         },
         role: "user",
         gym: id,
-        card: {
+        cardInfo: {
           expiry: "",
         },
         subscriptionExp: "",
       });
       notifySuccess();
 
-      dispatch(setAllUsers([...allUsers, response.data.user]));
+      dispatch(updateAllUsers(response.data.user));
     } catch (error) {
       setError(error);
+      console.log(error);
       notifyError(error?.response?.data?.message);
     }
   };

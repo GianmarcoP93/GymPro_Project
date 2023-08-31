@@ -11,7 +11,8 @@ import { ButtonCloseWindow } from "../components/shared/ButtonCloseWindow";
 import { serverURL } from "../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setAllUsers } from "../store/dataSlice";
+import { deleteUser } from "../store/dataSlice";
+import { ModalProfiloAdmin } from "./ModalProfiloAdmin";
 
 const rootElement = document.getElementById("root");
 
@@ -29,10 +30,12 @@ export const UserManagement = () => {
   const [subscriptionExp, setSubscriptionExp] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
 
-  const deleteUser = async () => {
+  const handleUserDelete = async () => {
     try {
       await axios({
         url: `${serverURL}/api/admins/deleteUser`,
@@ -43,7 +46,8 @@ export const UserManagement = () => {
           "Content-Type": "application/json",
         },
       });
-      dispatch(setAllUsers(usersData.filter((user) => user._id !== userId)));
+
+      dispatch(deleteUser(userId));
 
       notifyDeleted();
       setIsModalOpen(false);
@@ -85,7 +89,6 @@ export const UserManagement = () => {
       console.log(error);
     }
   };
-
   const searchMember = (event) => {
     const title = event.target.value.toLowerCase();
     const search = [..._data].filter((a) =>
@@ -112,7 +115,7 @@ export const UserManagement = () => {
   const isCardExpired = (cardExpiry) => {
     const now = new Date().getTime();
     const cardExp = new Date(
-      cardExpiry.toLocaleDateString().split("/").reverse().join("/")
+      cardExpiry.split("/").reverse().join("/")
     ).getTime();
     return now >= cardExp;
   };
@@ -125,6 +128,15 @@ export const UserManagement = () => {
 
   const closeCalendar = () => {
     setIsCalendarOpen(false);
+  };
+
+  const handleOpenCardModal = (id) => {
+    setUserId(id);
+    setIsCardModalOpen(true);
+  };
+
+  const handleCloseCardModal = () => {
+    setIsCardModalOpen(false);
   };
 
   const openDeleteModals = (value, id) => {
@@ -150,10 +162,10 @@ export const UserManagement = () => {
       case "scheda":
         order.sort((a, b) => {
           const dateA = new Date(
-            (a.card.expiry ?? "01/01/2020").split("/").reverse().join("/")
+            (a.cardInfo.expiry ?? "01/01/2020").split("/").reverse().join("/")
           ).getTime();
           const dateB = new Date(
-            (b.card.expiry ?? "01/01/2020").split("/").reverse().join("/")
+            (b.cardInfo.expiry ?? "01/01/2020").split("/").reverse().join("/")
           ).getTime();
           return dateA - dateB;
         });
@@ -204,11 +216,15 @@ export const UserManagement = () => {
     _setData(usersData);
   }, [usersData]);
 
+  useEffect(() => {
+    setError(null);
+  }, [error]);
+
   return (
     !loading && (
       <>
         <ToastContainer
-          toastStyle={{ backgroundColor: "#F87A2C" }}
+          toastStyle={{ backgroundColor: error ? "red" : "#F87A2C" }}
           position="top-right"
           autoClose={4000}
           hideProgressBar={false}
@@ -280,7 +296,7 @@ export const UserManagement = () => {
 
                   <button
                     datamodalhide="popup-modal"
-                    onClick={() => deleteUser()}
+                    onClick={() => handleUserDelete()}
                     type="button"
                     className="text-white-100 bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
                   >
@@ -300,7 +316,7 @@ export const UserManagement = () => {
             </div>
           </div>
 
-          <ButtonCloseWindow />
+          <ButtonCloseWindow path={"../dashboard"} />
           <TitleCard text="Gestione utenti" />
           <div className="flex font-montserrat">
             <select
@@ -361,18 +377,26 @@ export const UserManagement = () => {
                       <td>{new Date(user.createdAt).toLocaleDateString()}</td>
 
                       <td>
-                        {user.card.expiry ? (
-                          isCardExpired(user.card.expiry) ? (
-                            <button className="text-red-200 text-center underline decoration-1 font-montserrat font-normal hover:text-red-600">
+                        {user.cardInfo.expiry ? (
+                          isCardExpired(user.cardInfo.expiry) ? (
+                            <button
+                              onClick={() => handleOpenCardModal(user._id)}
+                              className="text-red-200 text-center underline decoration-1 font-montserrat font-normal hover:text-red-600"
+                            >
                               Scaduto
                             </button>
                           ) : (
                             <span className="underline decoration-1 ">
-                              {user.card.expiry}
+                              {new Date(
+                                user.cardInfo.expiry
+                              ).toLocaleDateString()}
                             </span>
                           )
                         ) : (
-                          <button className=" text-green-200 text-center underline decoration-1 font-montserrat font-normal hover:text-green-100">
+                          <button
+                            onClick={() => handleOpenCardModal(user._id)}
+                            className=" text-green-200 text-center underline decoration-1 font-montserrat font-normal hover:text-green-100"
+                          >
                             Aggiungi scheda
                           </button>
                         )}
@@ -440,6 +464,20 @@ export const UserManagement = () => {
               />
             </div>
           </div>
+        </Modal>
+        <Modal
+          isOpen={isCardModalOpen}
+          onRequestClose={handleCloseCardModal}
+          style={{ content: { backgroundColor: "#14161f" } }}
+        >
+          <ModalProfiloAdmin
+            id={userId}
+            closeModal={handleCloseCardModal}
+            setData={setData}
+            onError={(error) => {
+              setError(error);
+            }}
+          />
         </Modal>
       </>
     )
