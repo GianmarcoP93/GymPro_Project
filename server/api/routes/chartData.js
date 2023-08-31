@@ -126,6 +126,7 @@ app.get("/:admin_id", verifyAdmin, async (req, res) => {
         return item;
       }
     });
+
     return res.status(200).json(chartData);
   } catch (error) {
     return res.status(500).json({ message: "Errore nell'ottenimento dati" });
