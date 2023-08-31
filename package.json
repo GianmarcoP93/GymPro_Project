@@ -21,6 +21,7 @@
     "date-fns": "^2.30.0",
     "react": "^18.2.0",
     "react-calendar": "^4.6.0",
+    "react-chartjs-2": "^5.2.0",
     "react-data-table-component": "^7.5.3",
     "react-date-picker": "^10.5.0",
     "react-datepicker": "^4.16.0",
