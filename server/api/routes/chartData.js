@@ -86,32 +86,32 @@ app.get("/:admin_id", verifyAdmin, async (req, res) => {
       const numberMonth = b.subscription.getMonth();
       const getMonthName = (monthNumber) => {
         const date = new Date();
-        date.setMonth(monthNumber - 1);
-        const updatedDate = date.toLocaleString("it-IT", { month: "short" });
+        date.setDate(1);
+        date.setMonth(monthNumber);
 
+        const updatedDate = date.toLocaleString("it-IT", { month: "short" });
         const toUpperCase =
           updatedDate.charAt(0).toUpperCase() + updatedDate.slice(1);
 
         return toUpperCase;
       };
 
-      console.log(getMonthName(numberMonth));
-
       const month = getMonthName(numberMonth);
       const cost = b.plan.cost;
+
       const index = a.findIndex((i) => {
         return i.month === month;
       });
 
       if (index === -1) {
-        let obj = { month, Entrate: cost, Iscrizioni: users.length };
+        let obj = { month, Entrate: cost, Iscrizioni: 1 };
 
         a.push(obj);
       } else
         a[index] = {
           ...a[index],
           Entrate: a[index].Entrate + cost,
-          Iscrizioni: users.length,
+          Iscrizioni: a[index].Iscrizioni + 1,
         };
 
       return a;
@@ -126,7 +126,6 @@ app.get("/:admin_id", verifyAdmin, async (req, res) => {
         return item;
       }
     });
-
     return res.status(200).json(chartData);
   } catch (error) {
     return res.status(500).json({ message: "Errore nell'ottenimento dati" });
