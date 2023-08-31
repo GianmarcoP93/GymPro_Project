@@ -11,7 +11,7 @@ import { ButtonCloseWindow } from "../components/shared/ButtonCloseWindow";
 import { serverURL } from "../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { deleteUser, setAllUsers } from "../store/dataSlice";
+import { deleteUser } from "../store/dataSlice";
 import { ModalProfiloAdmin } from "./ModalProfiloAdmin";
 
 const rootElement = document.getElementById("root");
@@ -31,6 +31,7 @@ export const UserManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -88,7 +89,6 @@ export const UserManagement = () => {
       console.log(error);
     }
   };
-
   const searchMember = (event) => {
     const title = event.target.value.toLowerCase();
     const search = [..._data].filter((a) =>
@@ -115,7 +115,7 @@ export const UserManagement = () => {
   const isCardExpired = (cardExpiry) => {
     const now = new Date().getTime();
     const cardExp = new Date(
-      cardExpiry.toLocaleDateString().split("/").reverse().join("/")
+      cardExpiry.split("/").reverse().join("/")
     ).getTime();
     return now >= cardExp;
   };
@@ -130,7 +130,8 @@ export const UserManagement = () => {
     setIsCalendarOpen(false);
   };
 
-  const handleOpenCardModal = () => {
+  const handleOpenCardModal = (id) => {
+    setUserId(id);
     setIsCardModalOpen(true);
   };
 
@@ -161,10 +162,10 @@ export const UserManagement = () => {
       case "scheda":
         order.sort((a, b) => {
           const dateA = new Date(
-            (a.card.expiry ?? "01/01/2020").split("/").reverse().join("/")
+            (a.cardInfo.expiry ?? "01/01/2020").split("/").reverse().join("/")
           ).getTime();
           const dateB = new Date(
-            (b.card.expiry ?? "01/01/2020").split("/").reverse().join("/")
+            (b.cardInfo.expiry ?? "01/01/2020").split("/").reverse().join("/")
           ).getTime();
           return dateA - dateB;
         });
@@ -215,11 +216,15 @@ export const UserManagement = () => {
     _setData(usersData);
   }, [usersData]);
 
+  useEffect(() => {
+    setError(null);
+  }, [error]);
+
   return (
     !loading && (
       <>
         <ToastContainer
-          toastStyle={{ backgroundColor: "#F87A2C" }}
+          toastStyle={{ backgroundColor: error ? "red" : "#F87A2C" }}
           position="top-right"
           autoClose={4000}
           hideProgressBar={false}
@@ -372,19 +377,24 @@ export const UserManagement = () => {
                       <td>{new Date(user.createdAt).toLocaleDateString()}</td>
 
                       <td>
-                        {user.card.expiry ? (
-                          isCardExpired(user.card.expiry) ? (
-                            <button className="text-red-200 text-center underline decoration-1 font-montserrat font-normal hover:text-red-600">
+                        {user.cardInfo.expiry ? (
+                          isCardExpired(user.cardInfo.expiry) ? (
+                            <button
+                              onClick={() => handleOpenCardModal(user._id)}
+                              className="text-red-200 text-center underline decoration-1 font-montserrat font-normal hover:text-red-600"
+                            >
                               Scaduto
                             </button>
                           ) : (
                             <span className="underline decoration-1 ">
-                              {user.card.expiry}
+                              {new Date(
+                                user.cardInfo.expiry
+                              ).toLocaleDateString()}
                             </span>
                           )
                         ) : (
                           <button
-                            onClick={() => handleOpenCardModal()}
+                            onClick={() => handleOpenCardModal(user._id)}
                             className=" text-green-200 text-center underline decoration-1 font-montserrat font-normal hover:text-green-100"
                           >
                             Aggiungi scheda
@@ -460,7 +470,14 @@ export const UserManagement = () => {
           onRequestClose={handleCloseCardModal}
           style={{ content: { backgroundColor: "#14161f" } }}
         >
-          <ModalProfiloAdmin />
+          <ModalProfiloAdmin
+            id={userId}
+            closeModal={handleCloseCardModal}
+            setData={setData}
+            onError={(error) => {
+              setError(error);
+            }}
+          />
         </Modal>
       </>
     )

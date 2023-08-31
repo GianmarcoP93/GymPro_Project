@@ -21,6 +21,13 @@ const dataSlice = () => {
           (user) => user._id != action.payload
         );
       },
+      updateUserCard: (state, action) => {
+        state.allUsers = state.allUsers.map((item) => {
+          return item._id === action.payload.id
+            ? { ...item, cardInfo: action.payload.card }
+            : item;
+        });
+      },
       setMe: (state, action) => {
         state.me = action.payload;
       },
@@ -41,6 +48,7 @@ export const {
   setUserLoading,
   updateAllUsers,
   deleteUser,
+  updateUserCard,
 } = dataSlice().actions;
 
 export default dataSlice().reducer;

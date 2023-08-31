@@ -12,7 +12,6 @@ import {
 import { OrangeButton } from "./shared/OrangeButton";
 import { internalMemory } from "../utility/internalMemory.mjs";
 import { updateUserSub } from "../store/authSlice";
-import { useDispatch } from "react-redux";
 
 const data = [
   {
@@ -96,8 +95,6 @@ const calculateNewSubs = (data, month) => {
 
 export const AdminChart = () => {
   const [userSubData, setUserSubData] = useState([]);
-
-  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     month: "",
