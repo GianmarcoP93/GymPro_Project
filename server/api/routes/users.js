@@ -3,7 +3,7 @@ const app = express.Router();
 
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
-const { User } = require("../../db");
+const { User, Admin } = require("../../db");
 const { verifyUser } = require("../../middleWare/userAuth");
 
 /**
@@ -11,41 +11,90 @@ const { verifyUser } = require("../../middleWare/userAuth");
  */
 
 app.post("/register", async (req, res) => {
+  const { subscription, plan } = req.body;
+  const parts = plan.month_cost.split("-");
+  const months = Number(parts[0]);
+  const cost = Number(parts[1]);
+
   const schema = Joi.object().keys({
     username: Joi.string().required(),
     subscription: Joi.date().required(),
     passNumber: Joi.string().required(),
     email: Joi.string().email().required(),
     tel: Joi.number().required(),
-    plan: Joi.string().required(),
+    plan: Joi.object().required(),
     role: Joi.string().required(),
+    subscriptionExp: Joi.date().required(),
+    cardInfo: Joi.object().required(),
     gym: Joi.string().required(),
   });
   try {
-    const { email } = req.body;
+    const { email, tel } = req.body;
 
     const data = await schema.validateAsync(req.body);
 
-    data.passNumber = bcrypt.hashSync(data.passNumber, 12);
+    // data.passNumber = bcrypt.hashSync(data.passNumber, 12);
 
     data.email = data.email.toLowerCase();
 
-    const findEmail = await User.findOne({ email }, "-_id email", {
+    const findUserEmail = await User.findOne({ email }, "-password", {
       lean: true,
     });
 
-    if (findEmail) {
+    const findAdminEmail = await Admin.findOne(
+      { email: req.body.email },
+      "-_id email",
+      {
+        lean: true,
+      }
+    );
+
+    if (findUserEmail || findAdminEmail) {
       return res.status(400).json({
         message: "Email già esistente.",
       });
     }
 
+    const findTel = await User.findOne({ tel }, "-_id tel", {
+      lean: true,
+    });
+
+    if (findTel) {
+      console.log(findTel);
+      return res.status(400).json({
+        message: "Numero cellulare già esistente.",
+      });
+    }
+
     const user = await User.create(data);
+
+    const subscriptionExp = new Date(subscription);
+
+    switch (months) {
+      case 1:
+        subscriptionExp.setMonth(subscriptionExp.getMonth() + months);
+        break;
+      case 3:
+        subscriptionExp.setMonth(subscriptionExp.getMonth() + months);
+        break;
+      case 6:
+        subscriptionExp.setMonth(subscriptionExp.getMonth() + months);
+        break;
+      case 12:
+        subscriptionExp.setMonth(subscriptionExp.getMonth() + months);
+        break;
+    }
+    user.subscriptionExp = subscriptionExp;
+    user.plan.months = months;
+    user.plan.cost = cost;
+    await user.save();
 
     return res.status(201).json({ user: user._doc });
   } catch (error) {
     console.log(error);
-    return res.status(500).json(error);
+    return res
+      .status(500)
+      .json({ message: "Richiesta fallita, codice errore: 500" });
   }
 });
 

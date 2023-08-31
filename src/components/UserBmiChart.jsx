@@ -140,60 +140,63 @@ export const UserBmiChart = () => {
           <form
             onSubmit={handleSubmit}
             name="userForm"
-            className="flex flex-row gap-20 mt-6"
+            className="flex flex-col justify-between gap-8 mt-6 dashboard-sm:flex-row"
           >
-            <div>
-              <label htmlFor="weight" className="text-white-100">
-                Inserisci il tuo peso
-                <input
-                  value={formData.weight}
-                  onChange={handleChange}
-                  name="weight"
-                  id="weight"
-                  type="text"
-                  className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 "
-                />
-              </label>
-            </div>
-            <div>
-              <label htmlFor="height" className="text-white-100">
-                Inserisci la tua statura
-                <input
-                  value={formData.height}
-                  onChange={handleChange}
-                  name="height"
-                  id="height"
-                  type="text"
-                  className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 "
-                />
-              </label>
-            </div>
-            <div>
-              <label htmlFor="month" className="text-white-100">
-                Inserisci il mese
-                <select
-                  value={formData.month}
-                  onChange={handleChange}
-                  name="month"
-                  id="month"
-                  className="text-white-100 border border-white-100 rounded-lg outline-none pl-2 bg-gray"
-                >
-                  <option value="null">---</option>
-                  <option value="Gen">Gennaio</option>
-                  <option value="Feb">Febbraio</option>
-                  <option value="Mar">Marzo</option>
-                  <option value="Apr">Aprile</option>
-                  <option value="Mag">Maggio</option>
-                  <option value="Giu">Giugno</option>
-                  <option value="Lug">Luglio</option>
-                  <option value="Ago">Agosto</option>
-                  <option value="Set">Settembre</option>
-                  <option value="Ott">Ottobre</option>
-                  <option value="Nov">Novembre</option>
-                  <option value="Dic">Dicembre</option>
-                </select>
-              </label>
-            </div>
+            <label
+              htmlFor="weight"
+              className="text-white-100 whitespace-nowrap flex flex-col"
+            >
+              Inserisci il tuo peso
+              <input
+                value={formData.weight}
+                onChange={handleChange}
+                name="weight"
+                id="weight"
+                type="text"
+                className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 "
+              />
+            </label>
+            <label
+              htmlFor="height"
+              className="text-white-100 whitespace-nowrap flex flex-col"
+            >
+              Inserisci la tua statura
+              <input
+                value={formData.height}
+                onChange={handleChange}
+                name="height"
+                id="height"
+                type="text"
+                className="text-white-100 bg-transparent border border-white-100 rounded-lg outline-none pl-2 "
+              />
+            </label>
+            <label
+              htmlFor="month"
+              className="text-white-100 whitespace-nowrap flex flex-col"
+            >
+              Inserisci il mese
+              <select
+                value={formData.month}
+                onChange={handleChange}
+                name="month"
+                id="month"
+                className="text-white-100 border border-white-100 rounded-lg outline-none pl-2 bg-gray"
+              >
+                <option value="null">---</option>
+                <option value="Gen">Gennaio</option>
+                <option value="Feb">Febbraio</option>
+                <option value="Mar">Marzo</option>
+                <option value="Apr">Aprile</option>
+                <option value="Mag">Maggio</option>
+                <option value="Giu">Giugno</option>
+                <option value="Lug">Luglio</option>
+                <option value="Ago">Agosto</option>
+                <option value="Set">Settembre</option>
+                <option value="Ott">Ottobre</option>
+                <option value="Nov">Novembre</option>
+                <option value="Dic">Dicembre</option>
+              </select>
+            </label>
             <div className="flex items-end">
               <OrangeButton text="Invia" type="submit" />
             </div>
@@ -221,7 +224,7 @@ export const UserBmiChart = () => {
                 text="Reset"
                 twProp="self-end"
                 func={() => {
-                  internalMemory.clear();
+                  internalMemory.remove("chartData");
                   location.reload();
                 }}
               />

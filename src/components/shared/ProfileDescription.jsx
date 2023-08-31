@@ -23,7 +23,7 @@ export const ProfileDescription = ({
   return (
     <div
       className={clsx(
-        "flex p-8 bg-gray rounded-2xl justify-between",
+        "flex p-8 bg-gray rounded-2xl justify-between gap-8 flex-col-reverse xs:flex-row",
         isGym && "p-6"
       )}
     >
@@ -31,19 +31,19 @@ export const ProfileDescription = ({
         <p className="text-secondary-100 font-bold text-2xl">{name}</p>
         {isGym && (
           <>
-            <p className="w-fit font-montserrat flex items-center text-white-100 gap-3 font-normal ">
+            <p className="w-fit font-montserrat flex items-center text-white-100 gap-3 font-normal">
               <FontAwesomeIcon
                 size="2xl"
                 icon="fa-solid fa-users"
                 style={{ color: "#46af4d" }}
               />
-              Utenti registrati: {list && list.length}
+              Utenti registrati: {list}
             </p>
           </>
         )}
         {!isGym && (
           <>
-            <div className="flex gap-20 justify-center items-center">
+            <div className="flex gap-2 flex-col dashboard-sm:flex-row dashboard-sm:justify-center dashboard-sm:items-center items-start dashboard-sm:gap-20 ">
               <div className="flex flex-col justify-center gap-2 h-full">
                 <button className="w-fit font-montserrat flex items-center text-white-100 gap-3 font-normal underline underline-offset-4 hover:text-secondary-300">
                   <span className="block">
@@ -55,7 +55,7 @@ export const ProfileDescription = ({
                   </span>
                   Scheda
                 </button>
-                <p className="flex items-center text-white-100 gap-3">
+                <p className="flex items-center text-white-100 gap-3 break-words ">
                   <span className="block">
                     <FontAwesomeIcon
                       icon="fa-solid fa-calendar-xmark"
@@ -67,8 +67,8 @@ export const ProfileDescription = ({
                 </p>
               </div>
               <div className="flex flex-col justify-center gap-2 h-full">
-                <p className="flex items-center text-white-100 gap-3">
-                  <span className="block">
+                <p className="flex items-center text-white-100 gap-3 break-all">
+                  <span className="block break-words w-min">
                     <FontAwesomeIcon
                       icon="fa-solid fa-envelope"
                       size="xl"
@@ -93,7 +93,7 @@ export const ProfileDescription = ({
         )}
       </div>
       <button
-        className="w-24 h-24 rounded-full relative"
+        className="w-24 h-24 rounded-full relative flex-shrink-0 self-center xs:self-start"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseExit}
       >

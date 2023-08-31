@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 export const SubscriptionInput = ({
   type,
   name,
@@ -8,6 +10,7 @@ export const SubscriptionInput = ({
   text,
   isButton,
   clickfunc,
+  addStyle,
 }) => {
   return (
     <>
@@ -28,27 +31,34 @@ export const SubscriptionInput = ({
             value={value}
             onInput={onInput}
             min={mindate}
-            required
+            required={true}
             disabled={true}
           />
         </div>
       ) : (
-        <p
+        <label
           htmlFor={name}
-          className="font-semibold text-white-100 flex justify-between"
+          className={clsx(
+            "font-semibold text-white-100 flex justify-between items-center",
+            addStyle && "gap-4"
+          )}
         >
           {text}
           <input
-            className="bg-transparent border border-white-100 rounded-lg outline-none pl-2 min-w-[220px]"
+            className={clsx(
+              "border border-white-100 rounded-lg outline-none pl-2 min-w-[220px]",
+              addStyle && "bg-gray",
+              !addStyle && "bg-transparent "
+            )}
             type={type}
             name={name}
             placeholder={placeholder}
             value={value}
             onInput={onInput}
             min={mindate}
-            required
+            required={true}
           />
-        </p>
+        </label>
       )}
     </>
   );

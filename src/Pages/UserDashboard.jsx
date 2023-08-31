@@ -2,52 +2,34 @@ import { useSelector } from "react-redux";
 import { ProfileDescription } from "../components/shared/ProfileDescription";
 import { Sidebar } from "../components/shared/Sidebar";
 import { UserBmiChart } from "../components/UserBmiChart";
-import { serverURL } from "../constants/constants";
-import { useAxios } from "../hooks/useAxios";
+import ResponsiveNavbar from "../components/shared/ResponsiveNavbar";
 
 export const UserDashboard = () => {
-  const token = useSelector((state) => state.user.userToken);
-
-  const { data } = useAxios(`${serverURL}/api/users/getUser`, {
-    headers: { authorization: `Bearer ${token}` },
-  });
-
-  let date = new Date(data && data.subscription);
-
-  switch (data && data.plan) {
-    case "60":
-      date.setMonth(date.getMonth() + 1);
-      break;
-    case "160":
-      date.setMonth(date.getMonth() + 3);
-      break;
-    case "280":
-      date.setMonth(date.getMonth() + 6);
-      break;
-    case "460":
-      date.setMonth(date.getMonth() + 12);
-      break;
-  }
-
-  date = date.toLocaleDateString();
+  const data = useSelector((state) => state.data.me);
+  const loading = useSelector((state) => state.data.userLoading);
 
   return (
     <>
-      {data && (
-        <div className="flex p-6 gap-6 min-h-[100vh] h-full">
-          <Sidebar name={data.username} email={data.email} isGym={false} />
-          <div className="flex flex-col flex-grow max-w-section justify-between gap-4 mx-auto">
-            <ProfileDescription
-              name={data.username}
-              email={data.email}
-              subscription={date}
-              isGym={false}
-              tel={data.tel}
-            />
+      {!loading && data && (
+        <>
+          <div className="flex p-6 gap-6 min-h-[100vh] h-full max-sm:flex-col">
+            <Sidebar isGym={false} />
+            <div className="flex flex-col flex-grow max-w-section justify-between gap-4 mx-auto max-sm:mx-0">
+              <ProfileDescription
+                name={data.username}
+                email={data.email}
+                subscription={new Date(
+                  data && data.subscriptionExp
+                ).toLocaleDateString()}
+                isGym={false}
+                tel={data.tel}
+              />
 
-            <UserBmiChart />
+              <UserBmiChart />
+            </div>
           </div>
-        </div>
+          <ResponsiveNavbar />
+        </>
       )}
     </>
   );

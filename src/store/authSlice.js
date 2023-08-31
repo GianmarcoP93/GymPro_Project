@@ -8,13 +8,13 @@ const userSlice = () => {
   const adminId = internalMemory.get("adminId") || null;
 
   return createSlice({
-    name: "user",
+    name: "auth",
     initialState: {
       userToken: userToken,
       userId: userId,
       adminToken: adminToken,
       adminId: adminId,
-      userSubData: [],
+      isExpiredError: false,
     },
     reducers: {
       login: (state, action) => {
@@ -41,13 +41,22 @@ const userSlice = () => {
         internalMemory.remove("adminToken");
         internalMemory.remove("adminId");
       },
+      setIsExpiredError: (state, { payload }) => {
+        state.isExpiredError = payload;
+      },
       updateUserSub: (state, action) => {
-        state.userSubData.push(action.payload);
+        state.userSubData = [...state.userSubData, action.payload];
       },
     },
   });
 };
 
-export const { login, adminLogin, logout, adminLogout, updateUserSub } =
-  userSlice().actions;
+export const {
+  login,
+  adminLogin,
+  logout,
+  adminLogout,
+  updateUserSub,
+  setIsExpiredError,
+} = userSlice().actions;
 export default userSlice().reducer;

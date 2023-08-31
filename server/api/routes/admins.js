@@ -29,7 +29,9 @@ app.post("/register", async (req, res) => {
 
     data.password = bcrypt.hashSync(data.password, 12);
 
-    const findEmail = await Admin.findOne(
+    data.email = data.email.toLowerCase();
+
+    const findAdminEmail = await Admin.findOne(
       { email: req.body.email },
       "-_id email",
       {
@@ -37,7 +39,15 @@ app.post("/register", async (req, res) => {
       }
     );
 
-    if (findEmail)
+    const findUserEmail = await User.findOne(
+      { email: req.body.email },
+      "-_id email",
+      {
+        lean: true,
+      }
+    );
+
+    if (findAdminEmail || findUserEmail)
       return res.status(400).json({
         message: "Email già esistente.",
       });
@@ -52,8 +62,7 @@ app.post("/register", async (req, res) => {
       }
     );
 
-    admin._doc.token = token;
-    return res.status(200).json(admin._doc);
+    return res.status(200).json({ admin, token });
   } catch (error) {
     console.log(error);
     return res.status(500).json(error);
@@ -86,6 +95,102 @@ app.get("/usersList/:admin_id", verifyAdmin, async (req, res) => {
     return res.status(200).json(users);
   } catch (error) {
     return res.status(500).json(error);
+  }
+});
+
+/**
+ * @path /api/admins/updateSubscription
+ */
+
+app.patch("/updateSubscription", verifyAdmin, async (req, res) => {
+  try {
+    const { id, date } = req.body;
+
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { subscriptionExp: date }
+    );
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+});
+
+/**
+ * @path /api/admins/deleteUser
+ */
+
+app.delete("/deleteUser", verifyAdmin, async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const user = await User.findByIdAndDelete({ _id: id });
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+});
+
+/**
+ * @path /api/admins/createCard/:user_id
+ */
+
+app.patch("/createCard/:user_id", verifyAdmin, async (req, res) => {
+  const exerciseSchema = Joi.object({
+    name: Joi.string().required().messages({
+      "string.empty": `Selezionare esercizio`,
+    }),
+    set: Joi.string().required().messages({
+      "string.empty": `Compilare il campo set`,
+    }),
+    rep: Joi.number().required().min(1).messages({
+      "number.min": `Ripetizioni deve essere maggiore di 1`,
+    }),
+    rec: Joi.string().required().messages({
+      "string.empty": `Compilare il campo recupero`,
+    }),
+    kg: Joi.number().required().min(1).messages({
+      "number.min": `Kg deve essere maggiore di 1`,
+    }),
+  });
+
+  const objSchema = Joi.object({
+    day: Joi.number().integer().min(1).required(),
+    exercises: Joi.array().items(exerciseSchema).min(1).required(),
+  });
+
+  const cardSchema = Joi.object({
+    expiry: Joi.date().required().messages({
+      "date.base": "Inserire scadenza scheda",
+    }),
+    card: Joi.array().items(objSchema).min(1).required(),
+  });
+
+  try {
+    const { user_id } = req.params;
+
+    const data = await cardSchema.validateAsync(req.body);
+
+    console.log(data);
+
+    const user = await User.findByIdAndUpdate(
+      { _id: user_id },
+      { cardInfo: data }
+    );
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+
+    if (error?.details[0]?.message) {
+      return res.status(500).json({ message: `${error?.details[0]?.message}` });
+    } else {
+      return res.status(500).json(error);
+    }
   }
 });
 

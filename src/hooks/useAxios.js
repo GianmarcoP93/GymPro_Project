@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { adminLogout, logout, setIsExpiredError } from "../store/authSlice";
 
 const defaultOptions = {
   method: "GET",
@@ -13,6 +15,8 @@ export const useAxios = (url, options = { ...defaultOptions }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const dispatch = useDispatch();
+
   const update = async () => {
     setLoading(true);
     setError(null);
@@ -23,19 +27,23 @@ export const useAxios = (url, options = { ...defaultOptions }) => {
       setData(response.data);
       setLoading(false);
     } catch (error) {
-      if (error?.response?.data?.message) {
-        setError(error.response.data);
-      } else setError(error);
+      if (error.response.status === 403) {
+        dispatch(setIsExpiredError(true));
+        dispatch(adminLogout());
+        dispatch(logout());
+      } else {
+        if (error?.response?.data?.message) {
+          setError(error.response.data);
+        } else setError(error);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (options.method === "GET") {
-      update();
-    }
+    update();
   }, [url]);
 
-  return { data, error, update, setError };
+  return { data, error, update, loading };
 };

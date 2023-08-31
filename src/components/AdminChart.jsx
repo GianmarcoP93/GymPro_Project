@@ -10,8 +10,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { OrangeButton } from "./shared/OrangeButton";
-import { internalMemory } from "../utility/internalMemory.mjs";
-import { updateUserSub } from "../store/userSlice";
 import { useSelector } from "react-redux";
 import { useAxios } from "../hooks/useAxios";
 
@@ -44,21 +42,7 @@ export const AdminChart = ({ usersList }) => {
       authorization: `Bearer ${token}`,
     },
   });
-
-  const [chartData, setChartData] = useState(() => {
-    const storedChartData = internalMemory.get("chartData");
-    if (storedChartData) {
-      try {
-        return storedChartData;
-      } catch (error) {
-        console.error(
-          "Errore durante il parsing dei dati dal localStorage:",
-          error
-        );
-      }
-    }
-    return data;
-  });
+  console.log(data);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,16 +66,6 @@ export const AdminChart = ({ usersList }) => {
     };
 
     dispatch(updateUserSub(newUserSubData));
-
-    const updateChartData = chartData.map((item) =>
-      item.month === month
-        ? { ...item, Entrate: revenue, Iscritti: subscribers }
-        : item
-    );
-
-    setChartData(updateChartData);
-
-    internalMemory.save("chartData", updateChartData);
   };
 
   return (
@@ -138,28 +112,49 @@ export const AdminChart = ({ usersList }) => {
         <div className="border border-white-100 mt-4 rounded-lg">
           <div className="p-3">
             <h3 className="text-secondary-100">Il tuo andamento</h3>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center justify-center">
               <p className="text-white-100">Grafici a barre</p>
               <div className="w-full">
                 <ResponsiveContainer width="99%" height={300}>
-                  <AreaChart data={chartData}>
+                  <AreaChart aChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
-                    <YAxis />
+                    <YAxis
+                      yAxisId="left"
+                      dataKey="Entrate"
+                      orientation="left"
+                    />
                     <Tooltip />
                     <Legend />
                     <Area
+                      yAxisId="left"
                       type="monotone"
                       dataKey="Entrate"
                       stroke="#F87A2C"
                       fill="#F87A2C"
-                    ></Area>
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="w-full">
+                <ResponsiveContainer width="99%" height={300}>
+                  <AreaChart aChart data={data}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis
+                      yAxisId="left"
+                      dataKey="Iscrizioni"
+                      orientation="left"
+                    />
+                    <Tooltip />
+                    <Legend />
                     <Area
+                      yAxisId="left"
                       type="monotone"
-                      dataKey="Iscritti"
+                      dataKey="Iscrizioni"
                       stroke="#62B34C"
                       fill="#62B34C"
-                    ></Area>
+                    />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -168,7 +163,6 @@ export const AdminChart = ({ usersList }) => {
                 text="Reset"
                 twProp="self-end"
                 func={() => {
-                  internalMemory.clear();
                   location.reload();
                 }}
               />

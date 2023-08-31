@@ -13,7 +13,9 @@ const { User, Admin } = require("../../db");
 
 app.post("/", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+
+    email = email.toLowerCase();
 
     const user = await User.findOne({ email }, "_id email passNumber role", {
       lean: true,
@@ -30,13 +32,13 @@ app.post("/", async (req, res) => {
     }
 
     if (user) {
-      const compare = await bcrypt.compare(password, user.passNumber);
+      // const compare = await bcrypt.compare(password, user.passNumber);
 
-      if (!compare) {
-        return res
-          .status(404)
-          .json({ message: "I dati inseriti non corrispondono" });
-      }
+      // if (!compare) {
+      //   return res
+      //     .status(404)
+      //     .json({ message: "I dati inseriti non corrispondono" });
+      // }
 
       const token = jwt.sign(
         { user_id: user._id, email },
