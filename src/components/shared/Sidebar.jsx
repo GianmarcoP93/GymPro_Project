@@ -3,10 +3,11 @@ import proPic from "../../assets/images/placeholders/noPicture.jpg";
 import logo from "../../assets/images/logo/LogoPiccolo.png";
 import logoutImg from "../../assets/images/icons/logout.png";
 import clsx from "clsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { adminLogout, logout } from "../../store/authSlice";
 
-export const Sidebar = ({ name, email, isGym, isFaq }) => {
+export const Sidebar = ({ isGym, isFaq }) => {
+  const me = useSelector((state) => state.data.me);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,9 +25,9 @@ export const Sidebar = ({ name, email, isGym, isFaq }) => {
         </div>
         <div>
           <p className="text-secondary-100 font-semibold text-xl break-all">
-            {name}
+            {(!isGym && me?.username) || (me.company && me.company)}
           </p>
-          <p className="text-white-100 text-xs break-all">{email}</p>
+          <p className="text-white-100 text-xs break-all">{me && me.email}</p>
         </div>
       </div>
       <div className="text-white-100 flex-grow flex flex-col justify-center items-center font-semibold gap-4">
@@ -51,7 +52,7 @@ export const Sidebar = ({ name, email, isGym, isFaq }) => {
           FAQ
         </Link>
         <Link
-          to="settings"
+          to={clsx(!isGym && "/settings", isGym && "../settings")}
           className="hover:underline underline-offset-8 hover:text-secondary-200"
         >
           Impostazioni

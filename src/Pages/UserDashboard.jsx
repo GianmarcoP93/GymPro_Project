@@ -13,7 +13,7 @@ export const UserDashboard = () => {
       {!loading && data && (
         <>
           <div className="flex p-6 gap-6 min-h-[100vh] h-full max-sm:flex-col">
-            <Sidebar name={data.username} email={data.email} isGym={false} />
+            <Sidebar isGym={false} />
             <div className="flex flex-col flex-grow max-w-section justify-between gap-4 mx-auto max-sm:mx-0">
               <ProfileDescription
                 name={data.username}
