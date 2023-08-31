@@ -1,9 +1,9 @@
 import React from "react";
 
-export const SettingsTitle = ({text}) => {
+export const SettingsTitle = ({ text }) => {
   return (
-    <div className="flex justify-start ml-[145px] mb-6">
-      <h2 className="text-secondary-100 font-sans-serif text-[28px]">Impostazioni</h2>
+    <div className="flex justify-center text-3xl mb-6">
+      <h2 className="text-secondary-100">{text}</h2>
     </div>
   );
 };

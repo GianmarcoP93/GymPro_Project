@@ -133,11 +133,7 @@ export const AdminDashboard = () => {
         />
 
         <div className="relative flex p-6 gap-6">
-          <Sidebar
-            name={data && data.company}
-            email={data && data.email}
-            isGym={true}
-          />
+          <Sidebar isGym={true} />
           <div className="flex flex-col flex-grow max-w-section gap-4 mx-auto">
             <ProfileDescription
               name={data && data.company}

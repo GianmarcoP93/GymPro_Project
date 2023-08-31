@@ -60,10 +60,9 @@ const App = () => {
           {children}
         </DataFetcher>
       );
-    }
-    if (userToken) {
+    } else if (userToken) {
       return <DataFetcher userToken={userToken}>{children}</DataFetcher>;
-    }
+    } else return children;
   };
 
   return (
@@ -86,12 +85,19 @@ const App = () => {
           }
         />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="settings" element={<Settings />} />
         <Route
           path="user"
           element={
             <ProtectedUserRoute>
               <UserDashboard />
+            </ProtectedUserRoute>
+          }
+        />
+        <Route
+          path="user/settings"
+          element={
+            <ProtectedUserRoute>
+              <Settings />
             </ProtectedUserRoute>
           }
         />
@@ -112,10 +118,25 @@ const App = () => {
               </ProtectedAdminRoute>
             }
           />
+          <Route
+            path="settings"
+            element={
+              <ProtectedAdminRoute>
+                <Settings />
+              </ProtectedAdminRoute>
+            }
+          />
           <Route path="ModalProfiloAdmin" element={<ModalProfiloAdmin />} />
         </Route>
         <Route path="card" element={<PersonalCard />} />
-        <Route path="settings" element={<Settings />} />
+        <Route
+          path="settings"
+          element={
+            <FaqDataFetcher>
+              <Settings />
+            </FaqDataFetcher>
+          }
+        />
         <Route
           path="assistance"
           element={

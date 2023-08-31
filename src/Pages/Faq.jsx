@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Sidebar } from "../components/shared/Sidebar";
 import { useSelector } from "react-redux";
 import { Navbar } from "../components/shared/Navbar";
-import ResponsiveNavbar from "../components/shared/ResponsiveNavbar"
+import ResponsiveNavbar from "../components/shared/ResponsiveNavbar";
 
 export const Faq = () => {
   const data = useSelector((state) => state.data.me);
@@ -120,8 +120,6 @@ export const Faq = () => {
       {!loading && data && (
         <div className="flex p-6">
           <Sidebar
-            name={data && data.role === "admin" ? data.company : data.username}
-            email={data && data.email}
             isGym={data && data.role === "admin" ? true : false}
             isFaq={true}
           />

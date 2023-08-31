@@ -55,7 +55,7 @@ export const ProfileDescription = ({
                   </span>
                   Scheda
                 </button>
-                <p className="flex items-center text-white-100 gap-3 break-words w-min">
+                <p className="flex items-center text-white-100 gap-3 break-words ">
                   <span className="block">
                     <FontAwesomeIcon
                       icon="fa-solid fa-calendar-xmark"

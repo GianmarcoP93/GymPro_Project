@@ -8,17 +8,21 @@ import "react-toastify/dist/ReactToastify.css";
 export const Assistance = () => {
   const [option, setOption] = useState("");
   const [message, setMessage] = useState("");
+  const [err, setErr] = useState(null);
 
   const data = useSelector((state) => state.data.me);
   const loading = useSelector((state) => state.data.userLoading);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setErr(null);
     if (option === "") {
       notifyMessageErr();
+      setErr("Seleziona un tipo di assistenza!");
       return;
     }
     setOption("");
+
     setMessage("");
     notifyMessage();
   };
@@ -36,7 +40,7 @@ export const Assistance = () => {
     });
 
   const notifyMessageErr = () =>
-    toast.warn("Seleziona un tipo di assistenza!", {
+    toast.warn(err, {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -51,7 +55,7 @@ export const Assistance = () => {
   return (
     <>
       <ToastContainer
-        toastStyle={{ backgroundColor: "#F87A2C" }}
+        toastStyle={{ backgroundColor: err ? "red" : "#F87A2C" }}
         position="top-right"
         autoClose={4000}
         hideProgressBar={false}
@@ -66,12 +70,7 @@ export const Assistance = () => {
 
       {!loading && data && (
         <div className="flex p-6">
-          <Sidebar
-            name={data && data.role === "admin" ? data.company : data.username}
-            email={data && data.email}
-            isGym={data && data.role === "admin" ? true : false}
-            isFaq={true}
-          />
+          <Sidebar isGym={data && data.role === "admin" ? true : false} />
           <div className="flex flex-col grow-[1] mx-auto max-w-section ">
             <div className=" rounded-2xl p-10 bg-gray h-[100%]">
               <form onSubmit={handleSubmit}>
