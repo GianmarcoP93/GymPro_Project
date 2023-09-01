@@ -13,6 +13,7 @@ app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
+app.use("/htmlImages", express.static("htmlImages"));
 
 /**
  * @path /api
