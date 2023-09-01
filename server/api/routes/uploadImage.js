@@ -8,7 +8,11 @@ const storage = multer.diskStorage({
     cb(null, "./uploads");
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    const originalname = file.originalname;
+    const extension = originalname.split(".").pop(); // Ottieni l'estensione del file
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9); // Aggiungi un timestamp casuale
+    const newFileName = uniqueSuffix + "." + extension;
+    cb(null, newFileName);
   },
 });
 

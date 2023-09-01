@@ -5,6 +5,7 @@ import logoutImg from "../../assets/images/icons/logout.png";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import { adminLogout, logout } from "../../store/authSlice";
+import { serverURL } from "../../constants/constants";
 
 export const Sidebar = ({ isGym, isFaq }) => {
   const me = useSelector((state) => state.data.me);
@@ -23,7 +24,11 @@ export const Sidebar = ({ isGym, isFaq }) => {
       <div className="flex justify-center items-center gap-4">
         <div className="rounded-full w-12 h-12 flex-shrink-0">
           <img
-            src={image ? `${serverURL}/${image}` : defaultImage}
+            src={
+              image || me.proPic
+                ? `${serverURL}/${image || me.proPic}`
+                : defaultImage
+            }
             className="rounded-full"
           />
         </div>

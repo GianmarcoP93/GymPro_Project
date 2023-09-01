@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { serverURL } from "../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { setImage } from "../../store/dataSlice";
 
 export const ProfileDescription = ({
@@ -16,9 +16,11 @@ export const ProfileDescription = ({
   isGym,
   subscription,
   list,
-  proPic,
+  dashboardError,
 }) => {
   const id = useSelector((state) => state.data.me._id);
+  const proPic = useSelector((state) => state.data.me.proPic);
+
   const dispatch = useDispatch();
 
   const [avatar, setAvatar] = useState("");
@@ -33,7 +35,7 @@ export const ProfileDescription = ({
     setHovered(false);
   };
 
-  const notifyError = (error) => {
+  const notifyError = () => {
     toast.error(error, {
       position: "top-right",
       autoClose: 3000,
@@ -60,11 +62,12 @@ export const ProfileDescription = ({
   };
 
   const handleFileChange = async (event) => {
-    const file = event.target.files[0];
+    setError(null);
+    dashboardError(null);
 
+    const file = event.target.files[0];
     const form = new FormData();
     form.append("image", file);
-    setError(null);
     try {
       const response = await axios.post(
         `${serverURL}/api/uploadImage/${id}`,
@@ -74,11 +77,16 @@ export const ProfileDescription = ({
       dispatch(setImage(response.data.image));
       notifySuccess();
     } catch (error) {
-      console.log(error.response.data.message);
-      setError(error);
-      notifyError(error.response.data.message);
+      dashboardError(true);
+      setError(error.response.data.message);
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      notifyError();
+    }
+  }, [error]);
 
   const newImage = avatar || proPic;
 

@@ -41,6 +41,10 @@ export const AdminDashboard = () => {
 
   const dispatch = useDispatch();
 
+  const handleError = (value) => {
+    setError(value);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -107,7 +111,6 @@ export const AdminDashboard = () => {
       theme: "colored",
     });
   };
-  console.log(data);
 
   useEffect(() => {
     setUserList(allUsers.length || 0);
@@ -140,7 +143,7 @@ export const AdminDashboard = () => {
               name={data && data.company}
               list={usersList}
               isGym={true}
-              proPic={data && data.proPic}
+              dashboardError={handleError}
             />
             <form
               onSubmit={handleSubmit}
