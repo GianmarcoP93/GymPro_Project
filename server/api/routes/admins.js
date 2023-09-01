@@ -7,12 +7,25 @@ const { Admin, User } = require("../../db");
 const jwt = require("jsonwebtoken");
 const { verifyAdmin } = require("../../middleWare/adminAuth");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
+
+const { EMAIL, PW } = process.env;
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  secure: true,
+  auth: {
+    user: `${EMAIL}`,
+    pass: `${PW}`,
+  },
+});
 
 /**
  * @path /api/admins/register
  */
 
 app.post("/register", async (req, res) => {
+  const { company, email, password } = req.body;
   const schema = Joi.object().keys({
     company: Joi.string().required(),
     email: Joi.string().required(),
@@ -23,6 +36,7 @@ app.post("/register", async (req, res) => {
   });
   try {
     const data = await schema.validateAsync(req.body);
+
     if (data.password !== data.confirmPassword)
       return res
         .status(500)
@@ -62,6 +76,43 @@ app.post("/register", async (req, res) => {
         expiresIn: "2h",
       }
     );
+
+    const mailOptions = {
+      from: `${EMAIL}`,
+      to: `${email}`,
+      subject: "Registrazione GymPro",
+      text: `Ciao ${company},
+
+Siamo lieti di comunicarti che l'account è stato creato con successo su GymPro. Sei ora un amministratore all'interno della nostra piattaforma dedicata al fitness e al benessere.
+
+Ecco i dettagli dell'account:
+
+E-mail: ${email}
+Password: ${password}
+
+In veste di amministratore, hai il compito di gestire e supportare gli utenti all'interno dell'applicazione. Avrai accesso a strumenti specializzati per:
+
+- Monitorare l'andamento degli utenti e i progressi nel loro percorso di fitness.
+- Monitorare l'andamento delle iscrizioni e delle entrate mensili.
+
+Se hai bisogno di ulteriori informazioni o hai domande su come utilizzare le funzionalità dell'account amministratore, siamo qui per aiutarti. Non esitare a contattare il nostro team di supporto tramite l'apposita sezione nell'applicazione.
+
+Grazie per essere parte della community di GymPro e per il tuo impegno nell'aiutare gli utenti a raggiungere i loro obiettivi di fitness. Siamo entusiasti di vedere il tuo contributo.
+
+Cordiali saluti,
+
+Il Team di GymPro
+`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        return res
+          .status(500)
+          .json({ message: "Errore nell'invio dell'e-mail!" });
+      }
+    });
 
     return res.status(200).json({ admin, token });
   } catch (error) {
