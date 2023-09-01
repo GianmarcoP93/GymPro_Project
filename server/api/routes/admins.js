@@ -173,8 +173,44 @@ app.patch("/createCard/:user_id", verifyAdmin, async (req, res) => {
 
   const exercisesImage = [
     {
-      name: "pancaPianaBil",
+      id: 0,
+      name: "Panca piana bilanciere",
       img: "https://hips.hearstapps.com/menshealth-uk/main/assets/bench-press.gif?resize=980:*",
+    },
+    {
+      id: 1,
+      name: "Panca inclinata bilanciere",
+      img: "https://hips.hearstapps.com/menshealth-uk/main/assets/incline-bench-press.gif?crop=1.00xw:0.845xh;0,0.137xh&resize=980:*",
+    },
+    {
+      id: 2,
+      name: "Curl alternati manubri",
+      img: "https://hips.hearstapps.com/menshealth-uk/main/assets/curlsthor3.gif?crop=1xw:1xh;center,top&resize=980:*",
+    },
+    {
+      id: 3,
+      name: "Curl bilanciere",
+      img: "https://hips.hearstapps.com/menshealth-uk/main/assets/ez-bar-curl.gif?crop=0.5337579617834395xw:1xh;center,top&resize=980:*",
+    },
+    {
+      id: 4,
+      name: "Distensioni con manubri",
+      img: "https://hips.hearstapps.com/menshealth-uk/main/assets/how-to-do-the-seated-shoulder-press-dumbbell.gif?resize=980:*",
+    },
+    {
+      id: 5,
+      name: "Alzate laterali",
+      img: "https://hips.hearstapps.com/menshealth-uk/main/assets/how-to-do-a-lateral-raise.gif?crop=0.563xw:1.00xh;0.216xw,0&resize=980:*",
+    },
+    {
+      id: 6,
+      name: "Squat",
+      img: "https://hips.hearstapps.com/menshealth-uk/main/assets/squatbb.gif?crop=0.8431528662420382xw:1xh;center,top&resize=980:*",
+    },
+    {
+      id: 7,
+      name: "Leg press",
+      img: "https://hips.hearstapps.com/menshealth-uk/main/assets/how-to-do-the-leg-press.gif?crop=1.00xw:0.845xh;0,0.0311xh&resize=980:*",
     },
   ];
 
@@ -184,15 +220,16 @@ app.patch("/createCard/:user_id", verifyAdmin, async (req, res) => {
     const data = await cardSchema.validateAsync(req.body);
 
     const insertImage = data.card.map((item) => {
-      const findExerciseName = item.exercises.find((ex) => {
-        const updatedExercise = exercisesImage.find((obj) => {
-          if (obj.name === ex.name) {
-            return (ex.img = obj.img);
-          }
-        });
-        return updatedExercise;
+      const updatedExercise = item.exercises.map((ex) => {
+        const findExerciseName = exercisesImage.find(
+          (obj) => obj.name === ex.name
+        );
+        if (findExerciseName) {
+          return { ...ex, img: findExerciseName.img, id: findExerciseName.id };
+        }
+        return ex;
       });
-      return { ...item, exercises: findExerciseName };
+      return { ...item, exercises: updatedExercise };
     });
 
     const updatedData = { ...data, card: insertImage };
