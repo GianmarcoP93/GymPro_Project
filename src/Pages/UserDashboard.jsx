@@ -23,6 +23,7 @@ export const UserDashboard = () => {
                 ).toLocaleDateString()}
                 isGym={false}
                 tel={data.tel}
+                proPic={data && data.proPic}
               />
 
               <UserBmiChart />

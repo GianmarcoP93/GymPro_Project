@@ -37,6 +37,9 @@
   .scrollbar::-webkit-scrollbar {
     display: none;
   }
+  input[type="file"]::-webkit-file-upload-button {
+    cursor: pointer;
+  }
 }
 
 @layer utilities {

@@ -25,4 +25,10 @@ app.use("/login", require("./routes/login"));
 
 app.use("/chartData", require("./routes/chartData"));
 
+/**
+ * @path /api/postAvatar
+ */
+
+app.use("/uploadImage", require("./routes/uploadImage"));
+
 module.exports = app;
