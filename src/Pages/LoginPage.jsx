@@ -51,10 +51,8 @@ const LoginPage = () => {
 
       if (role === "user") {
         dispatch(login({ token, id }));
-        navigate("/user");
       } else {
         dispatch(adminLogin({ token, id }));
-        navigate("/admin/dashboard");
       }
 
       setForm({ email: "", password: "", remember: false });

@@ -1,6 +1,7 @@
 import proPic from "../../assets/images/placeholders/noPicture.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 export const ProfileDescription = ({
   name,
@@ -45,7 +46,10 @@ export const ProfileDescription = ({
           <>
             <div className="flex gap-2 flex-col dashboard-sm:flex-row dashboard-sm:justify-center dashboard-sm:items-center items-start dashboard-sm:gap-20 ">
               <div className="flex flex-col justify-center gap-2 h-full">
-                <button className="w-fit font-montserrat flex items-center text-white-100 gap-3 font-normal underline underline-offset-4 hover:text-secondary-300">
+                <Link
+                  to="../card"
+                  className="w-fit font-montserrat flex items-center text-white-100 gap-3 font-normal underline underline-offset-4 hover:text-secondary-300"
+                >
                   <span className="block">
                     <FontAwesomeIcon
                       icon="fa-solid fa-dumbbell"
@@ -54,7 +58,7 @@ export const ProfileDescription = ({
                     />
                   </span>
                   Scheda
-                </button>
+                </Link>
                 <p className="flex items-center text-white-100 gap-3 break-words ">
                   <span className="block">
                     <FontAwesomeIcon

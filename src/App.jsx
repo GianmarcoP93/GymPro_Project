@@ -8,7 +8,6 @@ import RegisterPage from "./Pages/RegisterPage";
 import { UserDashboard } from "./Pages/UserDashboard";
 import { useSelector } from "react-redux";
 import { PersonalCard } from "./components/shared/PersonalCard";
-import { ModalProfiloAdmin } from "./Pages/ModalProfiloAdmin";
 import { Faq } from "./Pages/Faq";
 import { DataFetcher } from "./components/DataFetcher";
 import { Assistance } from "./Pages/Assistance";
@@ -40,7 +39,7 @@ const App = () => {
     const userToken = useSelector((state) => state.auth.userToken);
 
     if (userToken) {
-      return <Navigate to="/user" />;
+      return <Navigate to="/user/dashboard" />;
     }
 
     if (adminToken) {
@@ -85,22 +84,40 @@ const App = () => {
           }
         />
         <Route path="register" element={<RegisterPage />} />
-        <Route
-          path="user"
-          element={
-            <ProtectedUserRoute>
-              <UserDashboard />
-            </ProtectedUserRoute>
-          }
-        />
-        <Route
-          path="user/settings"
-          element={
-            <ProtectedUserRoute>
-              <Settings />
-            </ProtectedUserRoute>
-          }
-        />
+        <Route path="user">
+          <Route
+            path="dashboard"
+            element={
+              <ProtectedUserRoute>
+                <UserDashboard />
+              </ProtectedUserRoute>
+            }
+          />
+          <Route
+            path="settings"
+            element={
+              <ProtectedUserRoute>
+                <Settings />
+              </ProtectedUserRoute>
+            }
+          />
+          <Route
+            path="card"
+            element={
+              <ProtectedUserRoute>
+                <PersonalCard />
+              </ProtectedUserRoute>
+            }
+          />
+          <Route
+            path="assistance"
+            element={
+              <FaqDataFetcher>
+                <Assistance />
+              </FaqDataFetcher>
+            }
+          />
+        </Route>
         <Route path="admin">
           <Route
             path="dashboard"
@@ -126,25 +143,15 @@ const App = () => {
               </ProtectedAdminRoute>
             }
           />
-          <Route path="ModalProfiloAdmin" element={<ModalProfiloAdmin />} />
+          <Route
+            path="assistance"
+            element={
+              <FaqDataFetcher>
+                <Assistance />
+              </FaqDataFetcher>
+            }
+          />
         </Route>
-        <Route path="card" element={<PersonalCard />} />
-        <Route
-          path="settings"
-          element={
-            <FaqDataFetcher>
-              <Settings />
-            </FaqDataFetcher>
-          }
-        />
-        <Route
-          path="assistance"
-          element={
-            <FaqDataFetcher>
-              <Assistance />
-            </FaqDataFetcher>
-          }
-        />
         <Route
           path="faq"
           element={

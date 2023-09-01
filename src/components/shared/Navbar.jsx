@@ -7,7 +7,10 @@ export const Navbar = () => {
     <nav className="flex bg-gray justify-between px-8 py-2 max-sm:flex max-sm:justify-between max-sm:px-2 max-sm:gap-2">
       <img src={logo} alt="" className=" w-[50px] h-[50px]" />
       <div className=" text-white-100 gap-5 flex items-center hover:decoration-solid font-roboto max-sm:gap-2 max-sm:flex">
-        <Link className=" hover:border-b hover:text-yellow-200 max-sm:text-sm ">
+        <Link
+          to="/"
+          className=" hover:border-b hover:text-yellow-200 max-sm:text-sm "
+        >
           Home
         </Link>
         <Link className="hover:border-b hover:text-yellow-200 max-sm:text-sm max-sm:text-center">
