@@ -13,10 +13,7 @@ export const Settings = () => {
     <>
       {!loading && data && (
         <div className="flex p-6">
-          <Sidebar
-            isGym={data && data.role === "admin" ? true : false}
-            isFaq={true}
-          />
+          <Sidebar isGym={data && data.role === "admin" ? true : false} />
           <div className="flex flex-col w-full  ">
             <div className="flex flex-col px-6 flex-1">
               <SettingsTitle text="Impostazioni" />

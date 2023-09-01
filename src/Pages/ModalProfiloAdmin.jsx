@@ -31,6 +31,7 @@ export const ModalProfiloAdmin = ({ id, closeModal, onError, resetError }) => {
       },
     ],
   });
+  console.log(card);
 
   const handleCardChange = (dayIndex, exerciseIndex, name, value) => {
     const updatedCard = { ...card };
@@ -217,10 +218,76 @@ export const ModalProfiloAdmin = ({ id, closeModal, onError, resetError }) => {
                                 Seleziona esercizio
                               </option>
                               <option
+                                className="text-red-600 font-semibold"
+                                disabled
+                              >
+                                Petto
+                              </option>
+                              <option
                                 className="text-white-100 font-semibold"
-                                value="pancaPianaBil"
+                                value="Panca piana bilanciere"
                               >
                                 Panca piana bilanciere
+                              </option>
+                              <option
+                                className="text-white-100 font-semibold"
+                                value="Panca inclinata bilanciere"
+                              >
+                                Panca inclinata bilanciere
+                              </option>
+                              <option
+                                className="text-red-600 font-semibold"
+                                disabled
+                              >
+                                Bicipiti
+                              </option>
+                              <option
+                                className="text-white-100 font-semibold"
+                                value="Curl alternati manubri"
+                              >
+                                Curl alternati manubri
+                              </option>
+                              <option
+                                className="text-white-100 font-semibold"
+                                value="Curl bilanciere"
+                              >
+                                Curl bilanciere
+                              </option>
+                              <option
+                                className="text-red-600 font-semibold"
+                                disabled
+                              >
+                                Spalle
+                              </option>
+                              <option
+                                className="text-white-100 font-semibold"
+                                value="Distensioni con manubri"
+                              >
+                                Distensioni con manubri
+                              </option>
+                              <option
+                                className="text-white-100 font-semibold"
+                                value="Alzate laterali"
+                              >
+                                Alzate laterali
+                              </option>
+                              <option
+                                className="text-red-600 font-semibold"
+                                disabled
+                              >
+                                Gambe
+                              </option>
+                              <option
+                                className="text-white-100 font-semibold"
+                                value="Squat"
+                              >
+                                Squat
+                              </option>
+                              <option
+                                className="text-white-100 font-semibold"
+                                value="Leg press"
+                              >
+                                Leg press
                               </option>
                             </select>
                           </td>

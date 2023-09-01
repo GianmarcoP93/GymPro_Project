@@ -32,7 +32,7 @@ export const Sidebar = ({ isGym, isFaq }) => {
       </div>
       <div className="text-white-100 flex-grow flex flex-col justify-center items-center font-semibold gap-4">
         <Link
-          to={clsx(isGym && "/admin/dashboard", !isGym && "/user")}
+          to={clsx(isGym && "/admin/dashboard", !isGym && "/user/dashboard")}
           className="hover:underline underline-offset-8 hover:text-secondary-200"
         >
           Home
@@ -52,13 +52,22 @@ export const Sidebar = ({ isGym, isFaq }) => {
           FAQ
         </Link>
         <Link
-          to={clsx(!isGym && "/settings", isGym && "../settings")}
+          to={clsx(
+            !isGym && "../settings",
+            isFaq && !isGym && "../../user/settings",
+            isGym && "../settings",
+            isFaq && isGym && "../../admin/settings"
+          )}
           className="hover:underline underline-offset-8 hover:text-secondary-200"
         >
           Impostazioni
         </Link>
         <Link
-          to="/assistance"
+          to={clsx(
+            isFaq && isGym && "../admin/assistance",
+            isFaq && !isGym && "../user/assistance",
+            !isFaq && "../assistance"
+          )}
           className="hover:underline underline-offset-8 hover:text-secondary-200 cursor-pointer"
         >
           Assistenza
