@@ -13,11 +13,11 @@ const { User, Admin } = require("../../db");
 
 app.post("/", async (req, res) => {
   try {
-    let { email, password } = req.body;
+    let { email, password, remember } = req.body;
 
     email = email.toLowerCase();
 
-    const user = await User.findOne({ email }, "_id email passNumber role", {
+    const user = await User.findOne({ email }, "_id email password role", {
       lean: true,
     });
 
@@ -32,19 +32,19 @@ app.post("/", async (req, res) => {
     }
 
     if (user) {
-      // const compare = await bcrypt.compare(password, user.passNumber);
+      const compare = await bcrypt.compare(password, user.password);
 
-      // if (!compare) {
-      //   return res
-      //     .status(404)
-      //     .json({ message: "I dati inseriti non corrispondono" });
-      // }
+      if (!compare) {
+        return res
+          .status(404)
+          .json({ message: "I dati inseriti non corrispondono" });
+      }
 
       const token = jwt.sign(
         { user_id: user._id, email },
         process.env.SECRET_KEY,
         {
-          expiresIn: "2h",
+          expiresIn: remember ? "365d" : "2h",
         }
       );
 
@@ -66,7 +66,7 @@ app.post("/", async (req, res) => {
         { admin_id: admin._id, email },
         process.env.SECRET_KEY,
         {
-          expiresIn: "2h",
+          expiresIn: remember ? "365d" : "2h",
         }
       );
 
