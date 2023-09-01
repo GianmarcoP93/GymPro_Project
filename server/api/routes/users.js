@@ -5,6 +5,18 @@ const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const { User, Admin } = require("../../db");
 const { verifyUser } = require("../../middleWare/userAuth");
+const nodemailer = require("nodemailer");
+
+const { EMAIL, PW } = process.env;
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  secure: true,
+  auth: {
+    user: `${EMAIL}`,
+    pass: `${PW}`,
+  },
+});
 
 /**
  * @path /api/users/register
@@ -33,7 +45,22 @@ app.post("/register", async (req, res) => {
 
     const data = await schema.validateAsync(req.body);
 
-    // data.passNumber = bcrypt.hashSync(data.passNumber, 12);
+    const generatePassword = (len, arr) => {
+      let pass = "";
+      for (let i = len; i > 0; i--) {
+        pass += arr[Math.floor(Math.random() * arr.length)];
+      }
+      return pass;
+    };
+
+    const password = generatePassword(
+      8,
+      "0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVxXyYzZ!$_@?#"
+    );
+
+    const cryptedPw = bcrypt.hashSync(password, 12);
+
+    data.password = cryptedPw;
 
     data.email = data.email.toLowerCase();
 
@@ -89,9 +116,43 @@ app.post("/register", async (req, res) => {
     user.plan.cost = cost;
     await user.save();
 
+    const mailOptions = {
+      from: `${EMAIL}`,
+      to: `${email}`,
+      subject: "Registrazione GymPro",
+      text: `Gentile ${req.body.username},
+
+Siamo lieti di annunciarti che la tua registrazione a GymPro è stata completata con successo! Benvenuto nella nostra community dedicata al fitness e al benessere.
+
+Ecco i dettagli del tuo account:
+
+E-mail: ${email}
+Password: ${password}
+Con GymPro, avrai accesso a una serie di strumenti e risorse per aiutarti nel tuo percorso di fitness. La nostra applicazione ti consentirà di:
+
+Pianificare e tenere traccia dei tuoi allenamenti personalizzati.
+Monitorare i tuoi progressi e i risultati ottenuti.
+Ti invitiamo a effettuare l'accesso all'applicazione utilizzando le tue credenziali e a esplorare tutte le fantastiche funzionalità che abbiamo da offrire. In caso di domande o assistenza, non esitare a contattare il nostro team di supporto tramite l'apposita sezione.
+
+Grazie per aver scelto GymPro per raggiungere i tuoi obiettivi di fitness. Non vediamo l'ora di accompagnarti in questo emozionante viaggio verso la salute e il benessere.
+
+Cordiali saluti,
+
+Il Team di GymPro
+`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        return res
+          .status(500)
+          .json({ message: "Errore nell'invio dell'e-mail!" });
+      }
+    });
+
     return res.status(201).json({ user: user._doc });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ message: "Richiesta fallita, codice errore: 500" });
