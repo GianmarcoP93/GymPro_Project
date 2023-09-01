@@ -5,8 +5,9 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { serverURL } from "../../constants/constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { setImage } from "../../store/dataSlice";
 
 export const ProfileDescription = ({
   name,
@@ -18,6 +19,7 @@ export const ProfileDescription = ({
   proPic,
 }) => {
   const id = useSelector((state) => state.data.me._id);
+  const dispatch = useDispatch();
 
   const [avatar, setAvatar] = useState("");
   const [hovered, setHovered] = useState(false);
@@ -69,6 +71,7 @@ export const ProfileDescription = ({
         form
       );
       setAvatar(response.data.image);
+      dispatch(setImage(response.data.image));
       notifySuccess();
     } catch (error) {
       console.log(error.response.data.message);

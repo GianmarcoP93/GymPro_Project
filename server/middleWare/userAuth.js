@@ -16,7 +16,7 @@ const verifyUser = async (req, res, next) => {
 
     const user = await User.findOne(
       { _id: decoded.user_id },
-      "-_id -passNumber -__v -createdAt -updatedAt",
+      "-password -__v -createdAt -updatedAt",
       {
         lean: true,
       }
