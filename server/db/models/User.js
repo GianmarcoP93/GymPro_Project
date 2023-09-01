@@ -51,6 +51,9 @@ const userSchema = new Schema(
       required: true,
       default: null,
     },
+    proPic: {
+      type: String,
+    },
   },
   { strict: true, timestamps: true, versionKey: false }
 );

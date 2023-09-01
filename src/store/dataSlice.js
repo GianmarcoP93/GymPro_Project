@@ -8,6 +8,7 @@ const dataSlice = () => {
       me: null,
       userLoading: false,
       allUsersLoading: false,
+      image: "",
     },
     reducers: {
       setAllUsers: (state, action) => {
@@ -27,6 +28,9 @@ const dataSlice = () => {
             ? { ...item, cardInfo: action.payload.card }
             : item;
         });
+      },
+      setImage: (state, action) => {
+        state.image = action.payload;
       },
       setMe: (state, action) => {
         state.me = action.payload;
@@ -49,6 +53,7 @@ export const {
   updateAllUsers,
   deleteUser,
   updateUserCard,
+  setImage,
 } = dataSlice().actions;
 
 export default dataSlice().reducer;
