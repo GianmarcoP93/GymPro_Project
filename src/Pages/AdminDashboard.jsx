@@ -38,7 +38,7 @@ export const AdminDashboard = () => {
     },
     subscriptionExp: "",
   });
-  console.log(form);
+
   const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
@@ -107,6 +107,7 @@ export const AdminDashboard = () => {
       theme: "colored",
     });
   };
+  console.log(data);
 
   useEffect(() => {
     setUserList(allUsers.length || 0);
@@ -139,6 +140,7 @@ export const AdminDashboard = () => {
               name={data && data.company}
               list={usersList}
               isGym={true}
+              proPic={data && data.proPic}
             />
             <form
               onSubmit={handleSubmit}

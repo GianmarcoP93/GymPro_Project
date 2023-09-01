@@ -16,7 +16,7 @@ const verifyAdmin = async (req, res, next) => {
 
     const admin = await Admin.findOne(
       { _id: decoded.admin_id },
-      "company email _id role",
+      "company email _id role proPic",
       {
         lean: true,
       }

@@ -6,7 +6,6 @@ const bcrypt = require("bcryptjs");
 const { Admin, User } = require("../../db");
 const jwt = require("jsonwebtoken");
 const { verifyAdmin } = require("../../middleWare/adminAuth");
-const fs = require("fs");
 const nodemailer = require("nodemailer");
 
 const { EMAIL, PW } = process.env;

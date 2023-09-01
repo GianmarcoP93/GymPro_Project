@@ -24,6 +24,9 @@ const adminSchema = new Schema(
       type: String,
       required: true,
     },
+    proPic: {
+      type: String,
+    },
   },
   { strict: true, timestamps: true }
 );
