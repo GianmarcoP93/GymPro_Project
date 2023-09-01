@@ -35,6 +35,21 @@ export const UserDashboard = () => {
             pauseOnHover
             theme="colored"
           />
+          <ToastContainer
+            toastStyle={{
+              backgroundColor: error ? "red" : "#F87A2C",
+            }}
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
           <div className="flex p-6 gap-6 min-h-[100vh] h-full max-sm:flex-col">
             <Sidebar isGym={false} />
             <div className="flex flex-col flex-grow max-w-section justify-between gap-4 mx-auto max-sm:mx-0">
