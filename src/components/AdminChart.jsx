@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Area,
   AreaChart,
@@ -16,8 +16,9 @@ import { useAxios } from "../hooks/useAxios";
 export const AdminChart = () => {
   const id = useSelector((state) => state.auth.adminId);
   const token = useSelector((state) => state.auth.adminToken);
+  const allUsers = useSelector((state) => state.data.allUsers);
 
-  const { data, loading } = useAxios(
+  const { data, loading, update } = useAxios(
     `http://localhost:3030/api/chartData/${id}`,
     {
       headers: {
@@ -25,6 +26,10 @@ export const AdminChart = () => {
       },
     }
   );
+
+  useEffect(() => {
+    update();
+  }, [allUsers]);
 
   return (
     <div className=" bg-gray rounded-2xl">
@@ -34,7 +39,7 @@ export const AdminChart = () => {
           <div className="p-3">
             <h3 className="text-secondary-100">Il tuo andamento</h3>
             <div className="flex flex-col items-center justify-center">
-              <p className="text-white-100">Grafici a barre</p>
+              <p className="text-white-100">Grafici cartesiani</p>
               <div className="w-full">
                 <ResponsiveContainer width="99%" height={300}>
                   <AreaChart data={data}>

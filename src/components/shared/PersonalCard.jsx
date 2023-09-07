@@ -62,7 +62,7 @@ export const PersonalCard = () => {
                         )}
                       >
                         <button
-                          className="w-full text-3xl font-roboto font-bold"
+                          className="w-full text-3xl font-roboto font-bold max-sm:text-xl"
                           onClick={() => closeBody(index)}
                         >
                           Giorno {item.day}
@@ -71,11 +71,15 @@ export const PersonalCard = () => {
                       {showBody[index] && (
                         <thead className="border-b border-collapse border-slate-100">
                           <tr className=" text-secondary-100 font-roboto font-bold text-xl  border-slate-100">
-                            <th className="py-5 w-1/5">Esercizi</th>
-                            <th className="w-1/5">Set</th>
-                            <th className="w-1/5">Ripetizioni</th>
-                            <th className="w-1/5">Rec</th>
-                            <th className="w-1/5">Kg</th>
+                            <th className="py-5 w-1/5 max-sm:text-sm">
+                              Esercizi
+                            </th>
+                            <th className="w-1/5 max-sm:text-sm">Set</th>
+                            <th className="w-1/5 max-sm:text-sm">
+                              Ripetizioni
+                            </th>
+                            <th className="w-1/5 max-sm:text-sm">Rec</th>
+                            <th className="w-1/5 max-sm:text-sm">Kg</th>
                           </tr>
                         </thead>
                       )}
@@ -87,14 +91,14 @@ export const PersonalCard = () => {
                                 return (
                                   <tr
                                     key={exercise.id}
-                                    className="  text-center border-b border-slate-100  text-white-100"
+                                    className="text-center border-b border-slate-100  text-white-100"
                                   >
                                     <td>
                                       <button
                                         onClick={() =>
                                           openExerciseModal(exercise)
                                         }
-                                        className="  py-5 underline  hover:text-secondary-300  decoration-1 "
+                                        className="py-5 underline hover:text-secondary-300 decoration-1 max-sm:text-xs"
                                       >
                                         {exercise.name}
                                       </button>

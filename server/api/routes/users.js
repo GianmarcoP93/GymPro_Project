@@ -4,7 +4,7 @@ const app = express.Router();
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const { User, Admin } = require("../../db");
-const { verifyUser } = require("../../middleWare/userAuth");
+const { verifyUser } = require("../../middleware/userAuth");
 const nodemailer = require("nodemailer");
 
 const { EMAIL, PW } = process.env;
@@ -353,6 +353,7 @@ app.post("/register", async (req, res) => {
 
     return res.status(201).json({ user: user._doc });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json({ message: "Richiesta fallita, codice errore: 500" });

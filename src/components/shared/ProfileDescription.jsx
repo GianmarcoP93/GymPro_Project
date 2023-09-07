@@ -64,21 +64,22 @@ export const ProfileDescription = ({
   const handleFileChange = async (event) => {
     setError(null);
     dashboardError(null);
-
     const file = event.target.files[0];
-    const form = new FormData();
-    form.append("image", file);
-    try {
-      const response = await axios.post(
-        `${serverURL}/api/uploadImage/${id}`,
-        form
-      );
-      setAvatar(response.data.image);
-      dispatch(setImage(response.data.image));
-      notifySuccess();
-    } catch (error) {
-      dashboardError(true);
-      setError(error.response.data.message);
+    if (file) {
+      const form = new FormData();
+      form.append("image", file);
+      try {
+        const response = await axios.post(
+          `${serverURL}/api/uploadImage/${id}`,
+          form
+        );
+        setAvatar(response.data.image);
+        dispatch(setImage(response.data.image));
+        notifySuccess();
+      } catch (error) {
+        dashboardError(true);
+        setError(error.response.data.message);
+      }
     }
   };
 
@@ -94,7 +95,7 @@ export const ProfileDescription = ({
     <>
       <div
         className={clsx(
-          "flex p-8 bg-gray rounded-2xl justify-between gap-8 flex-col-reverse xs:flex-row",
+          "flex p-8 bg-gray rounded-2xl justify-between gap-8",
           isGym && "p-6"
         )}
       >

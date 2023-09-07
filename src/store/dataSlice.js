@@ -30,7 +30,7 @@ const dataSlice = () => {
         });
       },
       setImage: (state, action) => {
-        state.image = action.payload;
+        state.me = { ...state.me, proPic: action.payload };
       },
       setMe: (state, action) => {
         state.me = action.payload;

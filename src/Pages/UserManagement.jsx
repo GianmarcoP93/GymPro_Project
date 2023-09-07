@@ -113,6 +113,8 @@ export const UserManagement = () => {
   };
 
   const isCardExpired = (cardExpiry) => {
+    console.log(cardExpiry);
+
     const now = new Date().getTime();
     const cardExp = new Date(
       cardExpiry.split("/").reverse().join("/")
