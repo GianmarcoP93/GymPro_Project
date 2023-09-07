@@ -7,7 +7,11 @@ export default {
       montserrat: ["Montserrat", "sans-serif"],
     },
     extend: {
+      fontSize:{
+        "2xs":"10px"
+      },
       screens: {
+        "landing-xs":"500px",
         dashboard: "1350px",
         "dashboard-sm": "908px",
         xs: "400px",

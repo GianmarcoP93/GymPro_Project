@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="bg-gray ">
-      <div className="flex flex-row justify-between px-8 py-8 max-sm:px-2 max-sm:py-2 ">
-        <div className="flex items-center max-sm:hidden">
+      <div className="flex flex-row justify-between px-8 py-8 max-sm:px-2 max-sm:py-2 max-md:justify-center ">
+        <div className="flex items-center max-md:hidden">
           <img src={LogoFooter} ></img>
         </div>
-        <div className="flex flex-col items-center max-sm:justify-center max-sm:pl-10">
+        <div className="flex flex-col items-center max-sm:justify-center">
           <div className="flex justify-center gap-8 text-white-100 pb-4 max-sm:gap-4">
             <Link className="font-roboto font-medium hover:text-yellow-200 ">
               Info
@@ -139,7 +139,7 @@ const Footer = () => {
             </p>
           </div>
         </div>
-        <div className="flex flex-col justify-center max-sm:hidden">
+        <div className="flex flex-col justify-center max-md:hidden">
           <div className="flex flex-row gap-5 items-center max-sm:flex-col max-sm:gap-2">
             <svg
               width="46"
