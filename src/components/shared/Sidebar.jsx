@@ -9,7 +9,6 @@ import { serverURL } from "../../constants/constants";
 
 export const Sidebar = ({ isGym, isFaq }) => {
   const me = useSelector((state) => state.data.me);
-  const image = useSelector((state) => state.data.image);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,11 +23,7 @@ export const Sidebar = ({ isGym, isFaq }) => {
       <div className="flex justify-center items-center gap-4">
         <div className="rounded-full w-12 h-12 flex-shrink-0">
           <img
-            src={
-              image || me.proPic
-                ? `${serverURL}/${image || me.proPic}`
-                : defaultImage
-            }
+            src={me.proPic ? `${serverURL}/${me.proPic}` : defaultImage}
             className="rounded-full"
           />
         </div>

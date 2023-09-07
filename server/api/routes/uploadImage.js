@@ -9,8 +9,8 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const originalname = file.originalname;
-    const extension = originalname.split(".").pop(); // Ottieni l'estensione del file
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9); // Aggiungi un timestamp casuale
+    const extension = originalname.split(".").pop();
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const newFileName = uniqueSuffix + "." + extension;
     cb(null, newFileName);
   },

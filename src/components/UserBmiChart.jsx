@@ -140,7 +140,7 @@ export const UserBmiChart = () => {
           <form
             onSubmit={handleSubmit}
             name="userForm"
-            className="flex flex-col justify-between gap-8 mt-6 dashboard-sm:flex-row"
+            className="flex  justify-between gap-8 mt-6 dashboard-sm:flex-row"
           >
             <label
               htmlFor="weight"
