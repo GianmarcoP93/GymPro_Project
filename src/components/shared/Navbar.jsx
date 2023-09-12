@@ -9,19 +9,19 @@ export const Navbar = () => {
       <div className=" text-white-100 gap-5 flex items-center hover:decoration-solid font-roboto max-sm:gap-2 max-sm:flex">
         <Link
           to="/"
-          className=" hover:border-b hover:text-yellow-200 max-sm:text-sm "
+          className=" hover:border-b hover:text-yellow-200 max-sm:text-xs"
         >
           Home
         </Link>
-        <Link className="hover:border-b hover:text-yellow-200 max-sm:text-sm max-sm:text-center">
+        <Link className="hover:border-b hover:text-yellow-200 max-sm:text-xs max-sm:text-center">
           Aziende Partner
         </Link>
-        <Link className="hover:border-b hover:text-yellow-200 max-sm:text-sm">
+        <Link className="hover:border-b hover:text-yellow-200 max-sm:text-xs">
           Chi siamo
         </Link>
         <Link
           to="/faq"
-          className="hover:border-b hover:text-yellow-200 max-sm:text-sm"
+          className="hover:border-b hover:text-yellow-200 max-sm:text-xs"
         >
           FAQ
         </Link>
