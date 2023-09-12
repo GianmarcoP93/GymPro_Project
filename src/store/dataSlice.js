@@ -8,7 +8,6 @@ const dataSlice = () => {
       me: null,
       userLoading: false,
       allUsersLoading: false,
-      image: "",
     },
     reducers: {
       setAllUsers: (state, action) => {
