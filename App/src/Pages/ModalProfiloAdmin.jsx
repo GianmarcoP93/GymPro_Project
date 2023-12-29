@@ -31,7 +31,6 @@ export const ModalProfiloAdmin = ({ id, closeModal, onError, resetError }) => {
       },
     ],
   });
-  console.log(card);
 
   const handleCardChange = (dayIndex, exerciseIndex, name, value) => {
     const updatedCard = { ...card };

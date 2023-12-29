@@ -12,8 +12,6 @@ import axios from "axios";
 const LoginPage = () => {
   const isExpiredError = useSelector((state) => state.auth.isExpiredError);
 
-  const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({

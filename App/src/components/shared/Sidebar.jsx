@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { adminLogout, logout } from "../../store/authSlice";
 import { serverURL } from "../../constants/constants";
 
-export const Sidebar = ({ isGym, isFaq }) => {
+export const Sidebar = ({ isGym }) => {
   const me = useSelector((state) => state.data.me);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export const Sidebar = ({ isGym, isFaq }) => {
         <div className="rounded-full w-12 h-12 flex-shrink-0">
           <img
             src={me.proPic ? `${serverURL}/${me.proPic}` : defaultImage}
-            className="rounded-full"
+            className="rounded-full w-full h-full"
           />
         </div>
         <div>
@@ -43,35 +43,26 @@ export const Sidebar = ({ isGym, isFaq }) => {
         </Link>
         {isGym && (
           <Link
-            to={clsx(isGym && "../manage", isFaq && "../../admin/manage")}
+            to="../manage"
             className="hover:underline underline-offset-8 hover:text-secondary-200"
           >
             Lista Utenti
           </Link>
         )}
         <Link
-          to="/faq"
+          to="../faq"
           className="hover:underline underline-offset-8 hover:text-secondary-200 cursor-pointer"
         >
           FAQ
         </Link>
         <Link
-          to={clsx(
-            !isGym && "../settings",
-            isFaq && !isGym && "../../user/settings",
-            isGym && "../settings",
-            isFaq && isGym && "../../admin/settings"
-          )}
+          to="../settings"
           className="hover:underline underline-offset-8 hover:text-secondary-200"
         >
           Impostazioni
         </Link>
         <Link
-          to={clsx(
-            isFaq && isGym && "../admin/assistance",
-            isFaq && !isGym && "../user/assistance",
-            !isFaq && "../assistance"
-          )}
+          to="../assistance"
           className="hover:underline underline-offset-8 hover:text-secondary-200 cursor-pointer"
         >
           Assistenza
