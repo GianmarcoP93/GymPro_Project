@@ -8,14 +8,6 @@ export const UserSubscription = ({ state, setState }) => {
 
   const today = new Date().toISOString().split("T")[0];
 
-  const generatePassNumber = (len, arr) => {
-    let ans = "";
-    for (let i = len; i > 0; i--) {
-      ans += arr[Math.floor(Math.random() * arr.length)];
-    }
-    setState({ ...state, passNumber: ans });
-  };
-
   return (
     <div className="flex-grow">
       <div className="flex flex-col gap-8">
@@ -39,17 +31,6 @@ export const UserSubscription = ({ state, setState }) => {
           onInput={handleInputChange}
           mindate={today}
           text="Data iscrizione*:"
-        />
-        <SubscriptionInput
-          type="text"
-          name="passNumber"
-          value={state.passNumber}
-          onInput={handleInputChange}
-          text="Numero tessera*:"
-          isButton={true}
-          clickfunc={() =>
-            generatePassNumber(10, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-          }
         />
         <SubscriptionInput
           type="email"

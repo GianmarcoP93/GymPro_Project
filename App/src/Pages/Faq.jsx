@@ -119,10 +119,7 @@ export const Faq = () => {
     <>
       {!loading && data && (
         <div className="flex p-6">
-          <Sidebar
-            isGym={data && data.role === "admin" ? true : false}
-            isFaq={true}
-          />
+          <Sidebar isGym={data && data.role === "admin" ? true : false} />
 
           <div className="flex flex-col grow-[1] mx-auto max-w-section ">
             <h2 className="text-secondary-100 text-3xl text-center pb-4">

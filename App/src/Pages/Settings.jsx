@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 export const Settings = () => {
   const data = useSelector((state) => state.data.me);
   const loading = useSelector((state) => state.data.userLoading);
-
   return (
     <>
       {!loading && data && (

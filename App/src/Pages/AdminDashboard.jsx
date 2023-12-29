@@ -23,7 +23,6 @@ export const AdminDashboard = () => {
   const [form, setForm] = useState({
     username: "",
     subscription: "",
-    passNumber: "",
     email: "",
     tel: "",
     plan: {
@@ -61,7 +60,6 @@ export const AdminDashboard = () => {
       setForm({
         username: "",
         subscription: "",
-        passNumber: "",
         email: "",
         tel: "",
         plan: {

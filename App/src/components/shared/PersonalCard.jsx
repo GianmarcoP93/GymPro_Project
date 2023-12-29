@@ -36,7 +36,6 @@ export const PersonalCard = () => {
     setCard(data?.cardInfo?.card);
   }, [data]);
 
-  console.log(card);
   return (
     <>
       {!loading && data && (

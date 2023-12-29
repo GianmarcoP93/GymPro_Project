@@ -13,22 +13,25 @@ import { DataFetcher } from "./components/DataFetcher";
 import { Assistance } from "./Pages/Assistance";
 
 const App = () => {
-  const ProtectedUserRoute = ({ children }) => {
+  const ProtectedUserRoute = ({ children, isFaq }) => {
     const userToken = useSelector((state) => state.auth.userToken);
 
     if (!userToken) return <Navigate to="/login" />;
 
-    return <DataFetcher userToken={userToken}>{children}</DataFetcher>;
+    return (
+      <DataFetcher userToken={userToken} isFaq={isFaq}>
+        {children}
+      </DataFetcher>
+    );
   };
 
-  const ProtectedAdminRoute = ({ children }) => {
+  const ProtectedAdminRoute = ({ children, isFaq }) => {
     const adminToken = useSelector((state) => state.auth.adminToken);
     const adminId = useSelector((state) => state.auth.adminId);
-
     if (!adminToken) return <Navigate to="/login" />;
 
     return (
-      <DataFetcher adminToken={adminToken} adminId={adminId}>
+      <DataFetcher adminToken={adminToken} adminId={adminId} isFaq={isFaq}>
         {children}
       </DataFetcher>
     );
@@ -47,21 +50,6 @@ const App = () => {
     }
 
     return children;
-  };
-
-  const FaqDataFetcher = ({ children }) => {
-    const adminToken = useSelector((state) => state.auth.adminToken);
-    const userToken = useSelector((state) => state.auth.userToken);
-
-    if (adminToken) {
-      return (
-        <DataFetcher adminToken={adminToken} isFaq={true}>
-          {children}
-        </DataFetcher>
-      );
-    } else if (userToken) {
-      return <DataFetcher userToken={userToken}>{children}</DataFetcher>;
-    } else return children;
   };
 
   return (
@@ -112,9 +100,17 @@ const App = () => {
           <Route
             path="assistance"
             element={
-              <FaqDataFetcher>
+              <ProtectedUserRoute isFaq={true}>
                 <Assistance />
-              </FaqDataFetcher>
+              </ProtectedUserRoute>
+            }
+          />
+          <Route
+            path="faq"
+            element={
+              <ProtectedUserRoute isFaq={true}>
+                <Faq />
+              </ProtectedUserRoute>
             }
           />
         </Route>
@@ -146,20 +142,21 @@ const App = () => {
           <Route
             path="assistance"
             element={
-              <FaqDataFetcher>
+              <ProtectedAdminRoute isFaq={true}>
                 <Assistance />
-              </FaqDataFetcher>
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="faq"
+            element={
+              <ProtectedAdminRoute isFaq={true}>
+                <Faq />
+              </ProtectedAdminRoute>
             }
           />
         </Route>
-        <Route
-          path="faq"
-          element={
-            <FaqDataFetcher>
-              <Faq />
-            </FaqDataFetcher>
-          }
-        />
+        <Route path="faq" element={<Faq />} />
       </Routes>
     </>
   );
