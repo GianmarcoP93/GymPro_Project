@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const { User, Admin } = require("../../db");
 const { verifyUser } = require("../../middleware/userAuth");
 const nodemailer = require("nodemailer");
-const { createPassNumber } = require("../../middleWare/passNumberController");
+const { createPassNumber } = require("../../middleware/passNumberController");
 const crypto = require("crypto");
 
 const { EMAIL, PW } = process.env;
